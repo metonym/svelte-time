@@ -1,7 +1,5 @@
 import { dayjs } from "./dayjs";
 
-
-
 /**
  * @param {HTMLElement} node
  * @param {{ timestamp?: import("dayjs").ConfigType; format?: import("dayjs").OptionType; relative?: boolean; }} [options]

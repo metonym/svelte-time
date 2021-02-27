@@ -28,7 +28,9 @@
 
   import { dayjs } from "./dayjs";
 
-  $: formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+  $: formatted = relative
+    ? dayjs(timestamp).from()
+    : dayjs(timestamp).format(format);
   $: title = relative ? timestamp : undefined;
 </script>
 
