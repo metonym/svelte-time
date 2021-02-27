@@ -13,6 +13,8 @@ This utility wraps the date-time library [day.js](https://github.com/iamkun/dayj
 - display a formatted timestamp within the semantic `time` element
 - display the relative time in a human-readable format (e.g., "4 days ago")
 
+**Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882?version=3.34.0)**
+
 ---
 
 <!-- TOC -->
