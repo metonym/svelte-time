@@ -1,12 +1,19 @@
 <script lang="ts">
   import Time from "./types";
   import { svelteTime } from "./types";
+  import { SvelteTimeOptions } from "./types/svelte-time";
 
   let timestamp = "2020/02/02";
   let formatted = "";
+
+  const options: SvelteTimeOptions = {
+    relative: true,
+    timestamp: "",
+    format: "",
+  };
 </script>
 
-<Time timestamp="{timestamp}" format="mm/dd/yyyy" bind:formatted relative />
+<Time timestamp="{timestamp}" format="mm/dd/yyyy" bind:formatted relative {...options} />
 
 <time use:svelteTime></time>
 
