@@ -1,0 +1,52 @@
+{
+  "name": "svelte-time",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Svelte component and action to format a timestamp using day.js",
+  "author": "Eric Liu (https://github.com/metonym)",
+  "svelte": "./src/index.js",
+  "main": "./src/index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "dev": "rollup -cw",
+    "predeploy": "rollup -c",
+    "deploy": "npx gh-pages -d dist",
+    "prepack": "BUNDLE=true rollup -c",
+    "format": "prettier --write '{src,types}/**.{js,ts,svelte}'",
+    "test": "svelte-check"
+  },
+  "dependencies": {
+    "dayjs": "^1.10.4"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1",
+    "prettier-plugin-svelte": "^2.1.6",
+    "svelte": "^3.34.0",
+    "svelte-check": "^1.1.36",
+    "svelte-readme": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/metonym/svelte-time"
+  },
+  "homepage": "https://github.com/metonym/svelte-time",
+  "bugs": "https://github.com/metonym/svelte-time/issues",
+  "keywords": [
+    "svelte",
+    "svelte component",
+    "svelte action",
+    "dayjs",
+    "time formatter",
+    "timestamp",
+    "relative",
+    "ago"
+  ],
+  "files": [
+    "src",
+    "types"
+  ],
+  "prettier": {
+    "svelteStrictMode": true,
+    "svelteBracketNewLine": true
+  }
+}
