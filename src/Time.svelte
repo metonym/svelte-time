@@ -20,6 +20,13 @@
   export let relative = false;
 
   /**
+   * Set to `true` to update the relative time at 60 second interval.
+   * Pass in a number (ms) to specify the interval length
+   * @type {boolean | number}
+   */
+  export let live = false;
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()`
    * @type {string}
@@ -27,6 +34,25 @@
   export let formatted = "";
 
   import { dayjs } from "./dayjs";
+  import { onMount } from "svelte";
+
+  let interval = undefined;
+
+  const DEFAULT_INTERVAL = 60 * 1000;
+
+  onMount(() => {
+    if (relative && live !== false) {
+      interval = setInterval(() => {
+        formatted = dayjs(timestamp).from();
+      }, Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL));
+    }
+
+    return () => {
+      if (typeof interval === "number") {
+        clearInterval(interval);
+      }
+    };
+  });
 
   $: formatted = relative
     ? dayjs(timestamp).from()
