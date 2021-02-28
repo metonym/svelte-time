@@ -39,7 +39,6 @@ The displayed time defaults to `new Date().toISOString()` and is formatted as `"
 </script>
 
 <Time />
-
 ```
 
 The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`.
@@ -50,7 +49,6 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 <Time timestamp="{new Date()}" />
 
 <Time timestamp="{1e10}" />
-
 ```
 
 Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for a list of available formats.
@@ -61,7 +59,6 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 <Time timestamp="{new Date()}" format="YYYY/MM/DD" />
 
 <Time timestamp="{1e10}" format="ddd" />
-
 ```
 
 ### Relative time
@@ -74,7 +71,21 @@ Set the `relative` prop value to `true` for the relative time displayed in a hum
 <Time relative timestamp="2021-02-02" />
 
 <Time relative timestamp="{1e10}" />
+```
 
+### Live updates
+
+Set `live` to `true` for a live updating relative timestamp. The default refresh interval is 60 seconds.
+
+```svelte
+<Time live relative />
+```
+
+To customize the interval, pass in a value (milliseconds) to `live`.
+
+```svelte
+<!-- Update every 10 minutes -->
+<Time live="{10 * 60 * 1000}" relative />
 ```
 
 ### svelteTime action
@@ -106,6 +117,20 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
 ```
 <!-- prettier-ignore-end -->
 
+Similar to the `Time` component, the `live` prop only works with relative time.
+
+<!-- prettier-ignore-start -->
+```svelte
+<time
+  use:svelteTime="{{
+    live: true,
+    relative: true,
+  }}"
+/>
+
+```
+<!-- prettier-ignore-end -->
+
 ## API
 
 ### Props
@@ -115,6 +140,7 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
 | timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` (default: `new Date().toISOString()`)                     |
 | format    | `string` (default `"MMM DD, YYYY"`) See [dayjs format documentation](https://day.js.org/docs/en/display/format) |
 | relative  | `boolean` (default: `false`)                                                                                    |
+| live      | `boolean` &#124; `number` (default: `false`)                                                                    |
 | formatted | `string` (default `""`)                                                                                         |
 
 ## TypeScript

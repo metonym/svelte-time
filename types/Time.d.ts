@@ -24,6 +24,13 @@ export interface TimeProps {
   relative?: boolean;
 
   /**
+   * Set to `true` to update the relative time at 60 second interval.
+   * Pass in a number (ms) to specify the interval length
+   * @default false
+   */
+  live?: boolean | number;
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()`
    * @default ""

@@ -7,13 +7,21 @@
   let formatted = "";
 
   const options: SvelteTimeOptions = {
-    relative: true,
     timestamp: "",
     format: "",
+    relative: true,
+    live: true,
   };
 </script>
 
-<Time timestamp="{timestamp}" format="mm/dd/yyyy" bind:formatted relative {...options} />
+<Time
+  timestamp="{timestamp}"
+  format="mm/dd/yyyy"
+  bind:formatted
+  relative
+  live="{60000}"
+  {...options}
+/>
 
 <time use:svelteTime></time>
 
@@ -21,10 +29,15 @@
   use:svelteTime="{{
     timestamp: '2021-02-02',
     format: 'dddd @ h:mm A · MMMM D, YYYY',
-  }}"></time>
+  }}"
+>
+</time>
 
 <time
   use:svelteTime="{{
     relative: true,
+    live: true,
     timestamp: '2021-02-02',
-  }}"></time>
+  }}"
+>
+</time>
