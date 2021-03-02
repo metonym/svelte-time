@@ -60,6 +60,6 @@
   $: title = relative ? timestamp : undefined;
 </script>
 
-<time title="{title}" datetime="{timestamp}">
+<time {...$$restProps} title="{title}" datetime="{timestamp}">
   {formatted}
 </time>

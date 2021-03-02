@@ -2,7 +2,8 @@
 import { SvelteComponentTyped } from "svelte";
 import { ConfigType, OptionType } from "dayjs";
 
-export interface TimeProps {
+export interface TimeProps
+  extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap["time"]> {
   /**
    * Original timestamp
    * @default new Date().toISOString()

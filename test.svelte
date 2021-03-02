@@ -34,6 +34,7 @@
 </time>
 
 <time
+  class="classname"
   use:svelteTime="{{
     relative: true,
     live: true,
