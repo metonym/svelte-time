@@ -131,6 +131,19 @@ Similar to the `Time` component, the `live` prop only works with relative time.
 ```
 <!-- prettier-ignore-end -->
 
+### Custom locale
+
+Load a custom locale and set it as the default locale using the `dayjs.locale` API.
+
+```html
+<script>
+  import "dayjs/esm/locale/de";
+  import dayjs from "dayjs/esm";
+
+  dayjs.locale("de"); // German locale
+</script>
+```
+
 ## API
 
 ### Props
