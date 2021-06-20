@@ -15,13 +15,13 @@
     "test": "svelte-check --workspace=test"
   },
   "dependencies": {
-    "dayjs": "^1.10.4"
+    "dayjs": "^1.10.5"
   },
   "devDependencies": {
-    "prettier": "^2.3.0",
-    "prettier-plugin-svelte": "^2.3.0",
+    "prettier": "^2.3.1",
+    "prettier-plugin-svelte": "^2.3.1",
     "svelte": "^3.38.2",
-    "svelte-check": "^1.5.4",
+    "svelte-check": "^2.1.0",
     "svelte-readme": "^3.1.0"
   },
   "repository": {
