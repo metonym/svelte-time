@@ -10,8 +10,8 @@ This utility wraps the date-time library [day.js](https://github.com/iamkun/dayj
 
 **Use cases**
 
-- display a formatted timestamp within the semantic `time` element
-- display the relative time in a human-readable format (e.g., "4 days ago")
+- format a timestamp with the semantic `time` element
+- display a human-readable, relative time (e.g., "4 days ago")
 
 Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882).
 
@@ -133,28 +133,36 @@ Similar to the `Time` component, the `live` prop only works with relative time.
 
 ### Custom locale
 
-Load a custom locale and set it as the default locale using the `dayjs.locale` API.
+Load a custom locale and set it as the default locale using the [dayjs.locale API](https://day.js.org/docs/en/i18n/changing-locale).
 
+<!-- prettier-ignore-start -->
 ```html
-<script>
+<script context="module">
   import "dayjs/esm/locale/de";
   import dayjs from "dayjs/esm";
 
   dayjs.locale("de"); // German locale
 </script>
+
+<script>
+  import Time from "svelte-time";
+</script>
+
+<Time />
 ```
+<!-- prettier-ignore-end -->
 
 ## API
 
 ### Props
 
-| Prop name | Value                                                                                                           |
-| :-------- | :-------------------------------------------------------------------------------------------------------------- |
-| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` (default: `new Date().toISOString()`)                     |
-| format    | `string` (default `"MMM DD, YYYY"`) See [dayjs format documentation](https://day.js.org/docs/en/display/format) |
-| relative  | `boolean` (default: `false`)                                                                                    |
-| live      | `boolean` &#124; `number` (default: `false`)                                                                    |
-| formatted | `string` (default `""`)                                                                                         |
+| Prop name | Value                                                                                       |
+| :-------- | :------------------------------------------------------------------------------------------ |
+| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` (default: `new Date().toISOString()`) |
+| format    | `string` (default `"MMM DD, YYYY"`) [dayjs docs](https://day.js.org/docs/en/display/format) |
+| relative  | `boolean` (default: `false`)                                                                |
+| live      | `boolean` &#124; `number` (default: `false`)                                                |
+| formatted | `string` (default `""`)                                                                     |
 
 ## TypeScript
 
