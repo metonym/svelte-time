@@ -19,11 +19,17 @@ Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb1805
 
 <!-- TOC -->
 
-## Install
+## Installation
+
+**Yarn**
 
 ```bash
 yarn add -D svelte-time
-# OR
+```
+
+**NPM**
+
+```bash
 npm i -D svelte-time
 ```
 
@@ -167,6 +173,8 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 ## TypeScript
 
 Svelte version 3.31 or greater is required to use this component with TypeScript.
+
+TypeScript definitions are located in the [types folder](./types).
 
 ## Changelog
 
