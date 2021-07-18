@@ -14,6 +14,7 @@
   };
 </script>
 
+<!-- svelte-ignore missing-declaration -->
 <Time
   timestamp="{timestamp}"
   format="mm/dd/yyyy"
@@ -23,7 +24,10 @@
   {...options}
 />
 
+<!-- svelte-ignore missing-declaration -->
 <time use:svelteTime></time>
+
+<!-- svelte-ignore missing-declaration -->
 
 <time
   use:svelteTime="{{
@@ -33,6 +37,7 @@
 >
 </time>
 
+<!-- svelte-ignore missing-declaration -->
 <time
   class="classname"
   use:svelteTime="{{
