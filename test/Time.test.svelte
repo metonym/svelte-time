@@ -2,6 +2,7 @@
   import Time from "../types";
   import { svelteTime } from "../types";
   import { SvelteTimeOptions } from "../types/svelte-time";
+  import { dayjs } from "../types/dayjs";
 
   let timestamp = "2020/02/02";
   let formatted = "";
@@ -12,7 +13,13 @@
     relative: true,
     live: true,
   };
+
+  $: time = dayjs().format("MMM DD, YYYY");
 </script>
+
+<svelte:head>
+  <title>{time}</title>
+</svelte:head>
 
 <!-- svelte-ignore missing-declaration -->
 <Time
