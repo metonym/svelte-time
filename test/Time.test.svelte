@@ -1,8 +1,7 @@
 <script lang="ts">
-  import Time from "../types";
+  import Time, { dayjs } from "../types";
   import { svelteTime } from "../types";
   import { SvelteTimeOptions } from "../types/svelte-time";
-  import { dayjs } from "../types/dayjs";
 
   let timestamp = "2020/02/02";
   let formatted = "";

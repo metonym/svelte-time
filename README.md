@@ -158,6 +158,22 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 ```
 <!-- prettier-ignore-end -->
 
+### dayjs export
+
+For convenience, this library exports `dayjs`. This is for use cases where a component or action would not work, like setting the document title.
+
+The `dayjs` function extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
+
+```svelte
+<script>
+  import { dayjs } from "svelte-time";
+</script>
+
+<button on:click="{() => (document.title = dayjs().format('MMM DD, YYYY'))}">
+  Set title
+</button>
+```
+
 ## API
 
 ### Props

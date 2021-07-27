@@ -1,4 +1,3 @@
-import Time from "./Time.svelte";
-
-export default Time;
+export { default } from "./Time.svelte";
 export { svelteTime } from "./svelte-time";
+export { dayjs } from "./dayjs";
