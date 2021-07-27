@@ -729,10 +729,10 @@ svelte-preprocess@^4.0.0:
     detect-indent "^6.0.0"
     strip-indent "^3.0.0"
 
-svelte-readme@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/svelte-readme/-/svelte-readme-3.1.0.tgz#08455bfceb35669d52d6a014a29695db989e9f45"
-  integrity sha512-fNf8b2T5LfWFWayYSvo04oq/44f9CLTM74buIey5WhgVjPy/ve7Z9HtwVX2JtvzxUykAYe9VdSZaEtNuzJITkA==
+svelte-readme@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/svelte-readme/-/svelte-readme-3.2.0.tgz#f54260a263890107e42e308b1b8a710abd344f30"
+  integrity sha512-DHaNbX0dVp13/K3Vl40ANErxNH7pE5T9N/TbVJhksdK1Ie0yLK04J6W41V//8iep6eIyFMUsCewdVeMmTwfxDg==
   dependencies:
     "@rollup/plugin-node-resolve" "^11.1.0"
     "@rollup/plugin-virtual" "^2.0.3"
@@ -749,10 +749,10 @@ svelte-readme@^3.1.0:
     rollup-plugin-svelte "^7.0.0"
     rollup-plugin-terser "^7.0.2"
 
-svelte@^3.38.3:
-  version "3.38.3"
-  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.38.3.tgz#e15a1da98ee4b10162a6c8cb4c80aa86b2b589ed"
-  integrity sha512-N7bBZJH0iF24wsalFZF+fVYMUOigaAUQMIcEKHO3jstK/iL8VmP9xE+P0/a76+FkNcWt+TDv2Gx1taUoUscrvw==
+svelte@^3.40.3:
+  version "3.40.3"
+  resolved "https://registry.yarnpkg.com/svelte/-/svelte-3.40.3.tgz#f7ac3a159f3e4a5a55c6a710e69c0313ef33b414"
+  integrity sha512-aSZcouFacOKL/lOTzOOtDJcMbgkjaRvRptWJb0XcyFg2qYvO3IwcYeqtW5BuCJzYciiXKmNsqrp1CzsPt09xbA==
 
 terser@^5.0.0:
   version "5.7.1"
