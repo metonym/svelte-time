@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.3.1](https://github.com/metonym/svelte-time/releases/tag/v0.3.1) - 2021-07-27
+
+- Add TypeScript definition for `svelte-time/src/dayjs` export
+
 ## [0.3.0](https://github.com/metonym/svelte-time/releases/tag/v0.3.0) - 2021-03-02
 
 - Forward `$$restProps` to the `time` element
