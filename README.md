@@ -160,7 +160,7 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 
 ### dayjs export
 
-For convenience, this library exports `dayjs`. This is for use cases where a component or action would not work, like setting the document title.
+`dayjs` is re-exported for your convenience. This is useful for cases where the component and action would not work, like setting the document title.
 
 The `dayjs` function extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
@@ -178,13 +178,13 @@ The `dayjs` function extends the [relativeTime plugin](https://day.js.org/docs/e
 
 ### Props
 
-| Prop name | Value                                                                                       |
-| :-------- | :------------------------------------------------------------------------------------------ |
-| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` (default: `new Date().toISOString()`) |
-| format    | `string` (default `"MMM DD, YYYY"`) [dayjs docs](https://day.js.org/docs/en/display/format) |
-| relative  | `boolean` (default: `false`)                                                                |
-| live      | `boolean` &#124; `number` (default: `false`)                                                |
-| formatted | `string` (default `""`)                                                                     |
+| Prop name   | Value                                                 | Default                                                                                  |
+| :---------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| `timestamp` | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
+| `format`    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
+| `relative`  | `boolean`                                             | `false`                                                                                  |
+| `live`      | `boolean`                                             | `false`                                                                                  |
+| `formatted` | `string`                                              | `""`                                                                                     |
 
 ## TypeScript
 
