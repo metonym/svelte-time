@@ -47,6 +47,7 @@
   ],
   "prettier": {
     "svelteStrictMode": true,
-    "svelteBracketNewLine": true
+    "svelteBracketNewLine": true,
+    "printWidth": 100
   }
 }
