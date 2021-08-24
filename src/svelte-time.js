@@ -14,9 +14,7 @@ export function svelteTime(node, options = {}) {
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const live = options.live === true;
-    const formatted = relative
-      ? dayjs(timestamp).from()
-      : dayjs(timestamp).format(format);
+    const formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
 
     if (relative) {
       node.setAttribute("title", timestamp);
