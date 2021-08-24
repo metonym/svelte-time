@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.4.1](https://github.com/metonym/svelte-time/releases/tag/v0.4.1) - 2021-08-24
+
+**Documentation**
+
+- fix `live` prop value in README.md
+- add example set-ups (SvelteKit, Vite, Sapper, Rollup, Webpack)
+
 ## [0.4.0](https://github.com/metonym/svelte-time/releases/tag/v0.4.0) - 2021-07-27
 
 - Export `dayjs` from `src/index.js`
