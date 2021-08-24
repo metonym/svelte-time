@@ -169,22 +169,31 @@ The `dayjs` function extends the [relativeTime plugin](https://day.js.org/docs/e
   import { dayjs } from "svelte-time";
 </script>
 
-<button on:click="{() => (document.title = dayjs().format('MMM DD, YYYY'))}">
-  Set title
-</button>
+<button on:click="{() => (document.title = dayjs().format('MMM DD, YYYY'))}"> Set title </button>
 ```
 
 ## API
 
 ### Props
 
-| Prop name   | Value                                                 | Default                                                                                  |
-| :---------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| `timestamp` | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
-| `format`    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
-| `relative`  | `boolean`                                             | `false`                                                                                  |
-| `live`      | `boolean`                                             | `false`                                                                                  |
-| `formatted` | `string`                                              | `""`                                                                                     |
+| Prop name | Type                                                  | Default value                                                                            |
+| :-------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
+| format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
+| relative  | `boolean`                                             | `false`                                                                                  |
+| live      | `boolean` &#124; `number`                             | `false`                                                                                  |
+| formatted | `string`                                              | `""`                                                                                     |
+
+## Examples
+
+The [examples folder](examples/) contains sample set-ups.
+
+- [examples/sveltekit](examples/sveltekit)
+- [examples/vite](examples/vite)
+- [examples/sapper](examples/sapper)
+- [examples/snowpack](examples/snowpack)
+- [examples/rollup](examples/rollup)
+- [examples/webpack](examples/webpack)
 
 ## TypeScript
 
