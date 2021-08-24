@@ -12,7 +12,7 @@
     "predeploy": "rollup -c",
     "deploy": "npx gh-pages -d dist",
     "format": "prettier --write '{src,types}/**.{js,ts,svelte}'",
-    "test": "svelte-check"
+    "test": "svelte-check --workspace=test/*"
   },
   "dependencies": {
     "dayjs": "^1.10.6"
@@ -20,9 +20,9 @@
   "devDependencies": {
     "prettier": "^2.3.2",
     "prettier-plugin-svelte": "^2.3.1",
-    "svelte": "^3.40.3",
-    "svelte-check": "^2.2.3",
-    "svelte-readme": "^3.2.0"
+    "svelte": "^3.42.2",
+    "svelte-check": "^2.2.5",
+    "svelte-readme": "^3.3.0"
   },
   "repository": {
     "type": "git",
