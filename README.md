@@ -158,11 +158,11 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 ```
 <!-- prettier-ignore-end -->
 
-### dayjs export
+### `dayjs` export
 
-`dayjs` is re-exported for your convenience. This is useful for cases where the component and action would not work, like setting the document title.
+`dayjs` is re-exported for your convenience. This is useful when the component and action would not work for programmatic usage, like setting the document title.
 
-The `dayjs` function extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
+**Note:** the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
 ```svelte
 <script>

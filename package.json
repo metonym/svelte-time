@@ -10,20 +10,18 @@
   "scripts": {
     "dev": "rollup -cw",
     "predeploy": "rollup -c",
-    "deploy": "gh-pages -d dist",
     "format": "prettier --write '{src,types}/**.{js,ts,svelte}'",
-    "test": "svelte-check --workspace=test/*"
+    "test": "svelte-check --workspace test"
   },
   "dependencies": {
     "dayjs": "^1.10.6"
   },
   "devDependencies": {
-    "gh-pages": "^3.2.3",
     "prettier": "^2.3.2",
-    "prettier-plugin-svelte": "^2.3.1",
-    "svelte": "^3.42.2",
+    "prettier-plugin-svelte": "^2.4.0",
+    "svelte": "^3.42.4",
     "svelte-check": "^2.2.5",
-    "svelte-readme": "^3.3.0"
+    "svelte-readme": "^3.3.1"
   },
   "repository": {
     "type": "git",
