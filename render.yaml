@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: svelte-time
+    env: static
+    buildCommand: yarn && yarn build
+    staticPublishPath: dist
+    pullRequestPreviewsEnabled: true

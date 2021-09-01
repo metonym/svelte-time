@@ -9,7 +9,7 @@
   "types": "./types/index.d.ts",
   "scripts": {
     "dev": "rollup -cw",
-    "predeploy": "rollup -c",
+    "build": "rollup -c",
     "format": "prettier --write '{src,types}/**.{js,ts,svelte}'",
     "test": "svelte-check --workspace test"
   },
