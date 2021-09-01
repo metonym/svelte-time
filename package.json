@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "rollup -cw",
     "build": "rollup -c",
-    "format": "prettier --write '{src,types}/**.{js,ts,svelte}'",
+    "format": "prettier --write '{src,types,examples}/*/**.{js,ts,svelte}'",
     "test": "svelte-check --workspace test"
   },
   "dependencies": {
