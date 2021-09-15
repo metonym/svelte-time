@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.5.0](https://github.com/metonym/svelte-time/releases/tag/v0.5.0) - 2021-09-15
+
+- Use `.svelte.d.ts` extension for component TypeScript definition
+
 ## [0.4.2](https://github.com/metonym/svelte-time/releases/tag/v0.4.2) - 2021-09-01
 
 - Update documentation on exported `dayjs` function
