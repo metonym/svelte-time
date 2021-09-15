@@ -2,6 +2,7 @@
   import Time, { dayjs } from "../types";
   import { svelteTime } from "../types";
   import { SvelteTimeOptions } from "../types/svelte-time";
+  import ST from "../types/Time.svelte";
 
   let timestamp = "2020/02/02";
   let formatted = "";
@@ -53,3 +54,6 @@
   }}"
 >
 </time>
+
+<!-- svelte-ignore missing-declaration -->
+<ST live="{30 * 1000}" />
