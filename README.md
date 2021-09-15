@@ -87,9 +87,12 @@ Set `live` to `true` for a live updating relative timestamp. The default refresh
 <Time live relative />
 ```
 
-To customize the interval, pass in a value (milliseconds) to `live`.
+To customize the interval, pass a value to `live` in milliseconds (ms).
 
 ```svelte
+<!-- Update every 30 seconds -->
+<Time live="{30 * 1000}" relative />
+
 <!-- Update every 10 minutes -->
 <Time live="{10 * 60 * 1000}" relative />
 ```
