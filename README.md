@@ -6,12 +6,20 @@
 
 > Svelte component and action to format a timestamp using [day.js](https://github.com/iamkun/dayjs)
 
-This utility wraps the date-time library [day.js](https://github.com/iamkun/dayjs) in a declarative Svelte component and action.
+This utility wraps the date-time library [day.js](https://github.com/iamkun/dayjs) as a declarative Svelte component and action.
 
 **Use cases**
 
-- format a timestamp with the semantic `time` element
-- display a human-readable, relative time (e.g., "4 days ago")
+- format a timestamp using the semantic `time` element
+- display a human-readable, relative time (e.g., "4 days ago") while preserving the original timestamp
+
+Sample output:
+
+```html
+<time title="2021-10-06T16:11:39.563Z" datetime="2021-10-06T16:11:39.563Z">
+  a few seconds ago
+</time>
+```
 
 Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882).
 
