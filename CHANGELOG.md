@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.6.0](https://github.com/metonym/svelte-time/releases/tag/v0.6.0) - 2021-10-10
+
+**Features**
+
+- extend `TimeProps` in svelte-time.d.ts `SvelteTimeOptions` interface
+
 ## [0.5.0](https://github.com/metonym/svelte-time/releases/tag/v0.5.0) - 2021-09-15
 
 - Use `.svelte.d.ts` extension for component TypeScript definition
