@@ -1,11 +1,7 @@
-import { ConfigType, OptionType } from "dayjs";
+import { TimeProps } from "./Time.svelte";
 
-export interface SvelteTimeOptions {
-  timestamp: ConfigType;
-  format: OptionType;
-  relative: boolean;
-  live: boolean;
-}
+export interface SvelteTimeOptions
+  extends Pick<TimeProps, "timestamp" | "format" | "relative" | "live"> {}
 
 export function svelteTime(
   node: HTMLElement,
