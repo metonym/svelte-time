@@ -41,6 +41,12 @@ yarn add -D svelte-time
 npm i -D svelte-time
 ```
 
+**pnpm**
+
+```bash
+pnpm i -D svelte-time
+```
+
 ## Usage
 
 ### Time component
@@ -65,7 +71,7 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 <Time timestamp="{1e10}" />
 ```
 
-Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for a list of available formats.
+Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for acceptable formats.
 
 ```svelte
 <Time timestamp="2020-02-01" format="dddd @ h:mm A · MMMM D, YYYY" />
@@ -187,7 +193,7 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 
 ### Props
 
-| Prop name | Type                                                  | Default value                                                                            |
+| Name      | Type                                                  | Default value                                                                            |
 | :-------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
 | timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
 | format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
