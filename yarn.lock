@@ -856,10 +856,10 @@ svelte-preprocess@^4.0.0:
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
 
-svelte-readme@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/svelte-readme/-/svelte-readme-3.6.0.tgz#8ebd8be881eebe911107fe5deaa2fa4048d42a14"
-  integrity sha512-VPaILfoxGCwPfaJN9u2qgQrHN/bI6N8d9OVrCtLpTVtuPs9/ITlr7GYZCwhg3WDJOgQz4IDf0acO39anV3pn9A==
+svelte-readme@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/svelte-readme/-/svelte-readme-3.6.1.tgz#31afefd9664590f08695ed9f4fed2918bd168acd"
+  integrity sha512-HIxsMTUOWdDQLE0GQa7vlUvO5TI9G+Uq6Du8fghxaoNKhBrdjzvs9G3fJ8sUh50g+oSqM/QmUbCCJC7LCrTd3w==
   dependencies:
     "@rollup/plugin-node-resolve" "^11.1.0"
     "@rollup/plugin-virtual" "^2.0.3"
