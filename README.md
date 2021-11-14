@@ -111,7 +111,7 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 <Time live="{10 * 60 * 1000}" relative />
 ```
 
-### svelteTime action
+### `svelteTime` action
 
 Use the `svelteTime` action to format a timestamp in a raw HTML element.
 
