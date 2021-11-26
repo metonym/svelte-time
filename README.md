@@ -49,7 +49,7 @@ pnpm i -D svelte-time
 
 ## Usage
 
-### Time component
+### `Time` component
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
 
