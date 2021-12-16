@@ -9,7 +9,7 @@
   "devDependencies": {
     "@sveltejs/adapter-node": "next",
     "@sveltejs/kit": "next",
-    "svelte": "^3.44.2",
+    "svelte": "^3.44.3",
     "svelte-time": "^0.6.0"
   }
 }
