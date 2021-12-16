@@ -4,4 +4,3 @@ services:
     env: static
     buildCommand: yarn build
     staticPublishPath: dist
-    pullRequestPreviewsEnabled: true
