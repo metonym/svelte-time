@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
-## [0.6.0](https://github.com/metonym/svelte-time/releases/tag/v0.6.0) - 2021-10-10
+## [0.6.1](https://github.com/metonym/svelte-time/releases/tag/v0.6.1) - 2021-12-16
 
-**Features**
+- set `type="module"` in package.json
+
+## [0.6.0](https://github.com/metonym/svelte-time/releases/tag/v0.6.0) - 2021-10-10
 
 - extend `TimeProps` in svelte-time.d.ts `SvelteTimeOptions` interface
 
