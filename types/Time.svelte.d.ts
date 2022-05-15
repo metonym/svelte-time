@@ -10,7 +10,8 @@ export interface TimeProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameM
   timestamp?: ConfigType;
 
   /**
-   * Timestamp format for display
+   * Timestamp format for display.
+   * It's also used as a title in the `relative` mode
    * @type {import("dayjs").OptionType}
    * @default "MMM DD, YYYY"
    */

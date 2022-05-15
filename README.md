@@ -15,11 +15,13 @@ This utility wraps the date-time library [day.js](https://github.com/iamkun/dayj
 
 Sample output:
 
+<!-- prettier-ignore-start -->
 ```html
-<time title="2021-10-06T16:11:39.563Z" datetime="2021-10-06T16:11:39.563Z">
+<time title="May 15, 2022" datetime="2022-05-15T18:03:57.430Z">
   a few seconds ago
 </time>
 ```
+<!-- prettier-ignore-end -->
 
 Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882).
 
@@ -93,6 +95,14 @@ Set the `relative` prop value to `true` for the relative time displayed in a hum
 <Time relative timestamp="{1e10}" />
 ```
 
+When using relative time, the `title` attribute will display a formatted timestamp.
+
+Use the `format` prop to customize the [format](https://day.js.org/docs/en/display/format).
+
+```svelte
+<Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
+```
+
 ### Live updates
 
 Set `live` to `true` for a live updating relative timestamp. The default refresh interval is 60 seconds.
@@ -134,6 +144,14 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
   use:svelteTime="{{
     relative: true,
     timestamp: "2021-02-02",
+  }}"
+/>
+
+<time
+  use:svelteTime="{{
+    relative: true,
+    timestamp: "2021-02-02",
+    format: "dddd @ h:mm A · MMMM D, YYYY",
   }}"
 />
 

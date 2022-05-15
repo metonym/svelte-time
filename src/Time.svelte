@@ -6,7 +6,7 @@
   export let timestamp = new Date().toISOString();
 
   /**
-   * Timestamp format for display
+   * Timestamp format for display.
    * It's also used as a title in the `relative` mode
    * @type {import("dayjs").OptionType}
    * @example "YYYY-MM-DD"
