@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.7.0](https://github.com/metonym/svelte-time/releases/tag/v0.7.0) - 2022-05-15
+
+- format `title` attribute using `format` prop when using relative time
+
 ## [0.6.3](https://github.com/metonym/svelte-time/releases/tag/v0.6.3) - 2022-05-15
 
 - revert back to using ESM exports from `dayjs`
