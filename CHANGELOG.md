@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.6.3](https://github.com/metonym/svelte-time/releases/tag/v0.6.3) - 2022-05-15
+
+- revert back to using ESM exports from `dayjs`
+
+## [0.6.2](https://github.com/metonym/svelte-time/releases/tag/v0.6.2) - 2022-05-15
+
+- use default CJS imports from `dayjs` instead of ESM
+
 ## [0.6.1](https://github.com/metonym/svelte-time/releases/tag/v0.6.1) - 2021-12-16
 
 - set `type="module"` in package.json
