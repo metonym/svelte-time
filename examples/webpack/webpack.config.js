@@ -32,9 +32,11 @@ module.exports = {
         },
       },
       {
-        test: /node_modules\/svelte\/.*\.mjs$/,
-        resolve: { fullySpecified: false },
-      },
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
+      }
     ],
   },
   mode: NODE_ENV,
