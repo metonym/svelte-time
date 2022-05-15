@@ -7,6 +7,7 @@
 
   /**
    * Timestamp format for display
+   * It's also used as a title in the `relative` mode
    * @type {import("dayjs").OptionType}
    * @example "YYYY-MM-DD"
    */
@@ -55,7 +56,7 @@
   });
 
   $: formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
-  $: title = relative ? timestamp : undefined;
+  $: title = relative ? dayjs(timestamp).format(format) : undefined;
 </script>
 
 <time {...$$restProps} title="{title}" datetime="{timestamp}">
