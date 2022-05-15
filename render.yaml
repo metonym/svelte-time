@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: svelte-time
-    env: static
-    buildCommand: yarn build
-    staticPublishPath: dist
