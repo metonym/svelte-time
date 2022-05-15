@@ -17,7 +17,7 @@ export function svelteTime(node, options = {}) {
     const formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
 
     if (relative) {
-      node.setAttribute("title", timestamp);
+      node.setAttribute("title", dayjs(timestamp).format(format));
 
       if (live !== false) {
         interval = setInterval(() => {
