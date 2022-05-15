@@ -5,11 +5,11 @@
     "build": "snowpack build"
   },
   "dependencies": {
-    "svelte": "^3.44.3",
-    "svelte-time": "^0.6.0"
+    "svelte": "^3.48.0",
+    "svelte-time": "^0.6.1"
   },
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.7.0",
-    "snowpack": "~3.8.8"
+    "snowpack": "^3.8.8"
   }
 }
