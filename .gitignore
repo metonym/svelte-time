@@ -1,3 +1,8 @@
 .DS_Store
-/dist
-/node_modules
+dist
+build
+node_modules
+.svelte-kit
+public/build
+__sapper__
+webpack/public
