@@ -1,8 +1,8 @@
 import { dayjs } from "./dayjs";
 
 /**
- * @param {HTMLElement} node
- * @param {{ timestamp?: import("dayjs").ConfigType; format?: import("dayjs").OptionType; relative?: boolean; live?: boolean | number; }} [options]
+ * @typedef {{ timestamp?: import("dayjs").ConfigType; format?: import("dayjs").OptionType; relative?: boolean; live?: boolean | number; }} SvelteTimeActionOptions
+ * @type {(node: HTMLElement, options?: SvelteTimeActionOptions )}
  */
 export function svelteTime(node, options = {}) {
   const DEFAULT_INTERVAL = 60 * 1000;
