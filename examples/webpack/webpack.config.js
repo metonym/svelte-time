@@ -34,9 +34,9 @@ module.exports = {
       {
         test: /\.m?js/,
         resolve: {
-          fullySpecified: false
-        }
-      }
+          fullySpecified: false,
+        },
+      },
     ],
   },
   mode: NODE_ENV,
