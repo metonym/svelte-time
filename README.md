@@ -31,21 +31,14 @@ Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb1805
 
 ## Installation
 
-**Yarn**
-
 ```bash
+# Yarn
 yarn add -D svelte-time
-```
 
-**NPM**
-
-```bash
+# npm
 npm i -D svelte-time
-```
 
-**pnpm**
-
-```bash
+# pnpm
 pnpm i -D svelte-time
 ```
 
@@ -68,9 +61,9 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 ```svelte
 <Time timestamp="2020-02-01" />
 
-<Time timestamp="{new Date()}" />
+<Time timestamp={new Date()} />
 
-<Time timestamp="{1e10}" />
+<Time timestamp={1e10} />
 ```
 
 Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for acceptable formats.
@@ -78,9 +71,9 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 ```svelte
 <Time timestamp="2020-02-01" format="dddd @ h:mm A · MMMM D, YYYY" />
 
-<Time timestamp="{new Date()}" format="YYYY/MM/DD" />
+<Time timestamp={new Date()} format="YYYY/MM/DD" />
 
-<Time timestamp="{1e10}" format="ddd" />
+<Time timestamp={1e10} format="ddd" />
 ```
 
 ### Relative time
@@ -92,7 +85,7 @@ Set the `relative` prop value to `true` for the relative time displayed in a hum
 
 <Time relative timestamp="2021-02-02" />
 
-<Time relative timestamp="{1e10}" />
+<Time relative timestamp={1e10} />
 ```
 
 When using relative time, the `title` attribute will display a formatted timestamp.
@@ -115,10 +108,10 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 
 ```svelte
 <!-- Update every 30 seconds -->
-<Time live="{30 * 1000}" relative />
+<Time live={30 * 1000} relative />
 
 <!-- Update every 10 minutes -->
-<Time live="{10 * 60 * 1000}" relative />
+<Time live={10 * 60 * 1000} relative />
 ```
 
 ### `svelteTime` action
@@ -204,7 +197,7 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
   import { dayjs } from "svelte-time";
 </script>
 
-<button on:click="{() => (document.title = dayjs().format('MMM DD, YYYY'))}"> Set title </button>
+<button on:click={() => (document.title = dayjs().format("MMM DD, YYYY"))}> Set title </button>
 ```
 
 ## API
