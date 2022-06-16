@@ -1,9 +1,13 @@
 import { test, expect, describe, afterEach, vi } from "vitest";
 import dayjs from "dayjs";
-import SvelteTime from "./SvelteTime.test.svelte";
 import { tick } from "svelte";
+import { dayjs as dayjsExported } from "../src";
+import SvelteTime from "./SvelteTime.test.svelte";
+import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
 describe("svelte-time", () => {
+  const DEFAULT_TIME = dayjs(new Date().toISOString()).format("MMM DD, YYYY");
+
   let instance = null;
 
   beforeEach(() => {
@@ -23,8 +27,6 @@ describe("svelte-time", () => {
     instance = new SvelteTime({
       target,
     });
-
-    const DEFAULT_TIME = dayjs(new Date().toISOString()).format("MMM DD, YYYY");
 
     const defaultComponent = target.querySelector('[data-test="default"]');
     expect(defaultComponent.innerHTML).toEqual(DEFAULT_TIME);
@@ -58,11 +60,13 @@ describe("svelte-time", () => {
     await tick();
     expect(relativeLive.innerHTML).toEqual("a minute ago");
     expect(actionRelativeLive.innerText).toEqual("a minute ago");
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
 
     vi.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.innerHTML).toEqual("2 minutes ago");
     expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
 
     const action = target.querySelector('[data-test="action"]');
     expect(action.innerText).toEqual(DEFAULT_TIME);
@@ -74,5 +78,39 @@ describe("svelte-time", () => {
 
     const dayjsOnly = target.querySelector('[data-test="dayjs"]');
     expect(dayjsOnly.innerHTML).toEqual(DEFAULT_TIME);
+  });
+
+  test("SvelteTimeLive.test.svelte", async () => {
+    const target = document.body;
+
+    instance = new SvelteTimeLive({
+      target,
+    });
+
+    const relativeLive = target.querySelector('[data-test="relative-live"]');
+    const actionRelativeLive = target.querySelector('[data-test="action-relative-live"]');
+
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("a few seconds ago");
+    expect(actionRelativeLive.innerText).toEqual("a few seconds ago");
+
+    vi.runOnlyPendingTimers();
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("a minute ago");
+    expect(actionRelativeLive.innerText).toEqual("a minute ago");
+
+    vi.runOnlyPendingTimers();
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("2 minutes ago");
+    expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
+  });
+
+  test("exported dayjs", () => {
+    expect(dayjsExported().from()).toEqual("a few seconds ago");
   });
 });
