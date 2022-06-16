@@ -3,6 +3,7 @@
   import { dayjs } from "../src";
 
   let time = dayjs().format("MMM DD, YYYY");
+  let relativeTime = dayjs().from(dayjs());
 </script>
 
 <!-- Basic -->
@@ -43,4 +44,8 @@
 
 <span data-test="dayjs">
   {time}
+</span>
+
+<span data-test="dayjs-relative">
+  {relativeTime}
 </span>
