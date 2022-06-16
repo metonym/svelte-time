@@ -28,6 +28,7 @@ export function svelteTime(node, options = {}) {
       }
     }
 
+    node.setAttribute("datetime", timestamp);
     node.innerText = relative ? formatted_from : formatted;
   }
 
