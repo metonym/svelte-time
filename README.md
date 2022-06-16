@@ -157,8 +157,22 @@ Similar to the `Time` component, the `live` prop only works with relative time.
 ```svelte
 <time
   use:svelteTime="{{
-    live: true,
     relative: true,
+    live: true,
+  }}"
+/>
+
+```
+<!-- prettier-ignore-end -->
+
+Specify a custom update interval using the `live` prop.
+
+<!-- prettier-ignore-start -->
+```svelte
+<time
+  use:svelteTime="{{
+    relative: true,
+    live: 30 * 1_000, // update every 30 seconds
   }}"
 />
 
