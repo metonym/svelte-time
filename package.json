@@ -16,7 +16,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "dayjs": "1.10.7"
+    "dayjs": "^1.11.3"
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "^1.0.0-next.78",
