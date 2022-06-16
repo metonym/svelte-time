@@ -11,7 +11,7 @@
     "dev": "rollup -cw",
     "predeploy": "rollup -c",
     "deploy": "gh-pages -d dist",
-    "format": "prettier --ignore-path .gitignore --write '**/*.{js,ts,svelte}'",
+    "format": "prettier --ignore-path .gitignore --write '**/*.{md,js,ts,svelte}'",
     "check": "svelte-check --workspace tests",
     "test": "vitest"
   },
