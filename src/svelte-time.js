@@ -13,11 +13,13 @@ export function svelteTime(node, options = {}) {
     const timestamp = options.timestamp || new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
-    const live = options.live === true;
-    const formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+    const live = options.live ?? false;
+
+    let formatted_from = dayjs(timestamp).from();
+    let formatted = dayjs(timestamp).format(format);
 
     if (relative) {
-      node.setAttribute("title", dayjs(timestamp).format(format));
+      node.setAttribute("title", formatted);
 
       if (live !== false) {
         interval = setInterval(() => {
@@ -26,7 +28,8 @@ export function svelteTime(node, options = {}) {
       }
     }
 
-    node.innerText = formatted;
+    node.setAttribute("datetime", timestamp);
+    node.innerText = relative ? formatted_from : formatted;
   }
 
   setTime(node, options);

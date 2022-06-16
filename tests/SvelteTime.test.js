@@ -1,9 +1,13 @@
 import { test, expect, describe, afterEach, vi } from "vitest";
 import dayjs from "dayjs";
-import SvelteTime from "./SvelteTime.test.svelte";
 import { tick } from "svelte";
+import { dayjs as dayjsExported } from "../src";
+import SvelteTime from "./SvelteTime.test.svelte";
+import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
 describe("svelte-time", () => {
+  const DEFAULT_TIME = dayjs(new Date().toISOString()).format("MMM DD, YYYY");
+
   let instance = null;
 
   beforeEach(() => {
@@ -24,7 +28,8 @@ describe("svelte-time", () => {
       target,
     });
 
-    const DEFAULT_TIME = dayjs(new Date().toISOString()).format("MMM DD, YYYY");
+    const date = new Date();
+    const timestamp = date.toISOString();
 
     const defaultComponent = target.querySelector('[data-test="default"]');
     expect(defaultComponent.innerHTML).toEqual(DEFAULT_TIME);
@@ -32,47 +37,112 @@ describe("svelte-time", () => {
 
     const timestampString = target.querySelector('[data-test="timestamp-string"]');
     expect(timestampString.innerHTML).toEqual("Feb 01, 2020");
+    expect(timestampString.getAttribute("datetime")).toEqual("2020-02-01");
 
     const timestampDate = target.querySelector('[data-test="timestamp-date"]');
-    expect(timestampDate.innerHTML).toEqual(dayjs(new Date()).format("dddd @ h:mm a"));
+    expect(timestampDate.innerHTML).toEqual(dayjs(date).format("dddd @ h:mm a"));
+    expect(timestampDate.getAttribute("datetime")).toEqual(date + "");
 
     const timestampNumber = target.querySelector('[data-test="timestamp-number"]');
     expect(timestampNumber.innerHTML).toEqual(dayjs(1e10).format("dddd @ h:mm A · MMMM D, YYYY"));
+    expect(timestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
     const relative = target.querySelector('[data-test="relative"]');
     expect(relative.innerHTML).toEqual("a few seconds ago");
+    expect(relative.getAttribute("datetime")).toEqual(timestamp);
 
     const relativeTimestamp = target.querySelector('[data-test="relative-timestamp"]');
     expect(relativeTimestamp.innerHTML).toEqual("a year ago");
+    expect(relativeTimestamp.getAttribute("datetime")).toEqual("2021-02-02");
 
     const relativeTimestampNumber = target.querySelector('[data-test="relative-timestamp-number"]');
     expect(relativeTimestampNumber.innerHTML).toEqual("52 years ago");
+    expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
     const relativeLive = target.querySelector('[data-test="relative-live"]');
     const actionRelativeLive = target.querySelector('[data-test="action-relative-live"]');
 
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
     expect(relativeLive.innerHTML).toEqual("a few seconds ago");
     expect(actionRelativeLive.innerText).toEqual("a few seconds ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
     vi.runOnlyPendingTimers();
     await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
     expect(relativeLive.innerHTML).toEqual("a minute ago");
     expect(actionRelativeLive.innerText).toEqual("a minute ago");
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
     vi.runOnlyPendingTimers();
     await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
     expect(relativeLive.innerHTML).toEqual("2 minutes ago");
     expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
     const action = target.querySelector('[data-test="action"]');
     expect(action.innerText).toEqual(DEFAULT_TIME);
+    expect(action.getAttribute("datetime")).toEqual(timestamp);
 
     const actionTimestampFormat = target.querySelector('[data-test="action-timestamp-format"]');
     expect(actionTimestampFormat.innerText).toEqual(
       dayjs("2021-02-02").format("dddd @ h:mm A · MMMM D, YYYY")
     );
+    expect(actionTimestampFormat.getAttribute("datetime")).toEqual("2021-02-02");
 
     const dayjsOnly = target.querySelector('[data-test="dayjs"]');
     expect(dayjsOnly.innerHTML).toEqual(DEFAULT_TIME);
+  });
+
+  test("SvelteTimeLive.test.svelte", async () => {
+    const target = document.body;
+
+    instance = new SvelteTimeLive({
+      target,
+    });
+
+    const date = new Date();
+    const timestamp = date.toISOString();
+
+    const relativeLive = target.querySelector('[data-test="relative-live"]');
+    const actionRelativeLive = target.querySelector('[data-test="action-relative-live"]');
+
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("a few seconds ago");
+    expect(actionRelativeLive.innerText).toEqual("a few seconds ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+
+    vi.runOnlyPendingTimers();
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("a minute ago");
+    expect(actionRelativeLive.innerText).toEqual("a minute ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+
+    vi.runOnlyPendingTimers();
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("2 minutes ago");
+    expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+  });
+
+  test("exported dayjs", () => {
+    expect(dayjsExported().from()).toEqual("a few seconds ago");
   });
 });

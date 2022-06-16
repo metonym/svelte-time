@@ -118,7 +118,6 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 
 Use the `svelteTime` action to format a timestamp in a raw HTML element.
 
-<!-- prettier-ignore-start -->
 ```svelte
 <script>
   import { svelteTime } from "svelte-time";
@@ -127,50 +126,55 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
 <time use:svelteTime />
 
 <time
-  use:svelteTime="{{
+  use:svelteTime={{
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
-  }}"
+  }}
 />
 
 <time
-  use:svelteTime="{{
+  use:svelteTime={{
     relative: true,
     timestamp: "2021-02-02",
-  }}"
+  }}
 />
 
 <time
-  use:svelteTime="{{
+  use:svelteTime={{
     relative: true,
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
-  }}"
+  }}
 />
-
 ```
-<!-- prettier-ignore-end -->
 
 Similar to the `Time` component, the `live` prop only works with relative time.
 
-<!-- prettier-ignore-start -->
 ```svelte
 <time
-  use:svelteTime="{{
-    live: true,
+  use:svelteTime={{
     relative: true,
-  }}"
+    live: true,
+  }}
 />
-
 ```
-<!-- prettier-ignore-end -->
+
+Specify a custom update interval using the `live` prop.
+
+```svelte
+<time
+  use:svelteTime={{
+    relative: true,
+    live: 30 * 1_000, // update every 30 seconds
+  }}
+/>
+```
 
 ### Custom locale
 
 Load a custom locale and set it as the default locale using the [dayjs.locale API](https://day.js.org/docs/en/i18n/changing-locale).
 
-<!-- prettier-ignore-start -->
-```html
+```svelte
 <script context="module">
   import "dayjs/esm/locale/de";
   import dayjs from "dayjs/esm";
@@ -184,7 +188,6 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 
 <Time />
 ```
-<!-- prettier-ignore-end -->
 
 ### `dayjs` export
 
