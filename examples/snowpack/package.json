@@ -6,7 +6,7 @@
   },
   "dependencies": {
     "svelte": "^3.48.0",
-    "svelte-time": "^0.6.1"
+    "svelte-time": "7.0.0"
   },
   "devDependencies": {
     "@snowpack/plugin-svelte": "^3.7.0",

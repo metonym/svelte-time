@@ -5,9 +5,9 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "1.0.0-next.44",
+    "@sveltejs/vite-plugin-svelte": "1.0.0-next.49",
     "svelte": "^3.48.0",
-    "svelte-time": "^0.6.1",
-    "vite": "^2.9.9"
+    "svelte-time": "^0.7.1",
+    "vite": "^2.9.12"
   }
 }

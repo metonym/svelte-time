@@ -3,52 +3,53 @@
   import { dayjs } from "svelte-time";
 
   let time = dayjs().format("MMM DD, YYYY");
+  let relativeTime = dayjs().from(dayjs());
 </script>
 
-<h2>Basic</h2>
-
+<!-- Basic -->
 <Time />
 <Time timestamp="2020-02-01" />
 <Time timestamp={new Date()} format="dddd @ h:mm a" />
 <Time timestamp={1e10} format="dddd @ h:mm A · MMMM D, YYYY" />
 
-<h2>Relative</h2>
-
+<!-- Relative time -->
 <Time relative />
 <Time relative timestamp="2021-02-02" />
 <Time relative timestamp={1e10} />
-<Time live relative />
+<Time relative live />
 
-<h2>use:svelteTime</h2>
-
+<!-- Action -->
 <time use:svelteTime />
-
 <time
   use:svelteTime={{
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
 />
-
 <time
   use:svelteTime={{
-    relative: true,
     timestamp: "2021-02-02",
+    relative: true,
   }}
 />
-
 <time
+  data-test="action-relative-live"
   use:svelteTime={{
     relative: true,
     live: true,
   }}
 />
 
-{time}
+<span>
+  {time}
+</span>
+
+<span>
+  {relativeTime}
+</span>
 
 <style>
   :global(time) {
     display: block;
-    margin-bottom: 0.5rem;
   }
 </style>

@@ -2848,10 +2848,10 @@ svelte-preprocess@^4.7.2:
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
 
-svelte-time@^0.6.1:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.6.1.tgz#80167cf0f2f4b597aff900d0fea1e07cd8fd5497"
-  integrity sha512-16owyVD+SLGkqx1fk5/6VDzQWjt1yo1zMitsqV9QfnuXAS0kAPs+FnTsjVCl8Wa7vHIdfVcQ95XS2bTi+QYh3A==
+svelte-time@7.0.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.7.0.tgz#c0917fc3c5e80cf8b912ae4275a39081df6e5739"
+  integrity sha512-AJFAJInN+Kp0HmOKOMATlSV4A7/j0psmGpaV6KDfYDTBszi0E3p/VOYiayfZ/krTl0CZqBHKRLGPCB7XdAqG9A==
   dependencies:
     dayjs "^1.10.7"
 
