@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.7.1](https://github.com/metonym/svelte-time/releases/tag/v0.7.1) - 2022-06-18
+
+- use default CJS imports from `dayjs` instead of ESM
+- upgrade `dayjs` to v1.11.3
+- fix TypeScript definition for re-exported `dayjs` function to extend the `relativeTime` plugin
+- fix `svelteTime` action to update when using a custom live interval
+- fix `svelteTime` action to also set the `datetime` attribute
+
 ## [0.7.0](https://github.com/metonym/svelte-time/releases/tag/v0.7.0) - 2022-05-15
 
 - format `title` attribute using `format` prop when using relative time
