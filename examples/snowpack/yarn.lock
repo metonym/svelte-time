@@ -790,10 +790,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-dayjs@^1.10.7:
-  version "1.10.7"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.7.tgz#2cf5f91add28116748440866a0a1d26f3a6ce468"
-  integrity sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==
+dayjs@^1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.3.tgz#4754eb694a624057b9ad2224b67b15d552589258"
+  integrity sha512-xxwlswWOlGhzgQ4TKzASQkUhqERI3egRNqgV4ScR8wlANA/A9tZ7miXa44vTTKEq5l7vWoL5G57bG3zA+Kow0A==
 
 debug@4, debug@^4.1.0, debug@^4.3.1:
   version "4.3.3"
@@ -2848,12 +2848,12 @@ svelte-preprocess@^4.7.2:
     sorcery "^0.10.0"
     strip-indent "^3.0.0"
 
-svelte-time@7.0.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.7.0.tgz#c0917fc3c5e80cf8b912ae4275a39081df6e5739"
-  integrity sha512-AJFAJInN+Kp0HmOKOMATlSV4A7/j0psmGpaV6KDfYDTBszi0E3p/VOYiayfZ/krTl0CZqBHKRLGPCB7XdAqG9A==
+svelte-time@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.7.1.tgz#5608f6e12cb9bd61f739026ce006642d649d66be"
+  integrity sha512-E7IL/85j7oj5fhxvmlau616TUbFfa6Vyy1PFTL3Y8SJGY6NXJaUj7DOYJrXVdoS3Rm9RVST0M6qWd6vqrYgM+w==
   dependencies:
-    dayjs "^1.10.7"
+    dayjs "^1.11.3"
 
 svelte@^3.48.0:
   version "3.48.0"
