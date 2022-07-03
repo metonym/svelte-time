@@ -44,6 +44,29 @@ pnpm i -D svelte-time
 
 ## Usage
 
+<details><summary>vite set-up</summary>
+
+If using `svelte-time@0.7.1` with a vite-only set-up, include `"dayjs/plugin/relativeTime.js"` in [optimizeDeps.include](https://vitejs.dev/config/#optimizedeps-include).
+
+See [examples/vite](examples/vite).
+
+```js
+// vite.config.js
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { defineConfig } from "vite";
+
+export default defineConfig(() => {
+  return {
+    plugins: [svelte()],
+    optimizeDeps: {
+      include: ["dayjs/plugin/relativeTime.js"],
+    },
+  };
+});
+```
+
+</details>
+
 ### `Time` component
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
