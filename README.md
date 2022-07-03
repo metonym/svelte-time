@@ -44,7 +44,13 @@ pnpm i -D svelte-time
 
 ## Usage
 
-<details><summary>vite set-up</summary>
+<details>
+
+<summary>
+  
+### Usage with `vite`
+
+</summary>
 
 If using `svelte-time@0.7.1` with a vite-only set-up, include `"dayjs/plugin/relativeTime.js"` in [optimizeDeps.include](https://vitejs.dev/config/#optimizedeps-include).
 
