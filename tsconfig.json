@@ -7,7 +7,8 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "types": ["svelte"]
   },
-  "include": ["src/*", "tests/*"]
+  "include": ["src", "tests"]
 }
