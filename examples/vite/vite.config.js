@@ -4,5 +4,8 @@ import { defineConfig } from "vite";
 export default defineConfig(() => {
   return {
     plugins: [svelte()],
+    optimizeDeps: {
+      include: ["dayjs/plugin/relativeTime.js"],
+    },
   };
 });
