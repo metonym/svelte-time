@@ -7,8 +7,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-node": "1.0.0-next.78",
-    "@sveltejs/kit": "1.0.0-next.361",
+    "@sveltejs/adapter-node": "1.0.0-next.79",
+    "@sveltejs/kit": "1.0.0-next.367",
     "svelte": "^3.49.0",
     "svelte-time": "^0.7.1",
     "vite": "^2.9.14"
