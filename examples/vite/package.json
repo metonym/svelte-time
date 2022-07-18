@@ -2,12 +2,13 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "1.0.0-next.49",
+    "@sveltejs/vite-plugin-svelte": "1.0.1",
     "svelte": "^3.49.0",
     "svelte-time": "^0.7.1",
-    "vite": "^2.9.14"
+    "vite": "^3.0.1"
   }
 }
