@@ -12,7 +12,6 @@
     "predeploy": "rollup -c",
     "deploy": "gh-pages -d dist",
     "format": "prettier --ignore-path .gitignore --write .",
-    "check": "svelte-check --workspace tests",
     "test": "vitest"
   },
   "dependencies": {
@@ -26,7 +25,6 @@
     "prettier": "^2.7.1",
     "prettier-plugin-svelte": "^2.7.0",
     "svelte": "^3.49.0",
-    "svelte-check": "^2.8.0",
     "svelte-readme": "^3.6.3",
     "typescript": "^4.7.4",
     "vitest": "^0.18.1"
