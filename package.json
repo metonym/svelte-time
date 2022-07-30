@@ -27,7 +27,7 @@
     "svelte": "^3.49.0",
     "svelte-readme": "^3.6.3",
     "typescript": "^4.7.4",
-    "vitest": "^0.18.1"
+    "vitest": "^0.19.1"
   },
   "repository": {
     "type": "git",
