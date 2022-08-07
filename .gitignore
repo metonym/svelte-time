@@ -4,5 +4,4 @@ build
 node_modules
 .svelte-kit
 public/build
-__sapper__
 webpack/public
