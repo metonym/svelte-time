@@ -58,7 +58,7 @@ describe("svelte-time", () => {
     const relativeTimestampNumber = target.querySelector(
       '[data-test="relative-timestamp-number"]'
     )!;
-    expect(relativeTimestampNumber.innerHTML).toEqual("52 years ago");
+    expect(relativeTimestampNumber.innerHTML).toEqual("53 years ago");
     expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
     const relativeLive = target.querySelector('[data-test="relative-live"]') as HTMLTimeElement;
