@@ -7,10 +7,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/adapter-node": "1.0.0-next.85",
-    "@sveltejs/kit": "1.0.0-next.398",
-    "svelte": "^3.49.0",
+    "@sveltejs/adapter-node": "1.0.0-next.100",
+    "@sveltejs/kit": "1.0.0-next.553",
+    "svelte": "^3.53.1",
     "svelte-time": "^0.7.1",
-    "vite": "^3.0.4"
+    "vite": "^3.2.4"
   }
 }
