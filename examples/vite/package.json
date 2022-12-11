@@ -1,14 +1,15 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "1.2.0",
-    "svelte": "^3.53.1",
+    "@sveltejs/vite-plugin-svelte": "2.0.1",
+    "svelte": "^3.54.0",
     "svelte-time": "^0.7.1",
-    "vite": "^3.2.4"
+    "vite": "^4.0.0"
   }
 }
