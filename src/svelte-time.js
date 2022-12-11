@@ -1,15 +1,18 @@
+// @ts-check
 import { dayjs } from "./dayjs";
 
 /**
- * @typedef {{ timestamp?: import("dayjs").ConfigType; format?: import("dayjs").OptionType; relative?: boolean; live?: boolean | number; }} SvelteTimeActionOptions
- * @type {(node: HTMLElement, options?: SvelteTimeActionOptions )}
+ * @typedef {Pick<import ("./Time.svelte").TimeProps, "timestamp" | "format" | "relative" | "live">} SvelteTimeOptions
+ * @typedef {import ("svelte/action").Action<HTMLElement, Partial<SvelteTimeOptions>>} SvelteTimeAction
+ * @type {SvelteTimeAction}
  */
-export function svelteTime(node, options = {}) {
+export const svelteTime = (node, options = {}) => {
   const DEFAULT_INTERVAL = 60 * 1000;
 
   let interval = undefined;
 
-  function setTime(node, options = {}) {
+  /** @type {SvelteTimeAction} */
+  const setTime = (node, options = {}) => {
     const timestamp = options.timestamp || new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;

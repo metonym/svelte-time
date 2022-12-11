@@ -1,4 +1,6 @@
 <script>
+  // @ts-check
+
   /**
    * Original timestamp
    * @type {import("dayjs").ConfigType}
@@ -37,6 +39,7 @@
   import { dayjs } from "./dayjs";
   import { onMount } from "svelte";
 
+  /** @type {undefined | NodeJS.Timer} */
   let interval = undefined;
 
   const DEFAULT_INTERVAL = 60 * 1000;
