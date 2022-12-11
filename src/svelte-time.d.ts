@@ -1,12 +1,7 @@
+import type { Action } from "svelte/action";
 import type { TimeProps } from "./Time.svelte";
 
 export interface SvelteTimeOptions
   extends Pick<TimeProps, "timestamp" | "format" | "relative" | "live"> {}
 
-export function svelteTime(
-  node: HTMLElement,
-  options?: Partial<SvelteTimeOptions>
-): {
-  update: (options?: Partial<SvelteTimeOptions>) => void;
-  destroy: () => void;
-};
+export const svelteTime: Action<HTMLElement, Partial<SvelteTimeOptions>>;
