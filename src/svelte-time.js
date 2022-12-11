@@ -2,7 +2,7 @@
 import { dayjs } from "./dayjs";
 
 /**
- * @typedef {Pick<import ("./Time.svelte").TimeProps, "timestamp" | "format" | "relative" | "live">} SvelteTimeOptions
+ * @typedef {import("./svelte-time").SvelteTimeOptions} SvelteTimeOptions
  * @typedef {import ("svelte/action").Action<HTMLElement, Partial<SvelteTimeOptions>>} SvelteTimeAction
  * @type {SvelteTimeAction}
  */
