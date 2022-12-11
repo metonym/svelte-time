@@ -1,4 +1,4 @@
-import { TimeProps } from "./Time.svelte";
+import type { TimeProps } from "./Time.svelte";
 
 export interface SvelteTimeOptions
   extends Pick<TimeProps, "timestamp" | "format" | "relative" | "live"> {}

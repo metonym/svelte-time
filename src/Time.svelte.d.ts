@@ -1,6 +1,6 @@
 /// <reference types="svelte" />
-import { SvelteComponentTyped } from "svelte";
-import { ConfigType, OptionType } from "dayjs";
+import type { ConfigType, OptionType } from "dayjs";
+import type { SvelteComponentTyped } from "svelte";
 
 export interface TimeProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap["time"]> {
   /**
