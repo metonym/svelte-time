@@ -42,7 +42,7 @@
   /** @type {undefined | NodeJS.Timer} */
   let interval = undefined;
 
-  const DEFAULT_INTERVAL = 60 * 1000;
+  const DEFAULT_INTERVAL = 60 * 1_000;
 
   onMount(() => {
     if (relative && live !== false) {

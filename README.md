@@ -137,10 +137,10 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 
 ```svelte
 <!-- Update every 30 seconds -->
-<Time live={30 * 1000} relative />
+<Time live={30 * 1_000} relative />
 
 <!-- Update every 10 minutes -->
-<Time live={10 * 60 * 1000} relative />
+<Time live={10 * 60 * 1_000} relative />
 ```
 
 ### `svelteTime` action

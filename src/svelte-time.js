@@ -7,7 +7,7 @@ import { dayjs } from "./dayjs";
  * @type {SvelteTimeAction}
  */
 export const svelteTime = (node, options = {}) => {
-  const DEFAULT_INTERVAL = 60 * 1000;
+  const DEFAULT_INTERVAL = 60 * 1_000;
 
   let interval = undefined;
 
