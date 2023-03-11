@@ -39,8 +39,10 @@ yarn add -D svelte-time
 npm i -D svelte-time
 
 # pnpm
-pnpm i -D svelte-time
+pnpm i -D svelte-time dayjs
 ```
+
+Note that [pnpm](https://github.com/pnpm/pnpm) users must also install `dayjs`.
 
 ## Usage
 
