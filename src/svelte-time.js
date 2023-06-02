@@ -33,7 +33,7 @@ export const svelteTime = (node, options = {}) => {
 
     node.setAttribute("datetime", timestamp);
     node.innerText = relative ? formatted_from : formatted;
-  }
+  };
 
   setTime(node, options);
 
@@ -47,4 +47,4 @@ export const svelteTime = (node, options = {}) => {
       }
     },
   };
-}
+};
