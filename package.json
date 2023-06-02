@@ -15,7 +15,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "dayjs": "^1.11.3"
+    "dayjs": "^1.11.8"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.1.0",
