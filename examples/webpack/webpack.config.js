@@ -1,4 +1,4 @@
-const { ESBuildMinifyPlugin } = require("esbuild-loader");
+const { EsbuildPlugin } = require("esbuild-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
@@ -33,6 +33,10 @@ module.exports = {
       },
       {
         test: /\.m?js/,
+        loader: "esbuild-loader",
+        options: {
+          target: "es2015",
+        },
         resolve: {
           fullySpecified: false,
         },
@@ -61,6 +65,6 @@ module.exports = {
   devtool: PROD ? false : "source-map",
   devServer: { hot: true, historyApiFallback: true },
   optimization: {
-    minimizer: [new ESBuildMinifyPlugin({ target: "es2015" })],
+    minimizer: [new EsbuildPlugin({ target: "es2015" })],
   },
 };
