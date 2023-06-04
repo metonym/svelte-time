@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.7.2](https://github.com/metonym/svelte-time/releases/tag/v0.7.2) - 2023-06-04
+
+- upgrade `dayjs` to v1.11.8
+- fix `Time.svelte` types to allow `data-*` attributes (e.g., `data-test-id`)
+
 ## [0.7.1](https://github.com/metonym/svelte-time/releases/tag/v0.7.1) - 2022-06-18
 
 - use default CJS imports from `dayjs` instead of ESM
