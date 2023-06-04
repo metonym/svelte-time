@@ -37,6 +37,8 @@ export interface TimeProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameM
    * @default ""
    */
   formatted?: string;
+
+  [key: `data-${string}`]: any;
 }
 
 export default class Time extends SvelteComponentTyped<TimeProps, {}, {}> {}
