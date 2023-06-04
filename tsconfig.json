@@ -2,6 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "ignoreDeprecations": "5.0",
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "moduleResolution": "node",
