@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Time, { svelteTime } from "../src";
+  import Time, { svelteTime } from "svelte-time";
 
   const CUSTOM_INTERVAL = 30 * 1_000;
 </script>

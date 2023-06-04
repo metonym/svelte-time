@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Time, { svelteTime } from "../src";
-  import { dayjs } from "../src";
+  import Time, { svelteTime } from "svelte-time";
+  import { dayjs } from "svelte-time";
 
   let time = dayjs().format("MMM DD, YYYY");
   let relativeTime = dayjs().from(dayjs());

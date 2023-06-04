@@ -9,7 +9,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2017",
-    "types": ["svelte"]
+    "types": ["svelte"],
+    "paths": {
+      "svelte-time": ["./src"],
+      "svelte-time/*": ["./src/*"]
+    }
   },
   "include": ["src", "tests"]
 }
