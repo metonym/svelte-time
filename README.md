@@ -46,35 +46,6 @@ Note that [pnpm](https://github.com/pnpm/pnpm) users must also install `dayjs`.
 
 ## Usage
 
-<details>
-
-<summary>
-  
-### Usage with `vite`
-
-</summary>
-
-If using `svelte-time@0.7.1` with a vite-only set-up, include `"dayjs/plugin/relativeTime.js"` in [optimizeDeps.include](https://vitejs.dev/config/#optimizedeps-include).
-
-See [examples/vite](examples/vite).
-
-```js
-// vite.config.js
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-import { defineConfig } from "vite";
-
-export default defineConfig(() => {
-  return {
-    plugins: [svelte()],
-    optimizeDeps: {
-      include: ["dayjs/plugin/relativeTime.js"],
-    },
-  };
-});
-```
-
-</details>
-
 ### `Time` component
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
@@ -257,9 +228,7 @@ The [examples folder](examples/) contains sample set-ups.
 
 ## TypeScript
 
-Svelte version 3.31 or greater is required to use this component with TypeScript.
-
-TypeScript definitions are located in the [types folder](./types).
+Svelte version 3.55 or greater is required to use this component with TypeScript.
 
 ## Changelog
 
