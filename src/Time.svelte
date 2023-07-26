@@ -45,19 +45,14 @@
   const DEFAULT_INTERVAL = 60 * 1_000;
 
   onMount(() => {
-    if (relative && live !== false) {
-      interval = setInterval(() => {
-        formatted = dayjs(timestamp).from();
-      }, Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL));
-    }
-
-    return () => {
-      if (typeof interval === "number") {
-        clearInterval(interval);
-      }
-    };
+    return () => clearInterval(interval);
   });
 
+  $: if (relative && live !== false) {
+    interval = setInterval(() => {
+      formatted = dayjs(timestamp).from();
+    }, Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL));
+  }
   $: formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
   $: title = relative ? dayjs(timestamp).format(format) : undefined;
 </script>

@@ -1,8 +1,10 @@
-/// <reference types="svelte" />
 import type { ConfigType, OptionType } from "dayjs";
 import type { SvelteComponentTyped } from "svelte";
+import type { SvelteHTMLElements } from "svelte/elements";
 
-export interface TimeProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameMap["time"]> {
+type RestProps = SvelteHTMLElements["time"];
+
+export interface TimeProps extends RestProps {
   /**
    * Original timestamp
    * @default new Date().toISOString()
@@ -41,4 +43,8 @@ export interface TimeProps extends svelte.JSX.HTMLAttributes<HTMLElementTagNameM
   [key: `data-${string}`]: any;
 }
 
-export default class Time extends SvelteComponentTyped<TimeProps, {}, {}> {}
+export default class Time extends SvelteComponentTyped<
+  TimeProps,
+  Record<string, any>,
+  {}
+> {}

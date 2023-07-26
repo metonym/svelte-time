@@ -25,9 +25,12 @@ export const svelteTime = (node, options = {}) => {
       node.setAttribute("title", formatted);
 
       if (live !== false) {
-        interval = setInterval(() => {
-          node.innerText = dayjs(timestamp).from();
-        }, Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL));
+        interval = setInterval(
+          () => {
+            node.innerText = dayjs(timestamp).from();
+          },
+          Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
+        );
       }
     }
 
@@ -42,9 +45,7 @@ export const svelteTime = (node, options = {}) => {
       setTime(node, options);
     },
     destroy() {
-      if (typeof interval === "number") {
-        clearInterval(interval);
-      }
+      clearInterval(interval);
     },
   };
 };
