@@ -35,35 +35,47 @@ describe("svelte-time", () => {
     expect(defaultComponent.innerHTML).toEqual(DEFAULT_TIME);
     expect(defaultComponent.innerHTML).toEqual(dayjs().format("MMM DD, YYYY"));
 
-    const timestampString = target.querySelector('[data-test="timestamp-string"]')!;
+    const timestampString = target.querySelector(
+      '[data-test="timestamp-string"]',
+    )!;
     expect(timestampString.innerHTML).toEqual("Feb 01, 2020");
     expect(timestampString.getAttribute("datetime")).toEqual("2020-02-01");
 
     const timestampDate = target.querySelector('[data-test="timestamp-date"]')!;
-    expect(timestampDate.innerHTML).toEqual(dayjs(date).format("dddd @ h:mm a"));
+    expect(timestampDate.innerHTML).toEqual(
+      dayjs(date).format("dddd @ h:mm a"),
+    );
     expect(timestampDate.getAttribute("datetime")).toEqual(date + "");
 
-    const timestampNumber = target.querySelector('[data-test="timestamp-number"]')!;
-    expect(timestampNumber.innerHTML).toEqual(dayjs(1e10).format("dddd @ h:mm A · MMMM D, YYYY"));
+    const timestampNumber = target.querySelector(
+      '[data-test="timestamp-number"]',
+    )!;
+    expect(timestampNumber.innerHTML).toEqual(
+      dayjs(1e10).format("dddd @ h:mm A · MMMM D, YYYY"),
+    );
     expect(timestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
     const relative = target.querySelector('[data-test="relative"]')!;
     expect(relative.innerHTML).toEqual("a few seconds ago");
     expect(relative.getAttribute("datetime")).toEqual(timestamp);
 
-    const relativeTimestamp = target.querySelector('[data-test="relative-timestamp"]')!;
+    const relativeTimestamp = target.querySelector(
+      '[data-test="relative-timestamp"]',
+    )!;
     expect(/ago/.test(relativeTimestamp.innerHTML)).toEqual(true);
     expect(relativeTimestamp.getAttribute("datetime")).toEqual("2021-02-02");
 
     const relativeTimestampNumber = target.querySelector(
-      '[data-test="relative-timestamp-number"]'
+      '[data-test="relative-timestamp-number"]',
     )!;
     expect(relativeTimestampNumber.innerHTML).toEqual("53 years ago");
     expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
-    const relativeLive = target.querySelector('[data-test="relative-live"]') as HTMLTimeElement;
+    const relativeLive = target.querySelector(
+      '[data-test="relative-live"]',
+    ) as HTMLTimeElement;
     const actionRelativeLive = target.querySelector(
-      '[data-test="action-relative-live"]'
+      '[data-test="action-relative-live"]',
     ) as HTMLTimeElement;
 
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
@@ -93,22 +105,28 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    const action = target.querySelector('[data-test="action"]') as HTMLTimeElement;
+    const action = target.querySelector(
+      '[data-test="action"]',
+    ) as HTMLTimeElement;
     expect(action.innerText).toEqual(DEFAULT_TIME);
     expect(action.getAttribute("datetime")).toEqual(timestamp);
 
     const actionTimestampFormat = target.querySelector(
-      '[data-test="action-timestamp-format"]'
+      '[data-test="action-timestamp-format"]',
     ) as HTMLTimeElement;
     expect(actionTimestampFormat.innerText).toEqual(
-      dayjs("2021-02-02").format("dddd @ h:mm A · MMMM D, YYYY")
+      dayjs("2021-02-02").format("dddd @ h:mm A · MMMM D, YYYY"),
     );
-    expect(actionTimestampFormat.getAttribute("datetime")).toEqual("2021-02-02");
+    expect(actionTimestampFormat.getAttribute("datetime")).toEqual(
+      "2021-02-02",
+    );
 
     const dayjsOnly = target.querySelector('[data-test="dayjs"]')!;
     expect(dayjsOnly.innerHTML).toEqual(DEFAULT_TIME);
 
-    const dayjsOnlyRelative = target.querySelector('[data-test="dayjs-relative"]')!;
+    const dayjsOnlyRelative = target.querySelector(
+      '[data-test="dayjs-relative"]',
+    )!;
     expect(dayjsOnlyRelative.innerHTML).toEqual("a few seconds ago");
   });
 
@@ -122,9 +140,11 @@ describe("svelte-time", () => {
     const date = new Date();
     const timestamp = date.toISOString();
 
-    const relativeLive = target.querySelector('[data-test="relative-live"]') as HTMLTimeElement;
+    const relativeLive = target.querySelector(
+      '[data-test="relative-live"]',
+    ) as HTMLTimeElement;
     const actionRelativeLive = target.querySelector(
-      '[data-test="action-relative-live"]'
+      '[data-test="action-relative-live"]',
     ) as HTMLTimeElement;
 
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
