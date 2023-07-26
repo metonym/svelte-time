@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Time, { svelteTime } from "svelte-time";
   import { dayjs } from "svelte-time";
 

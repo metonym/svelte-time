@@ -1,4 +1,5 @@
 <script>
+  // @ts-check
   import Time, { svelteTime } from "svelte-time";
   import { dayjs } from "svelte-time";
 
