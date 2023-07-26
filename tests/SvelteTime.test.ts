@@ -1,7 +1,7 @@
-import { test, expect, describe, beforeEach, afterEach, vi } from "vitest";
 import dayjs from "dayjs";
 import { SvelteComponent, tick } from "svelte";
-import { dayjs as dayjsExported } from "../src";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { dayjs as dayjsExported } from "svelte-time";
 import SvelteTime from "./SvelteTime.test.svelte";
 import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
@@ -24,6 +24,7 @@ describe("svelte-time", () => {
   test("SvelteTime.test.svelte", async () => {
     const target = document.body;
 
+    // @ts-ignore
     instance = new SvelteTime({
       target,
     });
@@ -133,6 +134,7 @@ describe("svelte-time", () => {
   test("SvelteTimeLive.test.svelte", async () => {
     const target = document.body;
 
+    // @ts-ignore
     instance = new SvelteTimeLive({
       target,
     });
