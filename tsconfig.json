@@ -6,9 +6,7 @@
     "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "moduleResolution": "node",
-    "skipLibCheck": true,
     "strict": true,
-    "target": "es2017",
     "types": ["svelte"],
     "paths": {
       "svelte-time": ["./src"],
