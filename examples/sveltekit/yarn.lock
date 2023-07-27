@@ -202,7 +202,7 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
-"@sveltejs/adapter-node@1.3.1":
+"@sveltejs/adapter-node@^1.3.1":
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/@sveltejs/adapter-node/-/adapter-node-1.3.1.tgz#b3d8dee1ae09d008b2add093e84cf085f3333bbc"
   integrity sha512-A0VgRQDCDPzdLNoiAbcOxGw4zT1Mc+n1LwT1OmO350R7WxrEqdMUChPPOd1iMfIDWlP4ie6E2d/WQf5es2d4Zw==
@@ -212,7 +212,7 @@
     "@rollup/plugin-node-resolve" "^15.0.1"
     rollup "^3.7.0"
 
-"@sveltejs/kit@1.22.3":
+"@sveltejs/kit@^1.22.3":
   version "1.22.3"
   resolved "https://registry.yarnpkg.com/@sveltejs/kit/-/kit-1.22.3.tgz#2330eaa7db3e5ee592fd42a4d68cff9d12e9fe28"
   integrity sha512-IpHD5wvuoOIHYaHQUBJ1zERD2Iz+fB/rBXhXjl8InKw6X4VKE9BSus+ttHhE7Ke+Ie9ecfilzX8BnWE3FeQyng==
@@ -337,7 +337,7 @@ css-tree@^2.3.1:
     mdn-data "2.0.30"
     source-map-js "^1.0.1"
 
-dayjs@^1.11.8:
+dayjs@^1.11.9:
   version "1.11.9"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
   integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
@@ -658,12 +658,12 @@ svelte-hmr@^0.15.1:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.1.tgz#d11d878a0bbb12ec1cba030f580cd2049f4ec86b"
   integrity sha512-BiKB4RZ8YSwRKCNVdNxK/GfY+r4Kjgp9jCLEy0DuqAKfmQtpL38cQK3afdpjw4sqSs4PLi3jIPJIFp259NkZtA==
 
-svelte-time@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.7.2.tgz#81467a8ec96c33252ef3e9927a1b1dbab96b70f7"
-  integrity sha512-+mMTsXiDyOamyhwETN7Zgm4M8ZFrm2O6JC0pJI17I9rgTxJceslO1lqmvIQkkO74Ur1SUAqriT808dbO6g7Owg==
+svelte-time@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.0.tgz#efdb4aae9e857b9464cb2e6b1ba9e54ed13ce333"
+  integrity sha512-V0LBpJhYV2Q+jqiJ94ITAo51P6RIhrHQpDt3LCSk8PXfL2UMvSMlDzkqHq8mdKqmBCRZURnXhpynN03GQa/G/A==
   dependencies:
-    dayjs "^1.11.8"
+    dayjs "^1.11.9"
 
 svelte@^4.1.1:
   version "4.1.1"

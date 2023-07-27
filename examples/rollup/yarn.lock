@@ -243,7 +243,7 @@ css-tree@^2.3.1:
     mdn-data "2.0.30"
     source-map-js "^1.0.1"
 
-dayjs@^1.11.8:
+dayjs@^1.11.9:
   version "1.11.9"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.9.tgz#9ca491933fadd0a60a2c19f6c237c03517d71d1a"
   integrity sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==
@@ -535,12 +535,12 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-svelte-time@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.7.2.tgz#81467a8ec96c33252ef3e9927a1b1dbab96b70f7"
-  integrity sha512-+mMTsXiDyOamyhwETN7Zgm4M8ZFrm2O6JC0pJI17I9rgTxJceslO1lqmvIQkkO74Ur1SUAqriT808dbO6g7Owg==
+svelte-time@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.0.tgz#efdb4aae9e857b9464cb2e6b1ba9e54ed13ce333"
+  integrity sha512-V0LBpJhYV2Q+jqiJ94ITAo51P6RIhrHQpDt3LCSk8PXfL2UMvSMlDzkqHq8mdKqmBCRZURnXhpynN03GQa/G/A==
   dependencies:
-    dayjs "^1.11.8"
+    dayjs "^1.11.9"
 
 svelte@^4.1.1:
   version "4.1.1"
