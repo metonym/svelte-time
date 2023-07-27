@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.8.0](https://github.com/metonym/svelte-time/releases/tag/v0.8.0) - 2023-07-27
+
+**Breaking Changes**
+
+- minimum Svelte version required is 3.55
+
+**Features**
+
+- update type definitions to support Svelte 4
+- upgrade `dayjs` to v1.11.9
+
 ## [0.7.2](https://github.com/metonym/svelte-time/releases/tag/v0.7.2) - 2023-06-04
 
 - upgrade `dayjs` to v1.11.8
