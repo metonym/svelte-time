@@ -1,20 +1,15 @@
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import path from "path";
 import { defineConfig } from "vite";
+import pkg from "./package.json";
 
 export default defineConfig({
-  plugins: [
-    svelte({
-      hot: false,
-    }),
-  ],
+  plugins: [svelte({ hot: false })],
   resolve: {
     alias: {
-      "svelte-time": path.resolve("src"),
+      [pkg.name]: pkg.main,
     },
   },
   test: {
-    globals: true,
     environment: "jsdom",
   },
 });
