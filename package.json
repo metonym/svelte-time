@@ -9,8 +9,6 @@
   "types": "./src/index.d.ts",
   "scripts": {
     "dev": "rollup -cw",
-    "predeploy": "rollup -c",
-    "deploy": "gh-pages -d dist",
     "format": "prettier --ignore-path .gitignore --write .",
     "test": "vitest"
   },
@@ -21,7 +19,6 @@
     "@rollup/plugin-commonjs": "^21.1.0",
     "@sveltejs/vite-plugin-svelte": "^2.4.3",
     "@testing-library/svelte": "^4.0.3",
-    "gh-pages": "^5.0.0",
     "jsdom": "^22.1.0",
     "prettier": "^3.0.0",
     "prettier-plugin-svelte": "^3.0.1",
