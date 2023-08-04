@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "html-webpack-plugin": "^5.5.3",
-    "svelte": "^4.1.1",
+    "svelte": "^4.1.2",
     "svelte-loader": "^3.1.9",
     "svelte-time": "^0.8.0",
     "webpack": "^5.88.2",
