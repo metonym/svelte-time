@@ -17,15 +17,15 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.1.0",
-    "@sveltejs/vite-plugin-svelte": "^2.4.3",
+    "@sveltejs/vite-plugin-svelte": "^2.4.6",
     "@testing-library/svelte": "^4.0.3",
     "jsdom": "^22.1.0",
-    "prettier": "^3.0.1",
+    "prettier": "^3.0.3",
     "prettier-plugin-svelte": "^3.0.3",
-    "svelte": "^4.1.2",
+    "svelte": "^4.2.0",
     "svelte-readme": "^3.6.3",
-    "typescript": "^5.1.6",
-    "vitest": "^0.34.1"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.4"
   },
   "repository": {
     "type": "git",
