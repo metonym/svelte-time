@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.8.1](https://github.com/metonym/svelte-time/releases/tag/v0.8.1) - 2023-12-16
+
+**Fixes**
+
+- add `exports` to package.json to resolve Vite development warnings
+
 ## [0.8.0](https://github.com/metonym/svelte-time/releases/tag/v0.8.0) - 2023-07-27
 
 **Breaking Changes**
