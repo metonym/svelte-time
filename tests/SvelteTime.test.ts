@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { SvelteComponent, tick } from "svelte";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { dayjs as dayjsExported } from "svelte-time";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import SvelteTime from "./SvelteTime.test.svelte";
 import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
@@ -69,7 +69,7 @@ describe("svelte-time", () => {
     const relativeTimestampNumber = target.querySelector(
       '[data-test="relative-timestamp-number"]',
     )!;
-    expect(relativeTimestampNumber.innerHTML).toEqual("53 years ago");
+    expect(relativeTimestampNumber.innerHTML).toEqual("54 years ago");
     expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
 
     const relativeLive = target.querySelector(
