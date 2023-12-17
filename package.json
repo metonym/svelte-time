@@ -9,9 +9,18 @@
   "types": "./src/index.d.ts",
   "exports": {
     ".": {
-      "svelte": "./src/index.js"
+      "types": "./src/index.d.ts",
+      "svelte": "./src/index.js",
+      "default": "./src/index.js"
     },
-    "./src/*": "./src/*"
+    "./src/*.svelte": {
+      "types": "./src/*.svelte.d.ts",
+      "import": "./src/*.svelte"
+    },
+    "./src/*": {
+      "types": "./src/*.d.ts",
+      "import": "./src/*.js"
+    }
   },
   "scripts": {
     "dev": "rollup -cw",
