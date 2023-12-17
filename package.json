@@ -1,6 +1,6 @@
 {
   "name": "svelte-time",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "license": "MIT",
   "description": "Svelte component and action to format a timestamp using day.js",
   "author": "Eric Liu (https://github.com/metonym)",

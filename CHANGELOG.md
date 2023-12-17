@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.8.2](https://github.com/metonym/svelte-time/releases/tag/v0.8.2) - 2023-12-16
+
+**Fixes**
+
+- fix `exports` in package.json to include types; add exports for `./src/*.svelte` and `./src/*`
+
 ## [0.8.1](https://github.com/metonym/svelte-time/releases/tag/v0.8.1) - 2023-12-16
 
 **Fixes**
