@@ -10,18 +10,20 @@ This utility wraps the date-time library [day.js](https://github.com/iamkun/dayj
 
 **Use cases**
 
-- format a timestamp using the semantic `time` element
-- display a human-readable, relative time (e.g., "4 days ago") while preserving the original timestamp
+- Format a timestamp using the semantic `time` element
+- Display a human-readable, relative time (e.g., "4 days ago") while preserving the original timestamp in the `datetime` attribute
 
-Sample output:
+Sample Input and Output:
 
-<!-- prettier-ignore-start -->
-```html
+```svelte
+<!-- Input -->
+<Time relative />
+
+<!-- Output -->
 <time title="May 15, 2022" datetime="2022-05-15T18:03:57.430Z">
   a few seconds ago
 </time>
 ```
-<!-- prettier-ignore-end -->
 
 Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882).
 
