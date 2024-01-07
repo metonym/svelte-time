@@ -204,7 +204,9 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
   import { dayjs } from "svelte-time";
 </script>
 
-<button on:click={() => (document.title = dayjs().format("MMM DD, YYYY"))}> Set title </button>
+<button on:click={() => (document.title = dayjs().format("MMM DD, YYYY"))}>
+  Set title
+</button>
 ```
 
 ## API

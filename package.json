@@ -4,43 +4,29 @@
   "license": "MIT",
   "description": "Svelte component and action to format a timestamp using day.js",
   "author": "Eric Liu (https://github.com/metonym)",
+  "type": "module",
   "svelte": "./src/index.js",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./src/index.d.ts",
-      "svelte": "./src/index.js",
-      "default": "./src/index.js"
-    },
-    "./src/*.svelte": {
-      "types": "./src/*.svelte.d.ts",
-      "import": "./src/*.svelte"
-    },
-    "./src/*": {
-      "types": "./src/*.d.ts",
-      "import": "./src/*.js"
-    }
-  },
   "scripts": {
     "dev": "rollup -cw",
-    "format": "prettier --ignore-path .gitignore --write .",
-    "test": "vitest"
+    "format": "prettier --write .",
+    "test": "vitest",
+    "package": "dlz"
   },
   "dependencies": {
     "dayjs": "^1.11.10"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.1.0",
-    "@sveltejs/vite-plugin-svelte": "^2.4.6",
-    "@testing-library/svelte": "^4.0.3",
-    "jsdom": "^22.1.0",
-    "prettier": "^3.0.3",
-    "prettier-plugin-svelte": "^3.0.3",
-    "svelte": "^4.2.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@testing-library/svelte": "^4.0.5",
+    "dlz": "^0.1.3",
+    "jsdom": "^23.1.0",
+    "prettier": "^3.1.1",
+    "prettier-plugin-svelte": "^3.1.2",
+    "svelte": "^4.2.8",
     "svelte-readme": "^3.6.3",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.4"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.3"
   },
   "repository": {
     "type": "git",
@@ -50,16 +36,15 @@
   "bugs": "https://github.com/metonym/svelte-time/issues",
   "keywords": [
     "svelte",
-    "svelte component",
-    "svelte action",
     "dayjs",
     "time formatter",
     "timestamp",
     "relative",
     "ago"
   ],
-  "files": [
-    "src"
-  ],
-  "type": "module"
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-svelte"
+    ]
+  }
 }

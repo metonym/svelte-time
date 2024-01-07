@@ -49,11 +49,16 @@
   });
 
   $: if (relative && live !== false) {
-    interval = setInterval(() => {
-      formatted = dayjs(timestamp).from();
-    }, Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL));
+    interval = setInterval(
+      () => {
+        formatted = dayjs(timestamp).from();
+      },
+      Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
+    );
   }
-  $: formatted = relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+  $: formatted = relative
+    ? dayjs(timestamp).from()
+    : dayjs(timestamp).format(format);
   $: title = relative ? dayjs(timestamp).format(format) : undefined;
 </script>
 

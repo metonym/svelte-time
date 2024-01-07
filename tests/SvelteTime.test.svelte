@@ -9,8 +9,16 @@
 <!-- Basic -->
 <Time data-test="default" />
 <Time data-test="timestamp-string" timestamp="2020-02-01" />
-<Time data-test="timestamp-date" timestamp={new Date()} format="dddd @ h:mm a" />
-<Time data-test="timestamp-number" timestamp={1e10} format="dddd @ h:mm A · MMMM D, YYYY" />
+<Time
+  data-test="timestamp-date"
+  timestamp={new Date()}
+  format="dddd @ h:mm a"
+/>
+<Time
+  data-test="timestamp-number"
+  timestamp={1e10}
+  format="dddd @ h:mm A · MMMM D, YYYY"
+/>
 
 <!-- Relative time -->
 <Time data-test="relative" relative />
