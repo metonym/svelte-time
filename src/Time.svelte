@@ -39,7 +39,7 @@
   import { dayjs } from "./dayjs";
   import { onMount } from "svelte";
 
-  /** @type {undefined | NodeJS.Timer} */
+  /** @type {undefined | NodeJS.Timeout} */
   let interval = undefined;
 
   const DEFAULT_INTERVAL = 60 * 1_000;
