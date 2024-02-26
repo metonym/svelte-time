@@ -41,6 +41,13 @@ export interface TimeProps extends RestProps {
   formatted?: string;
 
   [key: `data-${string}`]: any;
+
+  /**
+   * Timezone to use for formatting the timestamp
+   * Reference: https://day.js.org/docs/en/plugin/timezone
+   * @default undefined
+   */
+  timezone?: string | undefined;
 }
 
 export default class Time extends SvelteComponentTyped<

@@ -36,6 +36,12 @@
    */
   export let formatted = "";
 
+  /**
+   * Specify timezone to display the time in a specific timezone.
+   * @type {string | undefined}
+   */
+  export let timezone = undefined;
+
   import { dayjs } from "./dayjs";
   import { onMount } from "svelte";
 
@@ -48,18 +54,21 @@
     return () => clearInterval(interval);
   });
 
+  const initDayjs = (ts) =>
+    timezone !== undefined ? dayjs(ts).tz(timezone) : dayjs(ts);
+
   $: if (relative && live !== false) {
     interval = setInterval(
       () => {
-        formatted = dayjs(timestamp).from();
+        formatted = initDayjs(timestamp).from();
       },
       Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
     );
   }
   $: formatted = relative
-    ? dayjs(timestamp).from()
-    : dayjs(timestamp).format(format);
-  $: title = relative ? dayjs(timestamp).format(format) : undefined;
+    ? initDayjs(timestamp).from()
+    : initDayjs(timestamp).format(format);
+  $: title = relative ? initDayjs(timestamp).format(format) : undefined;
 </script>
 
 <time {...$$restProps} {title} datetime={timestamp}>

@@ -12,15 +12,19 @@ export const svelteTime = (node, options = {}) => {
   /** @type {undefined | NodeJS.Timeout} */
   let interval = undefined;
 
+  const initDayjs = (ts, timezone) =>
+    timezone !== undefined ? dayjs(ts).tz(timezone) : dayjs(ts);
+
   /** @type {SvelteTimeAction} */
   const setTime = (node, options = {}) => {
     const timestamp = options.timestamp || new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const live = options.live ?? false;
+    const timezone = options.timezone;
 
-    let formatted_from = dayjs(timestamp).from();
-    let formatted = dayjs(timestamp).format(format);
+    let formatted_from = initDayjs(timestamp, timezone).from();
+    let formatted = initDayjs(timestamp, timezone).format(format);
 
     if (relative) {
       node.setAttribute("title", formatted);
@@ -28,7 +32,7 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.innerText = dayjs(timestamp).from();
+            node.innerText = initDayjs(timestamp, timezone).from();
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
