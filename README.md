@@ -80,7 +80,7 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 <Time timestamp={1e10} format="ddd" />
 ```
 
-Use the `timeozne` prop to specify a timezone. Refer to the [dayjs timezone documentation](https://day.js.org/docs/en/plugin/timezone) for more information.
+Use the `timezone` prop to specify a timezone. Refer to the [dayjs timezone documentation](https://day.js.org/docs/en/plugin/timezone) for more information.
 
 ```svelte
 <Time timestamp="2020-02-01" timezone="America/New_York" />
