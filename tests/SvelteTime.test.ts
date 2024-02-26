@@ -129,6 +129,10 @@ describe("svelte-time", () => {
       '[data-test="dayjs-relative"]',
     )!;
     expect(dayjsOnlyRelative.innerHTML).toEqual("a few seconds ago");
+
+    const timezone = target.querySelector('[data-test="timezone"]')!;
+    expect(timezone.innerHTML).toEqual("Monday @ 7:00 AM · January 1, 2024");
+    expect(timezone.getAttribute("datetime")).toEqual("1704110400000");
   });
 
   test("SvelteTimeLive.test.svelte", async () => {

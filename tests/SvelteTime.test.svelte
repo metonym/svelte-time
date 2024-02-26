@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { utc } from "dayjs/esm";
   import Time, { svelteTime } from "svelte-time";
   import { dayjs } from "svelte-time";
 
@@ -25,6 +26,13 @@
 <Time data-test="relative-timestamp" relative timestamp="2021-02-02" />
 <Time data-test="relative-timestamp-number" relative timestamp={1e10} />
 <Time data-test="relative-live" relative live />
+
+<!-- Timezone -->
+<Time 
+  data-test="timezone" 
+  format="dddd @ h:mm A · MMMM D, YYYY"
+  timestamp={Date.UTC(2024, 0, 1, 12, 0, 0)} 
+  timezone="America/New_York" />
 
 <!-- Action -->
 <time data-test="action" use:svelteTime />
