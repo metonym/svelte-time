@@ -80,6 +80,12 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 <Time timestamp={1e10} format="ddd" />
 ```
 
+Use the `timeozne` prop to specify a timezone. Refer to the [dayjs timezone documentation](https://day.js.org/docs/en/plugin/timezone) for more information.
+
+```svelte
+<Time timestamp="2020-02-01" timezone="America/New_York" />
+```
+
 ### Relative time
 
 Set the `relative` prop value to `true` for the relative time displayed in a human-readable format.
@@ -217,6 +223,7 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 | :-------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
 | timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
 | format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
+| timezone  | `string` &#124; `undefined`                           | undefined |
 | relative  | `boolean`                                             | `false`                                                                                  |
 | live      | `boolean` &#124; `number`                             | `false`                                                                                  |
 | formatted | `string`                                              | `""`                                                                                     |
