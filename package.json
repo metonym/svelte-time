@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/metonym/svelte-time"
+    "url": "git+https://github.com/metonym/svelte-time.git"
   },
   "homepage": "https://github.com/metonym/svelte-time",
   "bugs": "https://github.com/metonym/svelte-time/issues",
