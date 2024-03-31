@@ -174,30 +174,11 @@ Specify a custom update interval using the `live` prop.
 />
 ```
 
-### Custom locale
-
-Load a custom locale and set it as the default locale using the [dayjs.locale API](https://day.js.org/docs/en/i18n/changing-locale).
-
-```svelte
-<script context="module">
-  import "dayjs/esm/locale/de";
-  import dayjs from "dayjs/esm";
-
-  dayjs.locale("de"); // German locale
-</script>
-
-<script>
-  import Time from "svelte-time";
-</script>
-
-<Time />
-```
-
 ### `dayjs` export
 
 `dayjs` is re-exported for your convenience. This is useful when the component and action would not work for programmatic usage, like setting the document title.
 
-**Note:** the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
+**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
 ```svelte
 <script>
@@ -207,6 +188,35 @@ Load a custom locale and set it as the default locale using the [dayjs.locale AP
 <button on:click={() => (document.title = dayjs().format("MMM DD, YYYY"))}>
   Set title
 </button>
+```
+
+### Custom locale
+
+The default `dayjs` locale is English. No other locale is loaded by default for performance reasons.
+
+To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs`. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German locale
+  import { dayjs } from "svelte-time";
+</script>
+
+<Time timestamp={dayjs().locale("de")} />
+```
+
+### Custom locale (global)
+
+Use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default.
+
+```svelte no-eval
+<script>
+  import "dayjs/locale/de"; // German locale
+  import { dayjs } from "svelte-time";
+
+  // Set the default locale to German.
+  dayjs.locale("de");
+</script>
 ```
 
 ## API
