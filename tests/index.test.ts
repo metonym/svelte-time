@@ -1,4 +1,3 @@
-import { test, expect } from "vitest";
 import * as API from "../src";
 
 test("Library has exports", () => {

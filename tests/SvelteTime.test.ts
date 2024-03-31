@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { SvelteComponent, tick } from "svelte";
 import { dayjs as dayjsExported } from "svelte-time";
-import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import SvelteTime from "./SvelteTime.test.svelte";
 import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 

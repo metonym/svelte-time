@@ -7,7 +7,7 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "strict": true,
-    "types": ["svelte"],
+    "types": ["svelte", "vitest/globals"],
     "paths": {
       "svelte-time": ["./src"],
       "svelte-time/*": ["./src/*"]
