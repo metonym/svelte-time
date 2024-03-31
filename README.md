@@ -219,6 +219,79 @@ Use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method
 </script>
 ```
 
+### Custom timezone
+
+To use a [custom timezone](https://day.js.org/docs/en/timezone/timezone), import the `utc` and `timezone` plugins from `dayjs`.
+
+```svelte no-eval
+<script>
+  import utc from "dayjs/plugin/utc";
+  import timezone from "dayjs/plugin/timezone";
+
+  import Time, { dayjs } from "svelte-time";
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+</script>
+
+<Time
+  timestamp={dayjs("2013-11-18 11:55:20").tz("America/Toronto")}
+  format="YYYY-MM-DDTHH:mm:ss"
+/>
+```
+
+### Custom timezone (global)
+
+Use the [`dayjs.tz.setDefault`](https://day.js.org/docs/en/timezone/default-timezone) method to set a custom timezone as the default.
+
+```svelte no-eval
+<script>
+  import utc from "dayjs/plugin/utc";
+  import timezone from "dayjs/plugin/timezone";
+
+  import Time, { dayjs } from "svelte-time";
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault("America/New_York");
+</script>
+```
+
+### User timezone
+
+Use the [`dayjs.ts.guess`](https://day.js.org/docs/en/timezone/guessing-user-timezone) method to guess the user's timezone.
+
+```js
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+dayjs.tz.guess(); // "America/New_York"
+```
+
+To retrieve the abbreviated time zone, extend the [`advancedFormat`](https://day.js.org/docs/en/plugin/advanced-format) plugin.
+
+```diff
+  import utc from "dayjs/plugin/utc";
+  import timezone from "dayjs/plugin/timezone";
++ import advancedFormat from "dayjs/plugin/advancedFormat";
+
+  import { dayjs } from "svelte-time";
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
++ dayjs.extend(advancedFormat);
+```
+
+Then, use the [`dayjs().local`](https://day.js.org/docs/en/manipulate/local) method to get the user's local time zone and format it using the `"z"` advanced option.
+
+```js
+dayjs().local().format("z"); // EST
+dayjs().local().format("zzz"); // Eastern Standard Time
+```
+
 ## API
 
 ### Props
