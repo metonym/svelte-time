@@ -8,18 +8,13 @@
 
 This utility wraps the date-time library [day.js](https://github.com/iamkun/dayjs) as a declarative Svelte component and action.
 
-**Use cases**
+It makes a timestamp human-readable while encoding the machine-parseable value (e.g., UTC) in the semantic `time` element.
 
-- Format a timestamp using the semantic `time` element
-- Display a human-readable, relative time (e.g., "4 days ago") while preserving the original timestamp in the `datetime` attribute
-
-Sample Input and Output:
-
-```svelte
+```svelte no-eval
 <!-- Input -->
 <Time relative />
 
-<!-- Output -->
+<!-- Output rendered in the DOM -->
 <time title="May 15, 2022" datetime="2022-05-15T18:03:57.430Z">
   a few seconds ago
 </time>
