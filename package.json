@@ -7,7 +7,7 @@
   "type": "module",
   "svelte": "./src/index.js",
   "scripts": {
-    "dev": "rollup -cw",
+    "dev": "bunx --bun rollup -cw",
     "test": "vitest",
     "package": "dlz",
     "format": "prettier --write ."

@@ -1,11 +1,5 @@
-import * as API from "../src";
+import * as API from "svelte-time";
 
 test("Library has exports", () => {
-  expect(Object.keys(API)).toMatchInlineSnapshot(`
-    [
-      "dayjs",
-      "svelteTime",
-      "default",
-    ]
-  `);
+  expect(Object.keys(API).sort()).toEqual(["dayjs", "default", "svelteTime"]);
 });
