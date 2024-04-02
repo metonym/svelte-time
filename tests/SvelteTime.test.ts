@@ -8,11 +8,11 @@ describe("svelte-time", () => {
   let instance: null | SvelteComponent = null;
 
   beforeEach(() => {
-    vi.useFakeTimers();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
     instance?.$destroy();
     instance = null;
     document.body.innerHTML = "";
@@ -84,7 +84,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -94,7 +94,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -153,7 +153,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -162,7 +162,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);

@@ -10,7 +10,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
-    "types": ["svelte", "vitest/globals"],
+    "types": ["svelte", "bun", "jest"],
     "paths": {
       "svelte-time": ["./src"],
       "svelte-time/*": ["./src/*"]
