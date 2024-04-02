@@ -23,7 +23,6 @@ describe("svelte-time", () => {
   test("SvelteTime.test.svelte", async () => {
     const target = document.body;
 
-    // @ts-ignore
     instance = new SvelteTime({
       target,
     });
@@ -133,7 +132,6 @@ describe("svelte-time", () => {
   test("SvelteTimeLive.test.svelte", async () => {
     const target = document.body;
 
-    // @ts-ignore
     instance = new SvelteTimeLive({
       target,
     });

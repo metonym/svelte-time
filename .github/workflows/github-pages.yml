@@ -7,12 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
 
       - name: Install dependencies
-        run: yarn install
+        run: bun install
 
       - name: Build app
-        run: yarn rollup -c
+        run: bunx --bun rollup -c
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
