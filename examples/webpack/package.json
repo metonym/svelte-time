@@ -8,7 +8,7 @@
     "html-webpack-plugin": "^5.6.0",
     "svelte": "^4.2.12",
     "svelte-loader": "^3.2.0",
-    "svelte-time": "^0.8.2",
+    "svelte-time": "^0.8.3",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"

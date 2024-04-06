@@ -474,10 +474,10 @@ svelte-hmr@^0.15.3:
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.3.tgz#df54ccde9be3f091bf5f18fc4ef7b8eb6405fbe6"
   integrity sha512-41snaPswvSf8TJUhlkoJBekRrABDXDMdpNpT2tfHIv4JuhgvHqLMhEPGtaQn0BmbNSTkuz2Ed20DF2eHw0SmBQ==
 
-svelte-time@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.2.tgz#342cace5fdc7b020d0af42b5d255a88a3a4778ec"
-  integrity sha512-sBLLrWMMInx5iidGlbtlCBAu8CzSixdqOkbhizdalULXBvYMPACp0GtzmyBLEa77hbaMVySZzApIaNG4B4OVmg==
+svelte-time@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.3.tgz#e0d564c03935ef5dceaadf7485961ed640adae02"
+  integrity sha512-8uBYoOgn7PwiTF/aNAx31yxbz7AAcD/JJF3SlgzsH/pZ/XSllmAgeCAYZ1j6G52QbNnUhwd8homQonDow616GA==
   dependencies:
     dayjs "^1.11.10"
 
@@ -501,10 +501,10 @@ svelte@^4.2.12:
     magic-string "^0.30.4"
     periscopic "^3.1.0"
 
-vite@^5.2.7:
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-5.2.7.tgz#e1b8a985eb54fcb9467d7f7f009d87485016df6e"
-  integrity sha512-k14PWOKLI6pMaSzAuGtT+Cf0YmIx12z9YGon39onaJNy8DLBfBJrzg9FQEmkAM5lpHBZs9wksWAsyF/HkpEwJA==
+vite@^5.2.8:
+  version "5.2.8"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.2.8.tgz#a99e09939f1a502992381395ce93efa40a2844aa"
+  integrity sha512-OyZR+c1CE8yeHw5V5t59aXsUPPVTHMDjEZz8MgguLL/Q7NblxhZUlTu9xSPqlsUO/y+X7dlU05jdhvyycD55DA==
   dependencies:
     esbuild "^0.20.1"
     postcss "^8.4.38"

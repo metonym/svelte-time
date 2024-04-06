@@ -2387,10 +2387,10 @@ svelte-loader@^3.2.0:
     svelte-dev-helper "^1.1.9"
     svelte-hmr "^0.14.2"
 
-svelte-time@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.2.tgz#342cace5fdc7b020d0af42b5d255a88a3a4778ec"
-  integrity sha512-sBLLrWMMInx5iidGlbtlCBAu8CzSixdqOkbhizdalULXBvYMPACp0GtzmyBLEa77hbaMVySZzApIaNG4B4OVmg==
+svelte-time@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/svelte-time/-/svelte-time-0.8.3.tgz#e0d564c03935ef5dceaadf7485961ed640adae02"
+  integrity sha512-8uBYoOgn7PwiTF/aNAx31yxbz7AAcD/JJF3SlgzsH/pZ/XSllmAgeCAYZ1j6G52QbNnUhwd8homQonDow616GA==
   dependencies:
     dayjs "^1.11.10"
 
