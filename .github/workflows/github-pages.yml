@@ -7,12 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build
-        run: |
-          yarn
-          yarn rollup -c
 
-      - name: Deploy
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build app
+        run: yarn rollup -c
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
