@@ -8,9 +8,9 @@
   "svelte": "./src/index.js",
   "scripts": {
     "dev": "rollup -cw",
-    "format": "prettier --write .",
     "test": "vitest",
-    "package": "dlz"
+    "package": "dlz",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "dayjs": "^1.11.10"
@@ -32,7 +32,7 @@
     "type": "git",
     "url": "git+https://github.com/metonym/svelte-time.git"
   },
-  "homepage": "https://github.com/metonym/svelte-time",
+  "homepage": "https://metonym.github.io/svelte-time",
   "bugs": "https://github.com/metonym/svelte-time/issues",
   "keywords": [
     "svelte",
