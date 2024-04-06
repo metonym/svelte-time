@@ -4,11 +4,9 @@
 
 <!-- REPO_URL -->
 
-> Svelte component and action to format a timestamp using [day.js](https://github.com/iamkun/dayjs)
+`svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
 
-This utility wraps the date-time library [day.js](https://github.com/iamkun/dayjs) as a declarative Svelte component and action.
-
-It makes a timestamp human-readable while encoding the machine-parseable value (e.g., UTC) in the semantic `time` element.
+Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight date-time library.
 
 ```svelte no-eval
 <!-- Input -->
@@ -263,7 +261,7 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-dayjs.tz.guess(); // "America/New_York"
+dayjs.tz.guess(); // America/New_York
 ```
 
 To retrieve the abbreviated time zone, extend the [`advancedFormat`](https://day.js.org/docs/en/plugin/advanced-format) plugin.
@@ -301,16 +299,10 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Examples
 
-The [examples folder](examples/) contains sample set-ups.
-
 - [examples/sveltekit](examples/sveltekit)
 - [examples/vite](examples/vite)
 - [examples/rollup](examples/rollup)
 - [examples/webpack](examples/webpack)
-
-## TypeScript
-
-Svelte version 3.55 or greater is required to use this component with TypeScript.
 
 ## Changelog
 
