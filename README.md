@@ -194,7 +194,7 @@ To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), impo
 ```svelte
 <script>
   import "dayjs/locale/de"; // German locale
-  import { dayjs } from "svelte-time";
+  import Time, { dayjs } from "svelte-time";
 </script>
 
 <Time timestamp={dayjs().locale("de")} />
