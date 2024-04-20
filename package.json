@@ -7,10 +7,10 @@
   "type": "module",
   "svelte": "./src/index.js",
   "scripts": {
-    "dev": "bunx --bun rollup -cw",
+    "dev": "bun --bun rollup -cw",
     "test": "vitest",
-    "package": "dlz",
-    "format": "prettier --write ."
+    "package": "bun --run dlz",
+    "format": "bun --bun prettier --write ."
   },
   "dependencies": {
     "dayjs": "^1.11.10"
