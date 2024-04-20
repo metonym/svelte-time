@@ -3,6 +3,7 @@ import { SvelteComponent, tick } from "svelte";
 import { dayjs as dayjsExported } from "svelte-time";
 import SvelteTime from "./SvelteTime.test.svelte";
 import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
+import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
 
 describe("svelte-time", () => {
   let instance: null | SvelteComponent = null;
@@ -170,6 +171,32 @@ describe("svelte-time", () => {
     expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+  });
+
+  test("SvelteTimeCustomTitle.test.svelte", async () => {
+    const target = document.body;
+
+    instance = new SvelteTimeCustomTitle({
+      target,
+    });
+
+    const relativeLive = target.querySelector(
+      '[data-test="custom-title"]',
+    ) as HTMLTimeElement;
+    const relativeLiveOmit = target.querySelector(
+      '[data-test="custom-title-omit"]',
+    ) as HTMLTimeElement;
+    const actionRelativeLive = target.querySelector(
+      '[data-test="action-custom-title"]',
+    ) as HTMLTimeElement;
+    const actionRelativeOmit = target.querySelector(
+      '[data-test="action-custom-title-omit"]',
+    ) as HTMLTimeElement;
+
+    expect(relativeLiveOmit.title).toEqual("");
+    expect(relativeLive.title).toEqual("Custom title");
+    expect(actionRelativeLive.title).toEqual("Custom title");
+    expect(actionRelativeOmit.title).toEqual("");
   });
 
   test("exported dayjs", () => {

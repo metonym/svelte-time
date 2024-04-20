@@ -93,6 +93,18 @@ Use the `format` prop to customize the [format](https://day.js.org/docs/en/displ
 <Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
 ```
 
+When using `relative`, the `time` element will set the formatted timestamp as the `title` attribute. Specify a custom `title` to override this.
+
+```svelte
+<Time relative title="Custom title" />
+```
+
+Set the value to `undefined` to omit the `title` altogether.
+
+```svelte
+<Time relative title={undefined} />
+```
+
 ### Live updates
 
 Set `live` to `true` for a live updating relative timestamp. The default refresh interval is 60 seconds.
@@ -113,7 +125,9 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 
 ### `svelteTime` action
 
-Use the `svelteTime` action to format a timestamp in a raw HTML element.
+An alternative to the `Time` component is to use the `svelteTime` action to format a timestamp in a raw HTML element.
+
+The API is the same as the `Time` component.
 
 ```svelte
 <script>
@@ -128,7 +142,13 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
 />
+```
 
+#### Relative time
+
+Set `relative` to `true` to use relative time.
+
+```svelte
 <time
   use:svelteTime={{
     relative: true,
@@ -141,6 +161,26 @@ Use the `svelteTime` action to format a timestamp in a raw HTML element.
     relative: true,
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
+  }}
+/>
+```
+
+To customize or omit the `title` attribute, use the `title` prop.
+
+```svelte
+<time
+  use:svelteTime={{
+    relative: true,
+    title: "Custom title",
+    timestamp: "2021-02-02",
+  }}
+/>
+
+<time
+  use:svelteTime={{
+    relative: true,
+    title: undefined,
+    timestamp: "2021-02-02",
   }}
 />
 ```
@@ -162,24 +202,26 @@ Specify a custom update interval using the `live` prop.
 <time
   use:svelteTime={{
     relative: true,
-    live: 30 * 1_000, // update every 30 seconds
+    live: 30 * 1_000, // Update every 30 seconds
   }}
 />
 ```
 
 ### `dayjs` export
 
-`dayjs` is re-exported for your convenience. This is useful when the component and action would not work for programmatic usage, like setting the document title.
+The `dayjs` library is exported from this package for your convenience.
 
 **Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
 ```svelte
 <script>
   import { dayjs } from "svelte-time";
+
+  let timestamp = "";
 </script>
 
-<button on:click={() => (document.title = dayjs().format("MMM DD, YYYY"))}>
-  Set title
+<button on:click={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}>
+  Update {timestamp}
 </button>
 ```
 
