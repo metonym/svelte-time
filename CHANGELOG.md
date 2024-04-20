@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [0.9.0](https://github.com/metonym/svelte-time/releases/tag/v0.9.0) - 2024-04-19
+
+**Features**
+
+- allow `title` attribute to be overridden
+
 ## [0.8.2](https://github.com/metonym/svelte-time/releases/tag/v0.8.2) - 2023-12-16
 
 **Fixes**
