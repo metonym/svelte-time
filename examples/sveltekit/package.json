@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@sveltejs/adapter-node": "latest",
-    "@sveltejs/kit":"latest",
+    "@sveltejs/kit": "latest",
     "@sveltejs/vite-plugin-svelte": "latest",
     "svelte": "latest",
     "svelte-time": "latest",
