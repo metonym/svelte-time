@@ -27,14 +27,17 @@ Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb1805
 ## Installation
 
 ```bash
-# Yarn
-yarn add -D svelte-time
-
 # npm
 npm i -D svelte-time
 
 # pnpm
 pnpm i -D svelte-time dayjs
+
+# Bun
+bun i -D svelte-time
+
+# Yarn
+yarn add -D svelte-time
 ```
 
 Note that [pnpm](https://github.com/pnpm/pnpm) users must also install `dayjs`.
