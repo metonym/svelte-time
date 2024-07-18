@@ -13,7 +13,7 @@
     "format": "bun --bun prettier --write . --cache"
   },
   "dependencies": {
-    "dayjs": "^1.11.10"
+    "dayjs": "^1.11.12"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.1.0",
