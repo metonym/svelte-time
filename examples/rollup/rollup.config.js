@@ -13,6 +13,15 @@ export default {
     name: "app",
     file: "public/build/bundle.js",
   },
+  // ignore Rollup warnings for d3 circular dependencies
+  onwarn: (warning, warn) => {
+    if (warning.code === "CIRCULAR_DEPENDENCY") {
+      if (warning.ids.some((id) => /node_modules\/(svelte)/.test(id))) {
+        return;
+      }
+    }
+    warn(warning);
+  },
   plugins: [
     svelte({
       emitCss: false,
