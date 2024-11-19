@@ -8,8 +8,12 @@ import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
 describe("svelte-time", () => {
   let instance: null | SvelteComponent = null;
 
+  // Use a fixed date for testing to avoid drift.
+  const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
+
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.setSystemTime(FIXED_DATE);
   });
 
   afterEach(() => {
@@ -23,7 +27,7 @@ describe("svelte-time", () => {
     return document.querySelector(selector) as HTMLElement;
   };
 
-  const DEFAULT_TIME = dayjs(new Date().toISOString()).format("MMM DD, YYYY");
+  const DEFAULT_TIME = dayjs(FIXED_DATE).format("MMM DD, YYYY");
 
   test("SvelteTime.test.svelte", async () => {
     const target = document.body;
