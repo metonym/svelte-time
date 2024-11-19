@@ -19,26 +19,26 @@
 <Time relative live />
 
 <!-- Action -->
-<time use:svelteTime />
+<time use:svelteTime></time>
 <time
   use:svelteTime={{
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
-/>
+></time>
 <time
   use:svelteTime={{
     timestamp: "2021-02-02",
     relative: true,
   }}
-/>
+></time>
 <time
   data-test="action-relative-live"
   use:svelteTime={{
     relative: true,
     live: true,
   }}
-/>
+></time>
 
 <span>
   {time}
