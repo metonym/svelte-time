@@ -33,21 +33,25 @@
   } = $props();
 
   import { dayjs } from "./dayjs";
+  import { onMount } from "svelte";
+
+  /** @type {undefined | NodeJS.Timeout} */
+  let interval = undefined;
+  let liveUpdate = $state(0);
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
+  onMount(() => {
+    return () => clearInterval(interval);
+  });
+
   $effect(() => {
-    /** @type {undefined | NodeJS.Timeout} */
-    let interval;
     if (relative && live !== false) {
       interval = setInterval(
-        () => {
-          formatted = dayjs(timestamp).from();
-        },
+        () => ++liveUpdate,
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
     }
-    return () => clearInterval(interval);
   });
 
   /**
@@ -55,9 +59,10 @@
    * Result of invoking `dayjs().format()`
    * @type {string}
    */
-  let formatted = $state(
-    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format),
-  );
+  let formatted = $derived.by(() => {
+    liveUpdate; // no-op. this is a dependency trigger for live updates
+    return relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+  });
 
   const title = $derived(
     relative ? dayjs(timestamp).format(format) : undefined,
