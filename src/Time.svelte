@@ -34,8 +34,6 @@
 
   import { dayjs } from "./dayjs";
 
-  let liveUpdate = $state(0);
-
   const DEFAULT_INTERVAL = 60 * 1_000;
 
   $effect(() => {
@@ -43,7 +41,9 @@
     let interval;
     if (relative && live !== false) {
       interval = setInterval(
-        () => ++liveUpdate,
+        () => {
+          formatted = dayjs(timestamp).from();
+        },
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
     }
@@ -55,10 +55,9 @@
    * Result of invoking `dayjs().format()`
    * @type {string}
    */
-  let formatted = $derived.by(() => {
-    liveUpdate; // no-op. this is a dependency trigger for live updates
-    return relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
-  });
+  let formatted = $derived(
+    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format)
+  );
 
   const title = $derived(
     relative ? dayjs(timestamp).format(format) : undefined,
