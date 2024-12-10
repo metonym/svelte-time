@@ -33,25 +33,21 @@
   } = $props();
 
   import { dayjs } from "./dayjs";
-  import { onMount } from "svelte";
 
-  /** @type {undefined | NodeJS.Timeout} */
-  let interval = undefined;
   let liveUpdate = $state(0);
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
-  onMount(() => {
-    return () => clearInterval(interval);
-  });
-
   $effect(() => {
+    /** @type {undefined | NodeJS.Timeout} */
+    let interval;
     if (relative && live !== false) {
       interval = setInterval(
         () => ++liveUpdate,
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
     }
+    return () => clearInterval(interval);
   });
 
   /**
