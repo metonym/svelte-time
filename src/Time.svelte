@@ -55,7 +55,7 @@
    * Result of invoking `dayjs().format()`
    * @type {string}
    */
-  let formatted = $derived(
+  let formatted = $state(
     relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format)
   );
 
