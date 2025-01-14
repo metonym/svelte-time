@@ -20,7 +20,7 @@ export default {
   module: {
     rules: [
       {
-        test: /\.svelte$/,
+        test: /\.(svelte|svelte\.js)$/,
         use: {
           loader: "svelte-loader",
           options: {
