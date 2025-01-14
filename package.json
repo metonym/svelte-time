@@ -6,11 +6,6 @@
   "author": "Eric Liu (https://github.com/metonym)",
   "type": "module",
   "svelte": "./src/index.js",
-  "exports": {
-    ".": {
-      "svelte": "./src/index.js"
-    }
-  },
   "scripts": {
     "dev": "bun --bun rollup -cw",
     "test": "vitest",
