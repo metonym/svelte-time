@@ -1,8 +1,8 @@
 .DS_Store
 package
 dist
-build
 node_modules
 .svelte-kit
 public/build
 webpack/public
+.astro

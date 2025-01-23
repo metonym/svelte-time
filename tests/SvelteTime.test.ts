@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
-import { SvelteComponent, tick } from "svelte";
+import { flushSync, mount, tick, unmount } from "svelte";
 import { dayjs as dayjsExported } from "svelte-time";
 import SvelteTime from "./SvelteTime.test.svelte";
 import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
 
 describe("svelte-time", () => {
-  let instance: null | SvelteComponent = null;
+  let instance: null | Record<string, any> = null;
 
   // Use a fixed date for testing to avoid drift.
   const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
@@ -18,7 +18,9 @@ describe("svelte-time", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
-    instance?.$destroy();
+    if (instance) {
+      unmount(instance);
+    }
     instance = null;
     document.body.innerHTML = "";
   });
@@ -32,7 +34,8 @@ describe("svelte-time", () => {
   test("SvelteTime.test.svelte", async () => {
     const target = document.body;
 
-    instance = new SvelteTime({ target });
+    instance = mount(SvelteTime, { target });
+    flushSync();
 
     const date = new Date();
     const timestamp = date.toISOString();
@@ -125,7 +128,8 @@ describe("svelte-time", () => {
   test("SvelteTimeLive.test.svelte", async () => {
     const target = document.body;
 
-    instance = new SvelteTimeLive({ target });
+    instance = mount(SvelteTimeLive, { target });
+    flushSync();
 
     const date = new Date();
     const timestamp = date.toISOString();
@@ -140,7 +144,16 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    vi.runOnlyPendingTimers(); // 30 seconds
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("a few seconds ago");
+    expect(actionRelativeLive.innerText).toEqual("a few seconds ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+
+    vi.runOnlyPendingTimers(); // 60 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -149,7 +162,16 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    vi.runOnlyPendingTimers(); // 90 seconds
+    await tick();
+    expect(relativeLive.title).toEqual(DEFAULT_TIME);
+    expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
+    expect(relativeLive.innerHTML).toEqual("2 minutes ago");
+    expect(actionRelativeLive.innerText).toEqual("2 minutes ago");
+    expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
+    expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
+
+    vi.runOnlyPendingTimers(); // 120 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -162,7 +184,8 @@ describe("svelte-time", () => {
   test("SvelteTimeCustomTitle.test.svelte", async () => {
     const target = document.body;
 
-    instance = new SvelteTimeCustomTitle({ target });
+    instance = mount(SvelteTimeCustomTitle, { target });
+    flushSync();
 
     const relativeLive = getElement('[data-test="custom-title"]');
     const relativeLiveOmit = getElement('[data-test="custom-title-omit"]');

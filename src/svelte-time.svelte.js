@@ -2,7 +2,7 @@
 import { dayjs } from "./dayjs";
 
 /**
- * @typedef {import("./svelte-time").SvelteTimeOptions} SvelteTimeOptions
+ * @typedef {import("./svelte-time.svelte").SvelteTimeOptions} SvelteTimeOptions
  * @typedef {import ("svelte/action").Action<HTMLElement, Partial<SvelteTimeOptions>>} SvelteTimeAction
  * @type {SvelteTimeAction}
  */
@@ -45,14 +45,11 @@ export const svelteTime = (node, options = {}) => {
     node.innerText = relative ? formatted_from : formatted;
   };
 
-  setTime(node, options);
+  $effect(() => {
+    setTime(node, options);
 
-  return {
-    update(options = {}) {
-      setTime(node, options);
-    },
-    destroy() {
+    return () => {
       clearInterval(interval);
-    },
-  };
+    };
+  });
 };
