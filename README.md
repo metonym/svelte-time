@@ -2,6 +2,12 @@
 
 [![NPM][npm]][npm-url]
 
+**Note:** `svelte-time@2.0.0` only supports Svelte 5 (Runes mode).
+
+For Svelte 3 and 4, use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0).
+
+---
+
 `svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
 
 Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight date-time library.
