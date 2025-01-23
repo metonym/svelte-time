@@ -1,1 +1,276 @@
- <!DOCTYPE html> <html lang="en"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <meta name="description" content="Svelte component and action to format a timestamp using day.js"> <title>svelte-time</title> <style>.anchor{float:left;line-height:1;margin-left:-20px;padding-right:4px}.anchor:focus{outline:0}h1:hover .anchor,h2:hover .anchor,h3:hover .anchor,h4:hover .anchor,h5:hover .anchor,h6:hover .anchor{text-decoration:none}main{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;line-height:1.5;color:#24292e;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;line-height:1.5;word-wrap:break-word}details{display:block}summary{display:list-item}a{background-color:initial}a:active,a:hover{outline-width:0}strong{font-weight:inherit;font-weight:bolder}h1{font-size:2em;margin:.67em 0}img{border-style:none}code,kbd,pre{font-family:monospace,monospace;font-size:1em}hr{box-sizing:initial;height:0;overflow:visible}input{font:inherit;margin:0}input{overflow:visible}[type=checkbox]{box-sizing:border-box;padding:0}*{box-sizing:border-box}input{font-family:inherit;font-size:inherit;line-height:inherit}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}strong{font-weight:600}hr{height:0;margin:15px 0;overflow:hidden;background:0 0;border:0;border-bottom:1px solid #dfe2e5}hr:after,hr:before{display:table;content:""}hr:after{clear:both}table{border-spacing:0;border-collapse:collapse}td,th{padding:0}details summary{cursor:pointer}kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:0}h1{font-size:32px}h1,h2{font-weight:600}h2{font-size:24px}h3{font-size:20px}h3,h4{font-weight:600}h4{font-size:16px}h5{font-size:14px}h5,h6{font-weight:600}h6{font-size:12px}p{margin-top:0;margin-bottom:10px}blockquote{margin:0}ol,ul{padding-left:0;margin-top:0;margin-bottom:0}ol ol,ul ol{list-style-type:lower-roman}ol ol ol,ol ul ol,ul ol ol,ul ul ol{list-style-type:lower-alpha}dd{margin-left:0}code,pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:12px}pre{margin-top:0;margin-bottom:0}input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{margin:0;-webkit-appearance:none;appearance:none}:checked+.radio-label{position:relative;z-index:1;border-color:#0366d6}hr{border-bottom-color:#eee}kbd{display:inline-block;padding:3px 5px;font:11px SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;line-height:10px;color:#444d56;vertical-align:middle;background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da}.markdown-body:before,main:after{display:table;content:""}main:after{clear:both}main>:first-child{margin-top:0!important}main>:last-child{margin-bottom:0!important}a:not([href]){color:inherit;text-decoration:none}blockquote,details,dl,ol,p,pre,table,ul{margin-top:0;margin-bottom:16px}hr{height:.25em;padding:0;margin:24px 0;background-color:#e1e4e8;border:0}blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}h1,h2,h3,h4,h5,h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}h1{font-size:2em}h1,h2{padding-bottom:.3em;border-bottom:1px solid #eaecef}h2{font-size:1.5em}h3{font-size:1.25em}h4{font-size:1em}h5{font-size:.875em}h6{font-size:.85em;color:#6a737d}ol,ul{padding-left:2em}ol ol,ol ul,ul ol,ul ul{margin-top:0;margin-bottom:0}li{word-wrap:break-all}li>p{margin-top:16px}li+li{margin-top:.25em}dl{padding:0}dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:600}dl dd{padding:0 16px;margin-bottom:16px}table{display:block;width:100%;overflow:auto}table th{font-weight:600}table td,table th{padding:6px 13px;border:1px solid #dfe2e5}table tr{background-color:#fff;border-top:1px solid #c6cbd1}table tr:nth-child(2n){background-color:#f6f8fa}img{max-width:100%;box-sizing:initial;background-color:#fff}img[align=right]{padding-left:20px}img[align=left]{padding-right:20px}code{padding:.2em .4em;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}pre{word-wrap:normal}pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:0 0;border:0}.highlight{margin-bottom:16px}.highlight pre{margin-bottom:0;word-break:normal}.highlight pre,pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}pre code{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:initial;border:0}p{min-height:28px}pre{margin-bottom:48px}.code-fence button{font-family:inherit;text-transform:none;position:relative;display:inline-block;padding:5px 16px;font-size:14px;font-weight:500;line-height:20px;white-space:nowrap;vertical-align:middle;cursor:pointer;user-select:none;border:1px solid;border-radius:6px;appearance:none;color:#24292e;background-color:#fafbfc;border-color:rgba(27,31,35,.15);box-shadow:0 1px 0 rgba(27,31,35,.04),inset 0 1px 0 rgba(255,255,255,.25);transition:background-color .2s cubic-bezier(.3,0,.5,1)}.language-yaml{color:#0550ae}.language-typescript{color:#0550ae}.language-typescript .string{color:#0a3069}.language-typescript .number{color:#005cc5}.language-typescript .class-name{color:#24292f}.token.keyword{color:#d73a49}.token.language-javascript{color:#24292e}.token.language-javascript .function{color:#005cc5}.token.language-javascript .string{color:#032f62}.token.language-javascript .number{color:#005cc5}.token.language-javascript .keyword{color:#d73a49}.token.each{color:#d73a49}.token.punctuation{color:#24292e}.token.tag{color:#22863a}.token.attr-name{color:#6f42c1}.token.attr-value{color:#032f62}.token.operator{color:#d73a49}.token.comment{color:#6a737d}.token.function{color:#6f42c1}.token.string{color:#032f62}.token.each .language-javascript:last-child{color:#e36209}.language-css{color:#032f62}.language-css .selector{color:#22863a}.language-css .property{color:#005cc5}.code-fence{padding:24px 15px;border:1px solid #eaecef;border-bottom:0}main{box-sizing:border-box;max-width:980px;margin:0 auto;padding:45px}@media (max-width:767px){main{padding:15px}}time{display:block;margin-bottom:.5rem}</style> </head> <body> <noscript>You need to enable JavaScript to run this app.</noscript> <script src="s.7c12ec09.js"></script> </body> </html> 
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Svelte component and action to format a timestamp using day.js"><link rel="icon" type="image/svg+xml" href="/svelte-time/favicon.svg"><title>svelte-time</title><link rel="stylesheet" href="/svelte-time/_astro/index.CL-OYBpZ.css"></head> <body class="markdown-body"> <main> <h1 id="svelte-time">svelte-time</h1>
+<p><a href="https://npmjs.com/package/svelte-time"><img src="https://img.shields.io/npm/v/svelte-time.svg?style=for-the-badge&color=%23ff3e00" alt="NPM"/></a></p>
+<p><strong>Note:</strong> <code>svelte-time@2.0.0</code> only supports Svelte 5 (Runes mode).</p>
+<p>For Svelte 3 and 4, use <a href="https://github.com/metonym/svelte-time/tree/v1.0.0">svelte-time@1.0.0</a>.</p>
+<hr/>
+<p><code>svelte-time</code> is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic <code>time</code> element.</p>
+<p>Under the hood, it uses <a href="https://github.com/iamkun/dayjs">day.js</a>, a lightweight date-time library.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#6A737D">&lt;!-- Input --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">&lt;!-- Output rendered in the DOM --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span><span style="color:#B392F0"> title</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;May 15, 2022&quot;</span><span style="color:#B392F0"> datetime</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;2022-05-15T18:03:57.430Z&quot;</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  a few seconds ago</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>Try it in the <a href="https://svelte.dev/repl/00b3877edb80425b96bb41fb18059882">Svelte REPL</a>.</p>
+<hr/>
+<h2 id="installation">Installation</h2>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># npm</span></span>
+<span class="line"><span style="color:#B392F0">npm</span><span style="color:#9ECBFF"> i</span><span style="color:#9ECBFF"> svelte-time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># pnpm</span></span>
+<span class="line"><span style="color:#B392F0">pnpm</span><span style="color:#9ECBFF"> i</span><span style="color:#9ECBFF"> svelte-time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Bun</span></span>
+<span class="line"><span style="color:#B392F0">bun</span><span style="color:#9ECBFF"> i</span><span style="color:#9ECBFF"> svelte-time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Yarn</span></span>
+<span class="line"><span style="color:#B392F0">yarn</span><span style="color:#9ECBFF"> add</span><span style="color:#9ECBFF"> svelte-time</span></span></code></pre>
+<p>Note that <a href="https://github.com/pnpm/pnpm">pnpm</a> users must also install <code>dayjs</code>.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="time-component"><code>Time</code> component</h3>
+<p>The displayed time defaults to <code>new Date().toISOString()</code> and is formatted as <code>&quot;MMM DD, YYYY&quot;</code>.</p>
+<!--[--><div class="svelte-15lisnl"><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var l=(n,t)=>{let i=async()=>{await(await n())()},e=typeof t.value=="object"?t.value:void 0,s={timeout:e==null?void 0:e.timeout};"requestIdleCallback"in window?window.requestIdleCallback(i,s):setTimeout(i,s.timeout||200)};(self.Astro||(self.Astro={})).idle=l;window.dispatchEvent(new Event("astro:idle"));})();;(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="Z1pQYQq" component-url="/svelte-time/_astro/Basic.Da274olj.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;Basic&quot;,&quot;value&quot;:true}" await-children><!--[--><time datetime="2025-01-23T20:45:35.435Z">Jan 23, 2025</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> Time </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<p>The <code>timestamp</code> prop can be any of the following <code>dayjs</code> values: <code>string | number | Date | Dayjs</code>.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="1VIdlM" component-url="/svelte-time/_astro/CustomTimestamp.BzAuBGux.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;CustomTimestamp&quot;,&quot;value&quot;:true}" await-children><!--[--><div><time datetime="2020-02-01">Feb 01, 2020</time><!----></div> <div><time datetime="Thu Jan 23 2025 20:45:35 GMT+0000 (Coordinated Universal Time)">Jan 23, 2025</time><!----></div> <div><time datetime="10000000000">Apr 26, 1970</time><!----></div><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;2020-02-01&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">()} /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">1e10</span><span style="color:#E1E4E8">} /&gt;</span></span></code></pre>
+<p>Use the <code>format</code> prop to format the timestamp. Refer to the <a href="https://day.js.org/docs/en/display/format">dayjs format documentation</a> for acceptable formats.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="u6zB5" component-url="/svelte-time/_astro/CustomFormat.C5a4R51k.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;CustomFormat&quot;,&quot;value&quot;:true}" await-children><!--[--><div><time datetime="2020-02-01">Saturday @ 12:00 AM · February 1, 2020</time><!----></div> <div><time datetime="Thu Jan 23 2025 20:45:35 GMT+0000 (Coordinated Universal Time)">2025/01/23</time><!----></div> <div><time datetime="10000000000">Sun</time><!----></div><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;2020-02-01&quot;</span><span style="color:#B392F0"> format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;dddd @ h:mm A · MMMM D, YYYY&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#F97583">new</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">()} </span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;YYYY/MM/DD&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">1e10</span><span style="color:#E1E4E8">} </span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;ddd&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<h3 id="relative-time">Relative time</h3>
+<p>Set the <code>relative</code> prop value to <code>true</code> for the relative time displayed in a human-readable format.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="ZKOn4R" component-url="/svelte-time/_astro/RelativeTime.BWntT50Q.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;RelativeTime&quot;,&quot;value&quot;:true}" await-children><!--[--><div><time title="Jan 23, 2025" datetime="2025-01-23T20:45:35.436Z">a few seconds ago</time><!----></div> <div><time title="Feb 02, 2021" datetime="2021-02-02">4 years ago</time><!----></div> <div><time title="Apr 26, 1970" datetime="10000000000">55 years ago</time><!----></div><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">1e10</span><span style="color:#E1E4E8">} /&gt;</span></span></code></pre>
+<p>When using relative time, the <code>title</code> attribute will display a formatted timestamp.</p>
+<p>Use the <code>format</code> prop to customize the <a href="https://day.js.org/docs/en/display/format">format</a>.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="oyjC2" component-url="/svelte-time/_astro/RelativeTimeCustomFormat.CiX7GEgm.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;RelativeTimeCustomFormat&quot;,&quot;value&quot;:true}" await-children><!--[--><time title="Thursday @ 8:45 PM · January 23, 2025" datetime="2025-01-23T20:45:35.437Z">a few seconds ago</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#B392F0"> format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;dddd @ h:mm A · MMMM D, YYYY&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<p>When using <code>relative</code>, the <code>time</code> element will set the formatted timestamp as the <code>title</code> attribute. Specify a custom <code>title</code> to override this.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="Z1DV6Oa" component-url="/svelte-time/_astro/RelativeTimeCustomTitle.COESHl7h.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;RelativeTimeCustomTitle&quot;,&quot;value&quot;:true}" await-children><!--[--><time title="Custom title" datetime="2025-01-23T20:45:35.438Z">a few seconds ago</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#B392F0"> title</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;Custom title&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<p>Set the value to <code>undefined</code> to omit the <code>title</code> altogether.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="Z8Eoo9" component-url="/svelte-time/_astro/RelativeTimeNoTitle.A0-1fZw0.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;RelativeTimeNoTitle&quot;,&quot;value&quot;:true}" await-children><!--[--><time datetime="2025-01-23T20:45:35.438Z">a few seconds ago</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> relative</span><span style="color:#B392F0"> title</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">undefined</span><span style="color:#E1E4E8">} /&gt;</span></span></code></pre>
+<h3 id="live-updates">Live updates</h3>
+<p>Set <code>live</code> to <code>true</code> for a live updating relative timestamp. The default refresh interval is 60 seconds.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> live</span><span style="color:#B392F0"> relative</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<p>To customize the interval, pass a value to <code>live</code> in milliseconds (ms).</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#6A737D">&lt;!-- Update every 30 seconds --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> live</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">30</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 1_000</span><span style="color:#E1E4E8">} </span><span style="color:#B392F0">relative</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">&lt;!-- Update every 10 minutes --&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> live</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">10</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 60</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 1_000</span><span style="color:#E1E4E8">} </span><span style="color:#B392F0">relative</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<h3 id="sveltetime-action"><code>svelteTime</code> action</h3>
+<p>An alternative to the <code>Time</code> component is to use the <code>svelteTime</code> action to format a timestamp in a raw HTML element.</p>
+<p>The API is the same as the <code>Time</code> component.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="x2NLr" component-url="/svelte-time/_astro/SvelteTimeAction.1WTkBv76.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;SvelteTimeAction&quot;,&quot;value&quot;:true}" await-children><!--[--><div><time></time></div> <div><time></time></div><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> { svelteTime } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span><span style="color:#F97583"> use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8"> /&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    timestamp: </span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    format: </span><span style="color:#9ECBFF">&quot;dddd @ h:mm A · MMMM D, YYYY&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h4 id="relative-time-1">Relative time</h4>
+<p>Set <code>relative</code> to <code>true</code> to use relative time.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    timestamp: </span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    timestamp: </span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    format: </span><span style="color:#9ECBFF">&quot;dddd @ h:mm A · MMMM D, YYYY&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>To customize or omit the <code>title</code> attribute, use the <code>title</code> prop.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    title: </span><span style="color:#9ECBFF">&quot;Custom title&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    timestamp: </span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    title: </span><span style="color:#79B8FF">undefined</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    timestamp: </span><span style="color:#9ECBFF">&quot;2021-02-02&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>Similar to the <code>Time</code> component, the <code>live</code> prop only works with relative time.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    live: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<p>Specify a custom update interval using the <code>live</code> prop.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">time</span></span>
+<span class="line"><span style="color:#F97583">  use</span><span style="color:#E1E4E8">:</span><span style="color:#FFAB70">svelteTime</span><span style="color:#E1E4E8">={{</span></span>
+<span class="line"><span style="color:#E1E4E8">    relative: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    live: </span><span style="color:#79B8FF">30</span><span style="color:#F97583"> *</span><span style="color:#79B8FF"> 1_000</span><span style="color:#E1E4E8">, </span><span style="color:#6A737D">// Update every 30 seconds</span></span>
+<span class="line"><span style="color:#E1E4E8">  }}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;&lt;/</span><span style="color:#85E89D">time</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h3 id="dayjs-export"><code>dayjs</code> export</h3>
+<p>The <code>dayjs</code> library is exported from this package for your convenience.</p>
+<p><strong>Note</strong>: the exported <code>dayjs</code> function already extends the <a href="https://day.js.org/docs/en/plugin/relative-time">relativeTime plugin</a>.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="1Xh894" component-url="/svelte-time/_astro/DayjsExport.BSAZpA6g.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;DayjsExport&quot;,&quot;value&quot;:true}" await-children><!--[--><button type="button">Update </button><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> { dayjs } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  let</span><span style="color:#E1E4E8"> timestamp </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> $</span><span style="color:#B392F0">state</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">button</span></span>
+<span class="line"><span style="color:#B392F0">  type</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;button&quot;</span></span>
+<span class="line"><span style="color:#B392F0">  onclick</span><span style="color:#E1E4E8">={() </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> (timestamp </span><span style="color:#F97583">=</span><span style="color:#B392F0"> dayjs</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;HH:mm:ss.SSSSSS&quot;</span><span style="color:#E1E4E8">))}</span></span>
+<span class="line"><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#E1E4E8">  Update {timestamp}</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">button</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h3 id="custom-locale">Custom locale</h3>
+<p>The default <code>dayjs</code> locale is English. No other locale is loaded by default for performance reasons.</p>
+<p>To use a <a href="https://day.js.org/docs/en/i18n/changing-locale">custome locale</a>, import the relevant language from <code>dayjs</code>. See a list of <a href="https://github.com/iamkun/dayjs/tree/dev/src/locale">supported locales</a>.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="SKFuq" component-url="/svelte-time/_astro/CustomLocale.D5Nk4Z_5.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;CustomLocale&quot;,&quot;value&quot;:true}" await-children><!--[--><time datetime="Thu, 23 Jan 2025 20:45:35 GMT">Donnerstag, Januar 23, 2025</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#9ECBFF"> &quot;dayjs/locale/de&quot;</span><span style="color:#E1E4E8">; </span><span style="color:#6A737D">// German locale</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> Time, { dayjs } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span><span style="color:#B392F0"> timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#B392F0">dayjs</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">locale</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;de&quot;</span><span style="color:#E1E4E8">)} </span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;dddd, MMMM D, YYYY&quot;</span><span style="color:#E1E4E8"> /&gt;</span></span></code></pre>
+<h3 id="custom-locale-global">Custom locale (global)</h3>
+<p>Use the <a href="https://day.js.org/docs/en/i18n/changing-locale"><code>dayjs.locale</code></a> method to set a custom locale as the default.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#9ECBFF"> &quot;dayjs/locale/de&quot;</span><span style="color:#E1E4E8">; </span><span style="color:#6A737D">// German locale</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> { dayjs } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">  // Set the default locale to German.</span></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.</span><span style="color:#B392F0">locale</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;de&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h3 id="custom-timezone">Custom timezone</h3>
+<p>To use a <a href="https://day.js.org/docs/en/timezone/timezone">custom timezone</a>, import the <code>utc</code> and <code>timezone</code> plugins from <code>dayjs</code>.</p>
+<!--[--><div class="svelte-15lisnl"><astro-island uid="lXF7Q" component-url="/svelte-time/_astro/CustomTimezone.CbojTetJ.js" component-export="default" renderer-url="/svelte-time/_astro/client.svelte.gZrWZTrg.js" props="{}" ssr client="idle" opts="{&quot;name&quot;:&quot;CustomTimezone&quot;,&quot;value&quot;:true}" await-children><!--[--><time datetime="Mon, 18 Nov 2013 11:55:20 GMT">2013-11-18T06:55:20</time><!--]--><!--astro:end--></astro-island><!----></div><!--]-->
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> utc </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/utc&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> timezone </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/timezone&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> Time, { dayjs } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(utc);</span></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(timezone);</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#79B8FF">Time</span></span>
+<span class="line"><span style="color:#B392F0">  timestamp</span><span style="color:#E1E4E8">={</span><span style="color:#B392F0">dayjs</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;2013-11-18 11:55:20&quot;</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">tz</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;America/Toronto&quot;</span><span style="color:#E1E4E8">)}</span></span>
+<span class="line"><span style="color:#B392F0">  format</span><span style="color:#E1E4E8">=</span><span style="color:#9ECBFF">&quot;YYYY-MM-DDTHH:mm:ss&quot;</span></span>
+<span class="line"><span style="color:#E1E4E8">/&gt;</span></span></code></pre>
+<h3 id="custom-timezone-global">Custom timezone (global)</h3>
+<p>Use the <a href="https://day.js.org/docs/en/timezone/default-timezone"><code>dayjs.tz.setDefault</code></a> method to set a custom timezone as the default.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="svelte"><code><span class="line"><span style="color:#E1E4E8">&lt;</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> utc </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/utc&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> timezone </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/timezone&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  import</span><span style="color:#E1E4E8"> Time, { dayjs } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;svelte-time&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(utc);</span></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(timezone);</span></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.tz.</span><span style="color:#B392F0">setDefault</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;America/New_York&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">&lt;/</span><span style="color:#85E89D">script</span><span style="color:#E1E4E8">&gt;</span></span></code></pre>
+<h3 id="user-timezone">User timezone</h3>
+<p>Use the <a href="https://day.js.org/docs/en/timezone/guessing-user-timezone"><code>dayjs.ts.guess</code></a> method to guess the user’s timezone.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="js"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> utc </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/utc&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> timezone </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> &quot;dayjs/plugin/timezone&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(utc);</span></span>
+<span class="line"><span style="color:#E1E4E8">dayjs.</span><span style="color:#B392F0">extend</span><span style="color:#E1E4E8">(timezone);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">dayjs.tz.</span><span style="color:#B392F0">guess</span><span style="color:#E1E4E8">(); </span><span style="color:#6A737D">// America/New_York</span></span></code></pre>
+<p>To retrieve the abbreviated time zone, extend the <a href="https://day.js.org/docs/en/plugin/advanced-format"><code>advancedFormat</code></a> plugin.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="diff"><code><span class="line"><span style="color:#E1E4E8">  import utc from &quot;dayjs/plugin/utc&quot;;</span></span>
+<span class="line"><span style="color:#E1E4E8">  import timezone from &quot;dayjs/plugin/timezone&quot;;</span></span>
+<span class="line"><span style="color:#85E89D"><span style="user-select:none">+</span> import advancedFormat from &quot;dayjs/plugin/advancedFormat&quot;;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  import { dayjs } from &quot;svelte-time&quot;;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.extend(utc);</span></span>
+<span class="line"><span style="color:#E1E4E8">  dayjs.extend(timezone);</span></span>
+<span class="line"><span style="color:#85E89D"><span style="user-select:none">+</span> dayjs.extend(advancedFormat);</span></span></code></pre>
+<p>Then, use the <a href="https://day.js.org/docs/en/manipulate/local"><code>dayjs().local</code></a> method to get the user’s local time zone and format it using the <code>&quot;z&quot;</code> advanced option.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="js"><code><span class="line"><span style="color:#B392F0">dayjs</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">local</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;z&quot;</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// EST</span></span>
+<span class="line"><span style="color:#B392F0">dayjs</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">local</span><span style="color:#E1E4E8">().</span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;zzz&quot;</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// Eastern Standard Time</span></span></code></pre>
+<h2 id="api">API</h2>
+<h3 id="props">Props</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th style="text-align:left">Name</th><th style="text-align:left">Type</th><th style="text-align:left">Default value</th></tr></thead><tbody><tr><td style="text-align:left">timestamp</td><td style="text-align:left"><code>string</code> | <code>number</code> | <code>Date</code> | <code>Dayjs</code></td><td style="text-align:left"><code>new Date().toISOString()</code></td></tr><tr><td style="text-align:left">format</td><td style="text-align:left"><code>string</code></td><td style="text-align:left"><code>&quot;MMM DD, YYYY&quot;</code> (See <a href="https://day.js.org/docs/en/display/format">dayjs display format</a>)</td></tr><tr><td style="text-align:left">relative</td><td style="text-align:left"><code>boolean</code></td><td style="text-align:left"><code>false</code></td></tr><tr><td style="text-align:left">live</td><td style="text-align:left"><code>boolean</code> | <code>number</code></td><td style="text-align:left"><code>false</code></td></tr><tr><td style="text-align:left">formatted</td><td style="text-align:left"><code>string</code></td><td style="text-align:left"><code>&quot;&quot;</code></td></tr></tbody></table>
+<h2 id="examples">Examples</h2>
+<ul>
+<li><a href="https://github.com/metonym/svelte-time/tree/master/examples/sveltekit">examples/sveltekit</a></li>
+<li><a href="https://github.com/metonym/svelte-time/tree/master/examples/vite">examples/vite</a></li>
+<li><a href="https://github.com/metonym/svelte-time/tree/master/examples/rollup">examples/rollup</a></li>
+<li><a href="https://github.com/metonym/svelte-time/tree/master/examples/webpack">examples/webpack</a></li>
+</ul>
+<h2 id="changelog">Changelog</h2>
+<p><a href="https://github.com/metonym/svelte-time/blob/master/CHANGELOG.md">CHANGELOG.md</a></p>
+<h2 id="license">License</h2>
+<p><a href="https://github.com/metonym/svelte-time/blob/master/LICENSE">MIT</a></p> </main>  </body></html>

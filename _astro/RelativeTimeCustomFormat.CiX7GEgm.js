@@ -1,0 +1,1 @@
+import"./dayjs.Bs4-EQfZ.js";import{T as m}from"./Time.DluJeJYh.js";import"./template.B4__MM-K.js";import"./render.zUf0MAI9.js";function a(t){m(t,{relative:!0,format:"dddd @ h:mm A · MMMM D, YYYY"})}export{a as default};
