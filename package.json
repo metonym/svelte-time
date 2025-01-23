@@ -33,7 +33,7 @@
     "type": "git",
     "url": "git+https://github.com/metonym/svelte-time.git"
   },
-  "homepage": "https://metonym.github.io/svelte-time",
+  "homepage": "https://metonym.github.io/svelte-time/",
   "bugs": "https://github.com/metonym/svelte-time/issues",
   "keywords": [
     "svelte",
