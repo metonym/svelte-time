@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [1.0.0](https://github.com/metonym/svelte-time/releases/tag/v1.0.0) - 2025-01-23
+
+**Features**
+
+- establish a stable release before upgrading to Svelte 5
+
+**Fixes**
+
+- upgrade `dayjs` to v1.11.13
+
 ## [0.9.0](https://github.com/metonym/svelte-time/releases/tag/v0.9.0) - 2024-04-19
 
 **Features**
