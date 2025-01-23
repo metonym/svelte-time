@@ -5,18 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [2.0.0](https://github.com/metonym/svelte-time/releases/tag/v2.0.0) - 2025-01-23
+
+The library is modernized to only support Svelte 5 (Runes mode). There are no component API changes.
+
+Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for Svelte 3/4 support. v1 is also compatible with Svelte 5 (non-Runes mode).
 
 **Breaking Changes**
 
-- minimum Svelte version required is 5
-
-**Features**
-
-- support Svelte 5 runes mode
-- upgrade `svelte` dependency to 5.9.1
-- upgrade `vite` dependency to 5.4.11
-- upgrade `@sveltejs/vite-plugin-svelte` to 4.0.1
+- update `Time.svelte` to use Runes
+- update `svelteTime` action to use Runes
+- update TypeScript definitions to replace deprecated `SvelteComponentTyped` with `Component`
 
 ## [1.0.0](https://github.com/metonym/svelte-time/releases/tag/v1.0.0) - 2025-01-23
 
