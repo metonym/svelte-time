@@ -12,4 +12,5 @@
     relative: true,
     live: CUSTOM_INTERVAL,
   }}
-/>
+>
+</time>

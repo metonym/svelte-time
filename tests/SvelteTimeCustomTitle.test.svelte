@@ -12,7 +12,7 @@
     title: "Custom title",
     relative: true,
   }}
-/>
+></time>
 
 <time
   data-test="action-custom-title-omit"
@@ -20,4 +20,4 @@
     title: undefined,
     relative: true,
   }}
-/>
+></time>

@@ -27,28 +27,28 @@
 <Time data-test="relative-live" relative live />
 
 <!-- Action -->
-<time data-test="action" use:svelteTime />
+<time data-test="action" use:svelteTime></time>
 <time
   data-test="action-timestamp-format"
   use:svelteTime={{
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
-/>
+></time>
 <time
   data-test="action-relative"
   use:svelteTime={{
     timestamp: "2021-02-02",
     relative: true,
   }}
-/>
+></time>
 <time
   data-test="action-relative-live"
   use:svelteTime={{
     relative: true,
     live: true,
   }}
-/>
+></time>
 
 <span data-test="dayjs">
   {time}
