@@ -135,14 +135,14 @@ The API is the same as the `Time` component.
   import { svelteTime } from "svelte-time";
 </script>
 
-<time use:svelteTime />
+<time use:svelteTime></time>
 
 <time
   use:svelteTime={{
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
-/>
+></time>
 ```
 
 #### Relative time
@@ -155,7 +155,7 @@ Set `relative` to `true` to use relative time.
     relative: true,
     timestamp: "2021-02-02",
   }}
-/>
+></time>
 
 <time
   use:svelteTime={{
@@ -163,7 +163,7 @@ Set `relative` to `true` to use relative time.
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   }}
-/>
+></time>
 ```
 
 To customize or omit the `title` attribute, use the `title` prop.
@@ -175,7 +175,7 @@ To customize or omit the `title` attribute, use the `title` prop.
     title: "Custom title",
     timestamp: "2021-02-02",
   }}
-/>
+></time>
 
 <time
   use:svelteTime={{
@@ -183,7 +183,7 @@ To customize or omit the `title` attribute, use the `title` prop.
     title: undefined,
     timestamp: "2021-02-02",
   }}
-/>
+></time>
 ```
 
 Similar to the `Time` component, the `live` prop only works with relative time.
@@ -194,7 +194,7 @@ Similar to the `Time` component, the `live` prop only works with relative time.
     relative: true,
     live: true,
   }}
-/>
+></time>
 ```
 
 Specify a custom update interval using the `live` prop.
@@ -205,7 +205,7 @@ Specify a custom update interval using the `live` prop.
     relative: true,
     live: 30 * 1_000, // Update every 30 seconds
   }}
-/>
+></time>
 ```
 
 ### `dayjs` export
@@ -238,7 +238,7 @@ To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), impo
   import Time, { dayjs } from "svelte-time";
 </script>
 
-<Time timestamp={dayjs().locale("de")} />
+<Time timestamp={dayjs().locale("de")} format="dddd, MMMM D, YYYY" />
 ```
 
 ### Custom locale (global)
