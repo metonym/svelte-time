@@ -17,7 +17,7 @@ export default {
   // ignore Rollup warnings for circular dependencies
   onwarn: (warning, warn) => {
     if (warning.code === "CIRCULAR_DEPENDENCY") {
-      if (warning.cycle.some((id) => /node_modules\/(svelte)/.test(id))) {
+      if (warning.ids.some((id) => /node_modules\/svelte/.test(id))) {
         return;
       }
     }
