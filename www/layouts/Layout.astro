@@ -1,0 +1,37 @@
+---
+import "github-markdown-css/github-markdown-dark.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Svelte component and action to format a timestamp using day.js"
+    />
+    <link rel="icon" type="image/svg+xml" href="/svelte-time/favicon.svg" />
+    <title>svelte-time</title>
+  </head>
+  <body class="markdown-body">
+    <main>
+      <slot />
+    </main>
+  </body>
+  <style is:global>
+    html {
+      color-scheme: dark;
+    }
+
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 0 1rem;
+    }
+
+    .markdown-body pre {
+      border-radius: 0;
+    }
+  </style>
+</html>
+

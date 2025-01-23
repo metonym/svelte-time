@@ -56,7 +56,7 @@
    * @type {string}
    */
   let formatted = $state(
-    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format)
+    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format),
   );
 
   const title = $derived(

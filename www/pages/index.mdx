@@ -1,6 +1,29 @@
+---
+layout: ../layouts/Layout.astro
+---
+
+import CodeDemo from "../components/CodeDemo.svelte";
+import Basic from "../components/Basic.svelte";
+import CustomTimestamp from "../components/CustomTimestamp.svelte";
+import CustomFormat from "../components/CustomFormat.svelte";
+import RelativeTime from "../components/RelativeTime.svelte";
+import RelativeTimeCustomFormat from "../components/RelativeTimeCustomFormat.svelte";
+import RelativeTimeCustomTitle from "../components/RelativeTimeCustomTitle.svelte";
+import RelativeTimeNoTitle from "../components/RelativeTimeNoTitle.svelte";
+import SvelteTimeAction from "../components/SvelteTimeAction.svelte";
+import DayjsExport from "../components/DayjsExport.svelte";
+import CustomLocale from "../components/CustomLocale.svelte";
+import CustomTimezone from "../components/CustomTimezone.svelte";
+
 # svelte-time
 
 [![NPM][npm]][npm-url]
+
+**Note:** `svelte-time@2.0.0` only supports Svelte 5 (Runes mode).
+
+For Svelte 3 and 4, use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0).
+
+---
 
 `svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
 
@@ -24,23 +47,29 @@ Try it in the [Svelte REPL](https://svelte.dev/repl/00b3877edb80425b96bb41fb1805
 
 ```bash
 # npm
-npm i -D svelte-time
+npm i svelte-time
 
 # pnpm
-pnpm i -D svelte-time dayjs
+pnpm i svelte-time
 
 # Bun
-bun i -D svelte-time
+bun i svelte-time
 
 # Yarn
-yarn add -D svelte-time
+yarn add svelte-time
 ```
+
+Note that [pnpm](https://github.com/pnpm/pnpm) users must also install `dayjs`.
 
 ## Usage
 
 ### `Time` component
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
+
+<CodeDemo>
+  <Basic client:idle />
+</CodeDemo>
 
 ```svelte
 <script>
@@ -52,6 +81,10 @@ The displayed time defaults to `new Date().toISOString()` and is formatted as `"
 
 The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`.
 
+<CodeDemo>
+  <CustomTimestamp client:idle />
+</CodeDemo>
+
 ```svelte
 <Time timestamp="2020-02-01" />
 
@@ -61,6 +94,10 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 ```
 
 Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for acceptable formats.
+
+<CodeDemo>
+  <CustomFormat client:idle />
+</CodeDemo>
 
 ```svelte
 <Time timestamp="2020-02-01" format="dddd @ h:mm A · MMMM D, YYYY" />
@@ -74,6 +111,10 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 
 Set the `relative` prop value to `true` for the relative time displayed in a human-readable format.
 
+<CodeDemo>
+  <RelativeTime client:idle />
+</CodeDemo>
+
 ```svelte
 <Time relative />
 
@@ -86,17 +127,29 @@ When using relative time, the `title` attribute will display a formatted timesta
 
 Use the `format` prop to customize the [format](https://day.js.org/docs/en/display/format).
 
+<CodeDemo>
+  <RelativeTimeCustomFormat client:idle />
+</CodeDemo>
+
 ```svelte
 <Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
 ```
 
 When using `relative`, the `time` element will set the formatted timestamp as the `title` attribute. Specify a custom `title` to override this.
 
+<CodeDemo>
+  <RelativeTimeCustomTitle client:idle />
+</CodeDemo>
+
 ```svelte
 <Time relative title="Custom title" />
 ```
 
 Set the value to `undefined` to omit the `title` altogether.
+
+<CodeDemo>
+  <RelativeTimeNoTitle client:idle />
+</CodeDemo>
 
 ```svelte
 <Time relative title={undefined} />
@@ -126,12 +179,16 @@ An alternative to the `Time` component is to use the `svelteTime` action to form
 
 The API is the same as the `Time` component.
 
+<CodeDemo>
+  <SvelteTimeAction client:idle />
+</CodeDemo>
+
 ```svelte
 <script>
   import { svelteTime } from "svelte-time";
 </script>
 
-<time use:svelteTime></time>
+<time use:svelteTime />
 
 <time
   use:svelteTime={{
@@ -210,6 +267,10 @@ The `dayjs` library is exported from this package for your convenience.
 
 **Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
+<CodeDemo>
+  <DayjsExport client:idle />
+</CodeDemo>
+
 ```svelte
 <script>
   import { dayjs } from "svelte-time";
@@ -230,6 +291,10 @@ The `dayjs` library is exported from this package for your convenience.
 The default `dayjs` locale is English. No other locale is loaded by default for performance reasons.
 
 To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs`. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+
+<CodeDemo>
+  <CustomLocale client:idle />
+</CodeDemo>
 
 ```svelte
 <script>
@@ -257,6 +322,10 @@ Use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method
 ### Custom timezone
 
 To use a [custom timezone](https://day.js.org/docs/en/timezone/timezone), import the `utc` and `timezone` plugins from `dayjs`.
+
+<CodeDemo>
+  <CustomTimezone client:idle />
+</CodeDemo>
 
 ```svelte
 <script>
@@ -341,18 +410,18 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Examples
 
-- [examples/sveltekit](examples/sveltekit)
-- [examples/vite](examples/vite)
-- [examples/rollup](examples/rollup)
-- [examples/webpack](examples/webpack)
+- [examples/sveltekit](https://github.com/metonym/svelte-time/tree/master/examples/sveltekit)
+- [examples/vite](https://github.com/metonym/svelte-time/tree/master/examples/vite)
+- [examples/rollup](https://github.com/metonym/svelte-time/tree/master/examples/rollup)
+- [examples/webpack](https://github.com/metonym/svelte-time/tree/master/examples/webpack)
 
 ## Changelog
 
-[CHANGELOG.md](CHANGELOG.md)
+[CHANGELOG.md](https://github.com/metonym/svelte-time/blob/master/CHANGELOG.md)
 
 ## License
 
-[MIT](LICENSE)
+[MIT](https://github.com/metonym/svelte-time/blob/master/LICENSE)
 
 [npm]: https://img.shields.io/npm/v/svelte-time.svg?style=for-the-badge&color=%23ff3e00
 [npm-url]: https://npmjs.com/package/svelte-time

@@ -7,7 +7,9 @@
   "type": "module",
   "svelte": "./src/index.js",
   "scripts": {
-    "dev": "bun --bun rollup -cw",
+    "dev": "bun --bun astro dev",
+    "build": "bun --bun astro build",
+    "preview": "bun --bun astro preview",
     "test": "vitest",
     "package": "bun --run dlz",
     "format": "bun --bun prettier --write . --cache",
@@ -17,15 +19,17 @@
     "dayjs": "^1.11.13"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^21.1.0",
+    "@astrojs/mdx": "^4.0.7",
+    "@astrojs/svelte": "^7.0.4",
     "@sveltejs/vite-plugin-svelte": "^4.0.1",
     "@testing-library/svelte": "^5.2.6",
+    "astro": "^5.1.9",
     "dlz": "^0.1.3",
+    "github-markdown-css": "^5.8.1",
     "jsdom": "^25.0.1",
     "prettier": "^3.4.1",
     "prettier-plugin-svelte": "^3.3.2",
     "svelte": "^5.9.1",
-    "svelte-readme": "^3.6.3",
     "typescript": "^5.7.2",
     "vite": "^5.4.11",
     "vitest": "^2.1.6"
@@ -34,7 +38,7 @@
     "type": "git",
     "url": "git+https://github.com/metonym/svelte-time.git"
   },
-  "homepage": "https://metonym.github.io/svelte-time",
+  "homepage": "https://metonym.github.io/svelte-time/",
   "bugs": "https://github.com/metonym/svelte-time/issues",
   "keywords": [
     "svelte",

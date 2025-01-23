@@ -15,5 +15,5 @@
       "svelte-time/*": ["./src/*"]
     }
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "www"]
 }
