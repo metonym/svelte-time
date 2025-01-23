@@ -1,5 +1,5 @@
 import type { ConfigType, OptionType } from "dayjs";
-import type { SvelteComponentTyped } from "svelte";
+import type { Component } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 
 type RestProps = SvelteHTMLElements["time"];
@@ -43,8 +43,6 @@ export interface TimeProps extends RestProps {
   [key: `data-${string}`]: any;
 }
 
-export default class Time extends SvelteComponentTyped<
-  TimeProps,
-  Record<string, any>,
-  {}
-> {}
+declare const Time: Component<TimeProps>;
+
+export default Time;
