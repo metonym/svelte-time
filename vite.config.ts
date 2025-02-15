@@ -1,4 +1,3 @@
-/// <reference types="vitest" />
 import { svelte, vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import path from "node:path";
 import { defineConfig } from "vite";
