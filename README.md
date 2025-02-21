@@ -2,9 +2,9 @@
 
 [![NPM][npm]][npm-url]
 
-**Note:** `svelte-time@2.0.0` only supports Svelte 5 (Runes mode).
+**Note:** `svelte-time@2.0.0` only supports Svelte 5 in Runes mode.
 
-For Svelte 3 and 4, use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0).
+Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for Svelte 3, 4, and 5 (non-Runes mode).
 
 ---
 
