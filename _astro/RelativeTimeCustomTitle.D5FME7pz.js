@@ -1,0 +1,1 @@
+import"./dayjs.Bs4-EQfZ.js";import{T as e}from"./Time.C0VtcnyL.js";import"./template.Cw33ZtgV.js";import"./render.BXjZpWLv.js";function l(t){e(t,{relative:!0,title:"Custom title"})}export{l as default};
