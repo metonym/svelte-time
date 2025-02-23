@@ -1,6 +1,4 @@
 <script>
-  // @ts-check
-
   const {
     /**
      * Original timestamp

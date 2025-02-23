@@ -1,4 +1,3 @@
-// @ts-check
 import { dayjs } from "./dayjs";
 
 /**
