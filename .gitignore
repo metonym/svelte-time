@@ -3,6 +3,7 @@ package
 dist
 node_modules
 .svelte-kit
+.svelte-kit/build
 public/build
 webpack/public
 .astro

@@ -7,6 +7,8 @@
   "type": "module",
   "svelte": "./src/index.js",
   "scripts": {
+    "dev:vite": "vite",
+    "build:vite": "vite build",
     "dev": "bun --bun astro dev",
     "build": "bun --bun astro build",
     "preview": "bun --bun astro preview",
@@ -29,6 +31,7 @@
     "jsdom": "^26.0.0",
     "prettier": "^3.5.1",
     "prettier-plugin-svelte": "^3.3.3",
+    "shiki": "^3.0.0",
     "svelte": "^5.20.2",
     "typescript": "^5.7.3",
     "vite": "^6.1.1",
