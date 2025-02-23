@@ -9,6 +9,7 @@
   "scripts": {
     "dev:vite": "vite",
     "build:vite": "vite build",
+    "preview:vite": "vite preview",
     "dev": "bun --bun astro dev",
     "build": "bun --bun astro build",
     "preview": "bun --bun astro preview",

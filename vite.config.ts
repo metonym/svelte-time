@@ -1,4 +1,4 @@
-import { svelte, vitePreprocess } from "@sveltejs/vite-plugin-svelte";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import path from "node:path";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
@@ -13,10 +13,10 @@ export default defineConfig({
     svelte({
       compilerOptions: {
         runes: true,
+        // Disable HMR for the README.md file since the Svelte plugin attempts to cache it.
+        hmr: false,
       },
       extensions: [".svelte", ".md"],
-      hot: false,
-      preprocess: [vitePreprocess()],
     }),
   ],
   resolve: {
