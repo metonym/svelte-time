@@ -1,17 +1,22 @@
 import { Marked } from "marked";
 import { baseUrl } from "marked-base-url";
 import { markedHighlight } from "marked-highlight";
-import fs from "node:fs";
+import fsp from "node:fs/promises";
 import path from "node:path";
 import { codeToHtml } from "shiki";
 import type { Plugin } from "vite";
 
 type PluginReadmeOptions = {
-  componentsDir: string;
+  title: string;
+  description: string;
+  watchDir: string;
   baseUrl: string;
 };
 
 export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
+  const watchDir = path.join(__dirname, options.watchDir);
+  let base = "/";
+
   const marked = new Marked(
     markedHighlight({
       async: true,
@@ -38,7 +43,6 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
               return html.text;
             }
 
-            // Return the component wrapped in a div with the class "code-demo"
             return `<div class="code-demo"><${componentName} /></div>`;
           }
           return html.text;
@@ -59,31 +63,84 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
 
     // Run before the Svelte plugin.
     enforce: "pre",
+    configureServer(server) {
+      server.watcher.add(watchDir);
+    },
+    handleHotUpdate({ file, server }) {
+      // If a README.md file changed, force reload the page
+      // This ensures clean state and no duplicate scripts.
+      if (file.endsWith("README.md")) {
+        server.ws.send({ type: "full-reload" });
+        return [];
+      }
+
+      // If a Svelte component in the watched directory changed,
+      // let the Svelte plugin handle the HMR.
+      if (file.startsWith(watchDir) && file.endsWith(".svelte")) {
+        return;
+      }
+    },
+    configResolved(config) {
+      // Get the base URL from Vite config.
+      base = config.base;
+    },
+    transformIndexHtml(html) {
+      return `<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="${options.description}"
+    />
+    <link rel="icon" type="image/svg+xml" href="${base}favicon.svg" />
+    <title>${options.title}</title>
+    <style>
+      html {
+        color-scheme: dark;
+      }
+
+      main {
+        max-width: 960px;
+        margin: auto;
+        padding: 0 1rem;
+      }
+
+      .markdown-body pre.shiki {
+        border-radius: 0;
+      }
+
+      .code-demo {
+        padding: 1rem;
+        border: 1px solid #24292e;
+      }
+    </style>
+  </head>
+
+  <body class="markdown-body">
+    <main id="readme"></main>
+    ${html}
+  </body>
+</html>
+`;
+    },
     async transform(code, id) {
       if (id.endsWith("README.md")) {
+        let imports = "";
+
+        const watchedFiles = await fsp.readdir(
+          path.join(__dirname, options.watchDir),
+        );
+
+        for (const file of watchedFiles) {
+          if (file.endsWith(".svelte")) {
+            const moduleName = file.replace(".svelte", "");
+            imports += `import ${moduleName} from "${options.watchDir}/${file}";\n`;
+          }
+        }
+
+        const importsBlock = `<script>${imports}</script>`;
         const html = await marked.parse(code);
-
-        // Read svelte files from the components directory
-        const components = fs.readdirSync(
-          path.join(__dirname, options.componentsDir),
-        );
-        const svelteFiles = components.filter((file) =>
-          file.endsWith(".svelte"),
-        );
-        const svelteFileNames = svelteFiles.map((file) =>
-          file.replace(".svelte", ""),
-        );
-
-        // Add these files to the Vite watch files
-        svelteFiles.forEach((file) => {
-          this.addWatchFile(path.join(__dirname, options.componentsDir, file));
-        });
-
-        const importsBlock = `
-        <script>
-           ${svelteFileNames.map((file) => `import ${file} from "./${options.componentsDir}/${file}.svelte";`).join("\n")}
-        </script>
-        `;
 
         return importsBlock + html;
       }
