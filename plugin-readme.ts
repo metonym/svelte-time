@@ -7,6 +7,7 @@ import { codeToHtml } from "shiki";
 import type { Plugin } from "vite";
 
 type PluginReadmeOptions = {
+  componentsDir: string;
   baseUrl: string;
 };
 
@@ -62,9 +63,9 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
       if (id.endsWith("README.md")) {
         const html = await marked.parse(code);
 
-        // Read svelte files from www/components
+        // Read svelte files from the components directory
         const components = fs.readdirSync(
-          path.join(__dirname, "www/components"),
+          path.join(__dirname, options.componentsDir),
         );
         const svelteFiles = components.filter((file) =>
           file.endsWith(".svelte"),
@@ -75,12 +76,12 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
 
         // Add these files to the Vite watch files
         svelteFiles.forEach((file) => {
-          this.addWatchFile(path.join(__dirname, "www/components", file));
+          this.addWatchFile(path.join(__dirname, options.componentsDir, file));
         });
 
         const importsBlock = `
         <script>
-           ${svelteFileNames.map((file) => `import ${file} from "./www/components/${file}.svelte";`).join("\n")}
+           ${svelteFileNames.map((file) => `import ${file} from "./${options.componentsDir}/${file}.svelte";`).join("\n")}
         </script>
         `;
 

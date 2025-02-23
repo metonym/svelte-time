@@ -6,4 +6,3 @@ node_modules
 .svelte-kit/build
 public/build
 webpack/public
-.astro

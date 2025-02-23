@@ -8,6 +8,7 @@ export default defineConfig({
   base: "/" + pkg.name,
   plugins: [
     pluginReadme({
+      componentsDir: "tests/examples",
       baseUrl: "https://github.com/metonym/svelte-time/tree/master/",
     }),
     svelte({

@@ -19,5 +19,5 @@
       "svelte-time/*": ["./src/*"]
     }
   },
-  "include": ["src", "tests", "www", "plugin-readme.ts", "vite.config.ts"]
+  "include": ["src", "tests", "plugin-readme.ts", "vite.config.ts"]
 }
