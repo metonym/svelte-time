@@ -4,10 +4,12 @@ import { defineConfig } from "vite";
 import pkg from "./package.json";
 import { pluginReadme } from "./plugin-readme";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   base: "/" + pkg.name,
   plugins: [
-    pluginReadme(),
+    pluginReadme({
+      baseUrl: "https://github.com/metonym/svelte-time/tree/master/",
+    }),
     svelte({
       compilerOptions: {
         runes: true,
@@ -27,4 +29,4 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: "jsdom",
   },
-}));
+});

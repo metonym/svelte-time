@@ -3,11 +3,15 @@
     "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "strict": true,
     "types": ["svelte", "vitest/globals"],
     "paths": {
@@ -15,5 +19,5 @@
       "svelte-time/*": ["./src/*"]
     }
   },
-  "include": ["src", "tests", "www"]
+  "include": ["src", "tests", "www", "plugin-readme.ts", "vite.config.ts"]
 }
