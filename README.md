@@ -48,6 +48,8 @@ yarn add svelte-time
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
 
+<!-- render:Basic -->
+
 ```svelte
 <script>
   import Time from "svelte-time";
@@ -58,6 +60,8 @@ The displayed time defaults to `new Date().toISOString()` and is formatted as `"
 
 The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`.
 
+<!-- render:CustomTimestamp -->
+
 ```svelte
 <Time timestamp="2020-02-01" />
 
@@ -67,6 +71,8 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 ```
 
 Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for acceptable formats.
+
+<!-- render:CustomFormat -->
 
 ```svelte
 <Time timestamp="2020-02-01" format="dddd @ h:mm A · MMMM D, YYYY" />
@@ -80,6 +86,8 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 
 Set the `relative` prop value to `true` for the relative time displayed in a human-readable format.
 
+<!-- render:RelativeTime -->
+
 ```svelte
 <Time relative />
 
@@ -92,17 +100,23 @@ When using relative time, the `title` attribute will display a formatted timesta
 
 Use the `format` prop to customize the [format](https://day.js.org/docs/en/display/format).
 
+<!-- render:RelativeTimeCustomFormat -->
+
 ```svelte
 <Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
 ```
 
 When using `relative`, the `time` element will set the formatted timestamp as the `title` attribute. Specify a custom `title` to override this.
 
+<!-- render:RelativeTimeCustomTitle -->
+
 ```svelte
 <Time relative title="Custom title" />
 ```
 
 Set the value to `undefined` to omit the `title` altogether.
+
+<!-- render:RelativeTimeNoTitle -->
 
 ```svelte
 <Time relative title={undefined} />
@@ -131,6 +145,8 @@ To customize the interval, pass a value to `live` in milliseconds (ms).
 An alternative to the `Time` component is to use the `svelteTime` action to format a timestamp in a raw HTML element.
 
 The API is the same as the `Time` component.
+
+<!-- render:SvelteTimeAction -->
 
 ```svelte
 <script>
@@ -216,6 +232,8 @@ The `dayjs` library is exported from this package for your convenience.
 
 **Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
+<!-- render:DayjsExport -->
+
 ```svelte
 <script>
   import { dayjs } from "svelte-time";
@@ -236,6 +254,8 @@ The `dayjs` library is exported from this package for your convenience.
 The default `dayjs` locale is English. No other locale is loaded by default for performance reasons.
 
 To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs`. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+
+<!-- render:CustomLocale -->
 
 ```svelte
 <script>
@@ -263,6 +283,8 @@ Use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method
 ### Custom timezone
 
 To use a [custom timezone](https://day.js.org/docs/en/timezone/timezone), import the `utc` and `timezone` plugins from `dayjs`.
+
+<!-- render:CustomTimezone -->
 
 ```svelte
 <script>
