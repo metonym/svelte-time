@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1](https://github.com/metonym/svelte-time/releases/tag/v2.0.1) - 2025-02-24
+
+**Fixes**
+
+- fix `svelteTime` import in TypeScript definitions
+
 ## [2.0.0](https://github.com/metonym/svelte-time/releases/tag/v2.0.0) - 2025-01-23
 
 The library is modernized to only support Svelte 5 (Runes mode). There are no component API changes.
