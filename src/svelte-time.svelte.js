@@ -19,9 +19,19 @@ export const svelteTime = (node, options = {}) => {
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const live = options.live ?? false;
+    let locale = options.locale ?? "en";
 
-    const formatted_from = dayjs(timestamp).from();
-    const formatted = dayjs(timestamp).format(format);
+    // If locale is default "en" and timestamp is a dayjs instance with a locale set,
+    // preserve the timestamp's locale for backward compatibility
+    if (locale === "en" && timestamp && typeof timestamp === "object" && "$L" in timestamp) {
+      const timestampLocale = timestamp.$L;
+      if (timestampLocale && timestampLocale !== "en") {
+        locale = timestampLocale;
+      }
+    }
+
+    let formatted_from = dayjs(timestamp).locale(locale).from(dayjs());
+    let formatted = dayjs(timestamp).locale(locale).format(format);
 
     if (relative) {
       if ("title" in options) {
@@ -35,7 +45,7 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.innerText = dayjs(timestamp).from();
+            node.innerText = dayjs(timestamp).locale(locale).from(dayjs());
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );

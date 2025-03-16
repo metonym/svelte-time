@@ -27,6 +27,12 @@
      * @type {boolean | number}
      */
     live = false,
+
+    /**
+     * The locale to use for formatting
+     * @type {import("./locales").Locales}
+     */
+    locale = "en",
     ...rest
   } = $props();
 
@@ -51,17 +57,38 @@
   });
 
   /**
+   * Get the effective locale to use.
+   * If locale prop is default "en" and timestamp is a dayjs instance with a locale set,
+   * preserve the timestamp's locale for backward compatibility.
+   */
+  const effectiveLocale = $derived.by(() => {
+    if (locale !== "en") {
+      return locale;
+    }
+    // Check if timestamp is a dayjs instance with a locale set
+    if (timestamp && typeof timestamp === "object" && "$L" in timestamp) {
+      const timestampLocale = timestamp.$L;
+      if (timestampLocale && timestampLocale !== "en") {
+        return timestampLocale;
+      }
+    }
+    return locale;
+  });
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()`
    * @type {string}
    */
   let formatted = $derived.by(() => {
     tick;
-    return relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+    return relative
+      ? dayjs(timestamp).locale(effectiveLocale).from(dayjs())
+      : dayjs(timestamp).locale(effectiveLocale).format(format);
   });
 
   const title = $derived(
-    relative ? dayjs(timestamp).format(format) : undefined,
+    relative ? dayjs(timestamp).locale(effectiveLocale).format(format) : undefined,
   );
 </script>
 
