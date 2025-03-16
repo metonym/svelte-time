@@ -28,6 +28,13 @@ export interface TimeProps extends RestProps {
   relative?: boolean;
 
   /**
+   * Set to `true` to remove the "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago").
+   * Only applies when `relative` is `true`.
+   * @default false
+   */
+  withoutSuffix?: boolean;
+
+  /**
    * Set to `true` to update the relative time at 60 second interval.
    * Pass in a number (ms) to specify the interval length
    * @default false

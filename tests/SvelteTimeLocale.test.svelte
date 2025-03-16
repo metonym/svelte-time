@@ -116,6 +116,59 @@
 
 <time data-test="action-locale-de" use:svelteTime={{ locale: "de" }}></time>
 
+<!-- Relative Time with withoutSuffix in Different Locales -->
+<Time
+  data-test="german-relative-without-suffix"
+  timestamp={fixedDate}
+  relative
+  locale="de"
+  withoutSuffix
+/>
+
+<Time
+  data-test="spanish-relative-without-suffix"
+  timestamp={fixedDate}
+  relative
+  locale="es"
+  withoutSuffix
+/>
+
+<Time
+  data-test="french-relative-without-suffix"
+  timestamp={fixedDate}
+  relative
+  locale="fr"
+  withoutSuffix
+/>
+
+<Time
+  data-test="japanese-relative-without-suffix"
+  timestamp={fixedDate}
+  relative
+  locale="ja"
+  withoutSuffix
+/>
+
+<time
+  data-test="action-locale-de-without-suffix"
+  use:svelteTime={{
+    locale: "de",
+    relative: true,
+    timestamp: fixedDate,
+    withoutSuffix: true,
+  }}
+></time>
+
+<time
+  data-test="action-locale-es-without-suffix"
+  use:svelteTime={{
+    locale: "es",
+    relative: true,
+    timestamp: fixedDate,
+    withoutSuffix: true,
+  }}
+></time>
+
 <!-- Legacy locale behavior: dayjs instance with locale set -->
 <Time
   data-test="legacy-locale-de"
