@@ -43,7 +43,7 @@
     ...rest
   } = $props();
 
-  import { dayjs } from "./dayjs";
+  import { dayjs } from "./dayjs-time";
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 

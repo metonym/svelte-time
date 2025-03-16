@@ -8,7 +8,7 @@ Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for 
 
 ---
 
-`svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
+`svelte-time` is a Svelte component and action library for formatting timestamps and durations. It provides human-readable time displays with support for relative formatting (e.g., "2 hours ago"), custom formats, locales, and duration formatting, while encoding machine-parseable values in semantic HTML elements.
 
 Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight date-time library.
 
@@ -297,11 +297,245 @@ This also works with the `svelteTime` action:
 ></time>
 ```
 
+### `Duration` component
+
+The `Duration` component displays a duration. It uses dayjs's [duration plugin](https://day.js.org/docs/en/durations/durations).
+
+<!-- render:DurationBasic -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+</script>
+
+<!-- Display 1 hour (human-readable) -->
+<Duration value={3600000} humanize={true} />
+
+<!-- Display 90 seconds (human-readable) -->
+<Duration value={90} unit="seconds" humanize={true} />
+
+<!-- Display 2 hours using dayjs Duration object (human-readable) -->
+<Duration value={dayjs.duration(2, "hours")} humanize={true} />
+```
+
+By default, durations are displayed as raw milliseconds. Use `humanize={true}` for human-readable format (e.g., "2 hours", "a minute") or provide a `format` string for custom formatting.
+
+<!-- render:DurationHumanize -->
+
+```svelte
+<script>
+  import { Duration, dayjs } from "svelte-time";
+</script>
+
+<!-- Human-readable format -->
+<Duration value={3600000} humanize={true} />
+
+<!-- Custom format (e.g., "01:00:00") -->
+<Duration value={3600000} format="HH:mm:ss" />
+
+<!-- Short format (e.g., "01:30") -->
+<Duration value={5400000} format="mm:ss" />
+```
+
+#### Humanize
+
+The `humanize` prop controls how durations are displayed:
+
+- When `humanize` is `true`, durations are displayed in a natural language format using dayjs's `humanize()` method (e.g., "an hour", "2 minutes", "a few seconds").
+- When `humanize` is `false` (default) and a `format` is provided, durations are displayed using the specified format string (e.g., "01:00:00", "60:00").
+- When `humanize` is `false` (default) and no `format` is provided, durations are displayed as the raw number of milliseconds.
+
+```svelte
+<!-- Human-readable -->
+<Duration value={3600000} humanize={true} />
+<!-- Output: "an hour" -->
+
+<!-- Custom format -->
+<Duration value={3600000} format="HH:mm:ss" />
+<!-- Output: "01:00:00" -->
+
+<!-- Raw milliseconds (when no format provided) -->
+<Duration value={3600000} />
+<!-- Output: "3600000" -->
+```
+
+#### Duration units
+
+When providing a numeric `value`, specify the unit using the `unit` prop:
+
+```svelte
+<Duration value={1} unit="milliseconds" />
+<Duration value={30} unit="seconds" />
+<Duration value={2} unit="minutes" />
+<Duration value={24} unit="hours" />
+<Duration value={7} unit="days" />
+<Duration value={2} unit="weeks" />
+<Duration value={1} unit="months" />
+<Duration value={1} unit="years" />
+```
+
+#### Custom format
+
+Use the `format` prop to display durations in a custom format. Supported format tokens:
+
+- `HH` - Hours (padded, e.g., "01", "12")
+- `H` - Hours (unpadded, e.g., "1", "12")
+- `mm` - Minutes (padded, e.g., "01", "30")
+- `m` - Minutes (unpadded, e.g., "1", "30")
+- `ss` - Seconds (padded, e.g., "01", "45")
+- `s` - Seconds (unpadded, e.g., "1", "45")
+- `SSS` - Milliseconds (padded, e.g., "001", "500")
+- `S` - Milliseconds (unpadded, e.g., "1", "500")
+
+<!-- render:DurationCustomFormat -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+</script>
+
+<!-- Hours:Minutes:Seconds format -->
+<Duration value={3661000} format="HH:mm:ss" />
+<!-- Output: "01:01:01" -->
+
+<!-- Minutes:Seconds format (total minutes) -->
+<Duration value={90000} format="mm:ss" />
+<!-- Output: "01:30" -->
+
+<!-- Hours:Minutes format -->
+<Duration value={5400000} format="HH:mm" />
+<!-- Output: "01:30" -->
+
+<!-- Unpadded hours and minutes -->
+<Duration value={3661000} format="H:m:s" />
+<!-- Output: "1:1:1" -->
+
+<!-- Minutes and seconds with milliseconds -->
+<Duration value={125000} format="mm:ss.SSS" />
+<!-- Output: "02:05.000" -->
+
+<!-- Long duration with hours, minutes, seconds -->
+<Duration value={7323000} format="HH:mm:ss" />
+<!-- Output: "02:02:03" -->
+```
+
+#### Locale
+
+Use the `locale` prop to format durations in different languages. Make sure to import the locale from `dayjs` first.
+
+<!-- render:DurationLocale -->
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German locale
+  import "dayjs/locale/es"; // Spanish locale
+  import { Duration } from "svelte-time";
+</script>
+
+<Duration value={3600000} humanize={true} locale="de" />
+<!-- Output: "eine Stunde" -->
+
+<Duration value={120000} humanize={true} locale="es" />
+<!-- Output: "2 minutos" -->
+```
+
+#### Live updates
+
+Set `live` to `true` for a live updating duration. The default refresh interval is 60 seconds. The `live` prop updates the display at the specified interval, but does not change the underlying `value` prop.
+
+```svelte
+<Duration value={3600000} humanize={true} live />
+```
+
+To customize the interval, pass a value to `live` in milliseconds (ms).
+
+**Note**: The `live` prop updates the display at the specified interval, but does not change the underlying `value` prop. For countdown timers, you need to decrease the `value` prop over time.
+
+<!-- render:DurationLive -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+
+  // Countdown timer: 5 minutes (300000 milliseconds)
+  // For a countdown, the value must decrease over time
+  let countdown = $state(5 * 60 * 1000);
+
+  $effect(() => {
+    const interval = setInterval(() => {
+      if (countdown > 0) {
+        countdown -= 1000; // Decrease by 1 second each interval
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  });
+</script>
+
+<!-- Countdown timer: value decreases, live prop updates display every second -->
+<Duration value={countdown} live={1000} format="mm:ss" />
+```
+
+### `svelteDuration` action
+
+An alternative to the `Duration` component is to use the `svelteDuration` action to format a duration in a raw HTML element.
+
+The API is the same as the `Duration` component.
+
+```svelte
+<script>
+  import { svelteDuration } from "svelte-time";
+</script>
+
+<span use:svelteDuration={{ value: 3600000, humanize: true }}></span>
+
+<span
+  use:svelteDuration={{
+    value: 90,
+    unit: "seconds",
+    format: "mm:ss",
+  }}
+></span>
+```
+
+#### Locale
+
+Use the `locale` prop to format durations in different languages.
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German locale
+  import { svelteDuration } from "svelte-time";
+</script>
+
+<span
+  use:svelteDuration={{
+    value: 3600000,
+    humanize: true,
+    locale: "de",
+  }}
+></span>
+```
+
+Similar to the `Duration` component, the `live` prop works for live updates.
+
+```svelte
+<span
+  use:svelteDuration={{
+    value: 3600000,
+    humanize: true,
+    live: true,
+  }}
+></span>
+```
+
 ### `dayjs` export
 
 The `dayjs` library is exported from this package for your convenience.
 
-**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
+**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time) and the [duration plugin](https://day.js.org/docs/en/durations/durations).
 
 <!-- render:DayjsExport -->
 
@@ -310,10 +544,15 @@ The `dayjs` library is exported from this package for your convenience.
   import { dayjs } from "svelte-time";
 
   let timestamp = $state("");
+  let duration = $state(null);
 </script>
 
 <button onclick={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}>
   Update {timestamp}
+</button>
+
+<button onclick={() => (duration = dayjs.duration(2, "hours").humanize())}>
+  Duration: {duration || "Click to see 2 hours"}
 </button>
 ```
 
@@ -525,7 +764,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## API
 
-### Props
+### `Time` component props
 
 | Name          | Type                                                  | Default value                                                                            |
 | :------------ | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
@@ -536,6 +775,17 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | live          | `boolean` &#124; `number`                             | `false`                                                                                  |
 | locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
 | formatted     | `string`                                              | `""`                                                                                     |
+
+### `Duration` component props
+
+| Name     | Type                                                                                                                                        | Default value                                                                         |
+| :------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| value    | `number` &#124; `Duration`                                                                                                                  | `0`                                                                                   |
+| unit     | `"milliseconds"` &#124; `"seconds"` &#124; `"minutes"` &#124; `"hours"` &#124; `"days"` &#124; `"weeks"` &#124; `"months"` &#124; `"years"` | `"milliseconds"`                                                                      |
+| format   | `string`                                                                                                                                    | `undefined` (uses humanize format)                                                    |
+| humanize | `boolean`                                                                                                                                   | `false`                                                                               |
+| locale   | `Locales` (TypeScript) &#124; `string`                                                                                                      | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
+| live     | `boolean` &#124; `number`                                                                                                                   | `false`                                                                               |
 
 ## Examples
 
