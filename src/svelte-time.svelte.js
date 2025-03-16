@@ -18,6 +18,7 @@ export const svelteTime = (node, options = {}) => {
     const timestamp = options.timestamp || new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
+    const withoutSuffix = options.withoutSuffix ?? false;
     const live = options.live ?? false;
     let locale = options.locale ?? "en";
 
@@ -35,22 +36,29 @@ export const svelteTime = (node, options = {}) => {
       }
     }
 
-    let formatted_from = dayjs(timestamp).locale(locale).from(dayjs());
     let formatted = dayjs(timestamp).locale(locale).format(format);
 
     if (relative) {
+      // Use dayjs's built-in withoutSuffix parameter (locale-aware)
+      formatted = dayjs(timestamp).locale(locale).from(dayjs(), withoutSuffix);
+
       if ("title" in options) {
         if (options.title !== undefined) {
           node.setAttribute("title", options.title);
         }
       } else {
-        node.setAttribute("title", formatted);
+        node.setAttribute(
+          "title",
+          dayjs(timestamp).locale(locale).format(format),
+        );
       }
 
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.innerText = dayjs(timestamp).locale(locale).from(dayjs());
+            node.innerText = dayjs(timestamp)
+              .locale(locale)
+              .from(dayjs(), withoutSuffix);
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
@@ -60,7 +68,7 @@ export const svelteTime = (node, options = {}) => {
     }
 
     node.setAttribute("datetime", timestamp);
-    node.innerText = relative ? formatted_from : formatted;
+    node.innerText = formatted;
   };
 
   updateTime(options);

@@ -22,6 +22,13 @@
     relative = false,
 
     /**
+     * Set to `true` to remove the "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago").
+     * Only applies when `relative` is `true`.
+     * @type {boolean}
+     */
+    withoutSuffix = false,
+
+    /**
      * Set to `true` to update the relative time at 60 second interval.
      * Pass in a number (ms) to specify the interval length
      * @type {boolean | number}
@@ -77,14 +84,18 @@
 
   /**
    * Formatted timestamp.
-   * Result of invoking `dayjs().format()`
+   * Result of invoking `dayjs().format()` or `dayjs().from()`
    * @type {string}
    */
   let formatted = $derived.by(() => {
     tick;
-    return relative
-      ? dayjs(timestamp).locale(effectiveLocale).from(dayjs())
-      : dayjs(timestamp).locale(effectiveLocale).format(format);
+    if (relative) {
+      // Use dayjs's built-in withoutSuffix parameter (locale-aware)
+      return dayjs(timestamp)
+        .locale(effectiveLocale)
+        .from(dayjs(), withoutSuffix);
+    }
+    return dayjs(timestamp).locale(effectiveLocale).format(format);
   });
 
   const title = $derived(

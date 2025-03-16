@@ -256,6 +256,47 @@ Specify a custom update interval using the `live` prop.
 ></time>
 ```
 
+### Remove "ago" suffix
+
+Set `withoutSuffix` to `true` to remove the "ago" suffix from relative time.
+
+<!-- render:RelativeTimeWithSuffix -->
+
+```svelte
+<script>
+  import Time, { dayjs } from "svelte-time";
+
+  const pastDate = dayjs().subtract(2, "days").toISOString();
+  const futureDate = dayjs().add(2, "days").toISOString();
+</script>
+
+<!-- Past date -->
+<Time relative timestamp={pastDate} />
+<!-- Output: "2 days ago" -->
+
+<Time relative timestamp={pastDate} withoutSuffix />
+<!-- Output: "2 days" -->
+
+<!-- Future date -->
+<Time relative timestamp={futureDate} />
+<!-- Output: "in 2 days" -->
+
+<Time relative timestamp={futureDate} withoutSuffix />
+<!-- Output: "2 days" -->
+```
+
+This also works with the `svelteTime` action:
+
+```svelte
+<time
+  use:svelteTime={{
+    relative: true,
+    timestamp: "2021-02-02",
+    withoutSuffix: true,
+  }}
+></time>
+```
+
 ### `dayjs` export
 
 The `dayjs` library is exported from this package for your convenience.
@@ -325,6 +366,28 @@ The `locale` prop also works with relative time.
 <Time relative timestamp="2024-01-01" locale="es" />
 <Time relative timestamp="2024-01-01" locale="fr" />
 <Time relative timestamp="2024-01-01" locale="ja" />
+```
+
+The `withoutSuffix` prop also works with locales:
+
+<!-- render:RelativeTimeLocaleWithoutSuffix -->
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German
+  import "dayjs/locale/es"; // Spanish
+  import "dayjs/locale/fr"; // French
+  import Time from "svelte-time";
+</script>
+
+<Time relative timestamp="2024-01-01" locale="de" withoutSuffix />
+<!-- Output: "2 Jahre" (German, without "vor") -->
+
+<Time relative timestamp="2024-01-01" locale="es" withoutSuffix />
+<!-- Output: "2 años" (Spanish, without "hace") -->
+
+<Time relative timestamp="2024-01-01" locale="fr" withoutSuffix />
+<!-- Output: "2 ans" (French, without "il y a") -->
 ```
 
 ### Reactive locale
@@ -464,14 +527,15 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ### Props
 
-| Name      | Type                                                  | Default value                                                                            |
-| :-------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
-| format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
-| relative  | `boolean`                                             | `false`                                                                                  |
-| live      | `boolean` &#124; `number`                             | `false`                                                                                  |
-| locale    | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
-| formatted | `string`                                              | `""`                                                                                     |
+| Name          | Type                                                  | Default value                                                                            |
+| :------------ | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| timestamp     | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
+| format        | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
+| relative      | `boolean`                                             | `false`                                                                                  |
+| withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
+| live          | `boolean` &#124; `number`                             | `false`                                                                                  |
+| locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
+| formatted     | `string`                                              | `""`                                                                                     |
 
 ## Examples
 
