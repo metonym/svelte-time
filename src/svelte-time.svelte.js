@@ -17,9 +17,10 @@ export const svelteTime = (node, options = {}) => {
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const live = options.live ?? false;
+    const locale = options.locale ?? "en";
 
-    let formatted_from = dayjs(timestamp).from();
-    let formatted = dayjs(timestamp).format(format);
+    let formatted_from = dayjs(timestamp).locale(locale).from();
+    let formatted = dayjs(timestamp).locale(locale).format(format);
 
     if (relative) {
       if ("title" in options) {
@@ -33,7 +34,7 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.innerText = dayjs(timestamp).from();
+            node.innerText = dayjs(timestamp).locale(locale).from();
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
