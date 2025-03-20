@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import { flushSync, mount, tick, unmount } from "svelte";
 import { dayjs as dayjsExported } from "svelte-time";
 import SvelteTime from "./SvelteTime.test.svelte";
-import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
+import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
 describe("svelte-time", () => {
   let instance: null | Record<string, any> = null;
@@ -12,12 +12,12 @@ describe("svelte-time", () => {
   const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(FIXED_DATE);
+    jest.useFakeTimers();
+    jest.setSystemTime(FIXED_DATE);
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
     if (instance) {
       unmount(instance);
     }
@@ -84,7 +84,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -94,7 +94,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers();
+    jest.runOnlyPendingTimers();
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -144,7 +144,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers(); // 30 seconds
+    jest.runOnlyPendingTimers(); // 30 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -153,7 +153,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers(); // 60 seconds
+    jest.runOnlyPendingTimers(); // 60 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -162,7 +162,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers(); // 90 seconds
+    jest.runOnlyPendingTimers(); // 90 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
@@ -171,7 +171,7 @@ describe("svelte-time", () => {
     expect(relativeLive.getAttribute("datetime")).toEqual(timestamp);
     expect(actionRelativeLive.getAttribute("datetime")).toEqual(timestamp);
 
-    vi.runOnlyPendingTimers(); // 120 seconds
+    jest.runOnlyPendingTimers(); // 120 seconds
     await tick();
     expect(relativeLive.title).toEqual(DEFAULT_TIME);
     expect(actionRelativeLive.title).toEqual(DEFAULT_TIME);
