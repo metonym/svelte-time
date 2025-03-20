@@ -7,12 +7,12 @@ describe("svelte-time-advanced", () => {
   const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
 
   beforeEach(() => {
-    vi.useFakeTimers();
-    vi.setSystemTime(FIXED_DATE);
+    jest.useFakeTimers();
+    jest.setSystemTime(FIXED_DATE);
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
     if (instance) {
       unmount(instance);
     }
