@@ -27,6 +27,12 @@
      * @type {boolean | number}
      */
     live = false,
+
+    /**
+     * The locale to use for formatting
+     * @type {import("./locales").Locales}
+     */
+    locale = "en",
     ...rest
   } = $props();
 
@@ -40,7 +46,7 @@
     if (relative && live !== false) {
       interval = setInterval(
         () => {
-          formatted = dayjs(timestamp).from();
+          formatted = dayjs(timestamp).locale(locale).from(dayjs());
         },
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
@@ -54,11 +60,13 @@
    * @type {string}
    */
   let formatted = $state(
-    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format),
+    relative
+      ? dayjs(timestamp).locale(locale).from(dayjs())
+      : dayjs(timestamp).locale(locale).format(format),
   );
 
   const title = $derived(
-    relative ? dayjs(timestamp).format(format) : undefined,
+    relative ? dayjs(timestamp).locale(locale).format(format) : undefined,
   );
 </script>
 
