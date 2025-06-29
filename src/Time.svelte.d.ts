@@ -1,6 +1,7 @@
 import type { ConfigType, OptionType } from "dayjs";
 import type { Component } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
+import type { Locales } from "./locales";
 
 type RestProps = SvelteHTMLElements["time"];
 
@@ -32,6 +33,12 @@ export interface TimeProps extends RestProps {
    * @default false
    */
   live?: boolean | number;
+
+  /**
+   * The locale to use for formatting
+   * @default "en"
+   */
+  locale?: Locales;
 
   /**
    * Formatted timestamp.
