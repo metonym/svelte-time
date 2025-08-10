@@ -6,7 +6,7 @@ import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
 
 describe("svelte-time", () => {
-  let instance: null | Record<string, any> = null;
+  let instance: null | ReturnType<typeof mount> = null;
 
   // Use a fixed date for testing to avoid drift.
   const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
