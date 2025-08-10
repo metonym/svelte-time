@@ -3,7 +3,7 @@ import { flushSync, mount, unmount } from "svelte";
 import SvelteTimeAction from "./SvelteTimeAction.svelte";
 
 describe("svelte-time-action", () => {
-  let instance: null | Record<string, any> = null;
+  let instance: null | ReturnType<typeof mount> = null;
   const FIXED_DATE = new Date("2024-01-01T00:00:00.000Z");
 
   beforeEach(() => {
