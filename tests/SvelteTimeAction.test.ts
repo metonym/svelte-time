@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { flushSync, mount, unmount } from "svelte";
-import SvelteTimeAction from "./examples/SvelteTimeAction.svelte";
+import SvelteTimeAction from "./SvelteTimeAction.svelte";
 
 describe("svelte-time-action", () => {
   let instance: null | Record<string, any> = null;
