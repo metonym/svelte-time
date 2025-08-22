@@ -13,7 +13,8 @@
     "test": "vitest",
     "package": "bun --run dlz",
     "format": "bun --bun prettier --write . --cache",
-    "upgrade-examples": "bun scripts/upgrade-examples.ts"
+    "upgrade-examples": "bun scripts/upgrade-examples.ts",
+    "generate-locales": "bun scripts/generate-locales.ts"
   },
   "dependencies": {
     "dayjs": "^1.11.13"
