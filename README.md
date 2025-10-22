@@ -241,10 +241,7 @@ The `dayjs` library is exported from this package for your convenience.
   let timestamp = $state("");
 </script>
 
-<button
-  type="button"
-  onclick={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}
->
+<button onclick={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}>
   Update {timestamp}
 </button>
 ```
