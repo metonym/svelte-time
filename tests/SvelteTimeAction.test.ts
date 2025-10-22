@@ -99,10 +99,20 @@ describe("svelte-time-action", () => {
     button.click();
     flushSync();
 
-    const updatedFormattedDate = dayjs("2022-02-02").format(
+    const updatedFormattedDate = dayjs("2021-02-03").format(
       "dddd @ h:mm A · MMMM D, YYYY",
     );
     expect(timeElement.innerText).toEqual(updatedFormattedDate);
-    expect(timeElement.getAttribute("datetime")).toEqual("2022-02-02");
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-03");
+
+    // Click again to verify it increments by another day
+    button.click();
+    flushSync();
+
+    const secondUpdatedFormattedDate = dayjs("2021-02-04").format(
+      "dddd @ h:mm A · MMMM D, YYYY",
+    );
+    expect(timeElement.innerText).toEqual(secondUpdatedFormattedDate);
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-04");
   });
 });
