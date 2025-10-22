@@ -11,15 +11,17 @@ export const svelteTime = (node, options = {}) => {
   /** @type {undefined | NodeJS.Timeout} */
   let interval = undefined;
 
-  /** @type {SvelteTimeAction} */
-  const setTime = (node, options = {}) => {
+  const updateTime = (options = {}) => {
+    clearInterval(interval);
+    interval = undefined;
+
     const timestamp = options.timestamp || new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const live = options.live ?? false;
 
-    let formatted_from = dayjs(timestamp).from();
-    let formatted = dayjs(timestamp).format(format);
+    const formatted_from = dayjs(timestamp).from();
+    const formatted = dayjs(timestamp).format(format);
 
     if (relative) {
       if ("title" in options) {
@@ -38,17 +40,20 @@ export const svelteTime = (node, options = {}) => {
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
       }
+    } else {
+      node.removeAttribute("title");
     }
 
     node.setAttribute("datetime", timestamp);
     node.innerText = relative ? formatted_from : formatted;
   };
 
-  $effect(() => {
-    setTime(node, options);
+  updateTime(options);
 
-    return () => {
+  return {
+    update: updateTime,
+    destroy() {
       clearInterval(interval);
-    };
-  });
+    },
+  };
 };

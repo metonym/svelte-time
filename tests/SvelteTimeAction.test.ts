@@ -81,4 +81,28 @@ describe("svelte-time-action", () => {
     // The action should preserve the original element structure
     expect(timeElement.children.length).toBe(0);
   });
+
+  // Regression test for https://github.com/metonym/svelte-time/issues/66
+  test("updates when timestamp changes (reactivity)", async () => {
+    const target = document.body;
+    instance = mount(SvelteTimeAction, { target });
+    flushSync();
+
+    const timeElement = getElement("time");
+    const initialFormattedDate = dayjs("2021-02-02").format(
+      "dddd @ h:mm A · MMMM D, YYYY",
+    );
+    expect(timeElement.innerText).toEqual(initialFormattedDate);
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-02");
+
+    const button = getElement("button");
+    button.click();
+    flushSync();
+
+    const updatedFormattedDate = dayjs("2022-02-02").format(
+      "dddd @ h:mm A · MMMM D, YYYY",
+    );
+    expect(timeElement.innerText).toEqual(updatedFormattedDate);
+    expect(timeElement.getAttribute("datetime")).toEqual("2022-02-02");
+  });
 });
