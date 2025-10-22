@@ -34,13 +34,15 @@
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
+  let tick = $state(0);
+
   $effect(() => {
     /** @type {undefined | NodeJS.Timeout} */
     let interval;
     if (relative && live !== false) {
       interval = setInterval(
         () => {
-          formatted = dayjs(timestamp).from();
+          tick++;
         },
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
@@ -53,9 +55,10 @@
    * Result of invoking `dayjs().format()`
    * @type {string}
    */
-  let formatted = $state(
-    relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format),
-  );
+  let formatted = $derived.by(() => {
+    tick;
+    return relative ? dayjs(timestamp).from() : dayjs(timestamp).format(format);
+  });
 
   const title = $derived(
     relative ? dayjs(timestamp).format(format) : undefined,
