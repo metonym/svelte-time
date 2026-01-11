@@ -32,4 +32,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
           cd package
-          npm publish --provenance --access public
+          npm publish --provenance --access public --tag stable-1
