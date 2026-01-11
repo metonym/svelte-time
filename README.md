@@ -46,7 +46,7 @@ yarn add svelte-time
 
 The displayed time defaults to `new Date().toISOString()` and is formatted as `"MMM DD, YYYY"`.
 
-```svelte
+```svelte no-eval
 <script>
   import Time from "svelte-time";
 </script>
@@ -56,7 +56,7 @@ The displayed time defaults to `new Date().toISOString()` and is formatted as `"
 
 The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`.
 
-```svelte
+```svelte no-eval
 <Time timestamp="2020-02-01" />
 
 <Time timestamp={new Date()} />
@@ -66,7 +66,7 @@ The `timestamp` prop can be any of the following `dayjs` values: `string | numbe
 
 Use the `format` prop to format the timestamp. Refer to the [dayjs format documentation](https://day.js.org/docs/en/display/format) for acceptable formats.
 
-```svelte
+```svelte no-eval
 <Time timestamp="2020-02-01" format="dddd @ h:mm A · MMMM D, YYYY" />
 
 <Time timestamp={new Date()} format="YYYY/MM/DD" />
@@ -78,7 +78,7 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 
 Set the `relative` prop value to `true` for the relative time displayed in a human-readable format.
 
-```svelte
+```svelte no-eval
 <Time relative />
 
 <Time relative timestamp="2021-02-02" />
@@ -90,19 +90,19 @@ When using relative time, the `title` attribute will display a formatted timesta
 
 Use the `format` prop to customize the [format](https://day.js.org/docs/en/display/format).
 
-```svelte
+```svelte no-eval
 <Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
 ```
 
 When using `relative`, the `time` element will set the formatted timestamp as the `title` attribute. Specify a custom `title` to override this.
 
-```svelte
+```svelte no-eval
 <Time relative title="Custom title" />
 ```
 
 Set the value to `undefined` to omit the `title` altogether.
 
-```svelte
+```svelte no-eval
 <Time relative title={undefined} />
 ```
 
@@ -110,13 +110,13 @@ Set the value to `undefined` to omit the `title` altogether.
 
 Set `live` to `true` for a live updating relative timestamp. The default refresh interval is 60 seconds.
 
-```svelte
+```svelte no-eval
 <Time live relative />
 ```
 
 To customize the interval, pass a value to `live` in milliseconds (ms).
 
-```svelte
+```svelte no-eval
 <!-- Update every 30 seconds -->
 <Time live={30 * 1_000} relative />
 
@@ -130,7 +130,7 @@ An alternative to the `Time` component is to use the `svelteTime` action to form
 
 The API is the same as the `Time` component.
 
-```svelte
+```svelte no-eval
 <script>
   import { svelteTime } from "svelte-time";
 </script>
@@ -149,7 +149,7 @@ The API is the same as the `Time` component.
 
 Set `relative` to `true` to use relative time.
 
-```svelte
+```svelte no-eval
 <time
   use:svelteTime={{
     relative: true,
@@ -168,7 +168,7 @@ Set `relative` to `true` to use relative time.
 
 To customize or omit the `title` attribute, use the `title` prop.
 
-```svelte
+```svelte no-eval
 <time
   use:svelteTime={{
     relative: true,
@@ -188,7 +188,7 @@ To customize or omit the `title` attribute, use the `title` prop.
 
 Similar to the `Time` component, the `live` prop only works with relative time.
 
-```svelte
+```svelte no-eval
 <time
   use:svelteTime={{
     relative: true,
@@ -199,7 +199,7 @@ Similar to the `Time` component, the `live` prop only works with relative time.
 
 Specify a custom update interval using the `live` prop.
 
-```svelte
+```svelte no-eval
 <time
   use:svelteTime={{
     relative: true,
@@ -208,11 +208,52 @@ Specify a custom update interval using the `live` prop.
 ></time>
 ```
 
+### Remove "ago" suffix
+
+Set `withoutSuffix` to `true` to remove the "ago" suffix from relative time.
+
+<!-- render:RelativeTimeWithSuffix -->
+
+```svelte no-eval
+<script>
+  import Time, { dayjs } from "svelte-time";
+
+  const pastDate = dayjs().subtract(2, "days").toISOString();
+  const futureDate = dayjs().add(2, "days").toISOString();
+</script>
+
+<!-- Past date -->
+<Time relative timestamp={pastDate} />
+<!-- Output: "2 days ago" -->
+
+<Time relative timestamp={pastDate} withoutSuffix />
+<!-- Output: "2 days" -->
+
+<!-- Future date -->
+<Time relative timestamp={futureDate} />
+<!-- Output: "in 2 days" -->
+
+<Time relative timestamp={futureDate} withoutSuffix />
+<!-- Output: "2 days" -->
+```
+
+This also works with the `svelteTime` action:
+
+```svelte no-eval
+<time
+  use:svelteTime={{
+    relative: true,
+    timestamp: "2021-02-02",
+    withoutSuffix: true,
+  }}
+></time>
+```
+
 #### Locale
 
 Use the `locale` prop to format timestamps in different languages. Make sure to import the locale from `dayjs` first.
 
-```svelte
+```svelte no-eval
 <script>
   import "dayjs/locale/de"; // German locale
   import "dayjs/locale/es"; // Spanish locale
@@ -242,7 +283,7 @@ The `dayjs` library is exported from this package for your convenience.
 
 **Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
 
-```svelte
+```svelte no-eval
 <script>
   import { dayjs } from "svelte-time";
 
@@ -260,7 +301,7 @@ The default `dayjs` locale is English. No other locale is loaded by default for 
 
 To use a [custom locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs` and use the `locale` prop. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
 
-```svelte
+```svelte no-eval
 <script>
   import "dayjs/locale/de"; // German
   import "dayjs/locale/es"; // Spanish
@@ -286,7 +327,7 @@ const localeStore = writable<Locales>("en");
 
 The `locale` prop also works with relative time.
 
-```svelte
+```svelte no-eval
 <script>
   import "dayjs/locale/de"; // German
   import "dayjs/locale/es"; // Spanish
@@ -301,22 +342,43 @@ The `locale` prop also works with relative time.
 <Time relative timestamp="2024-01-01" locale="ja" />
 ```
 
+The `withoutSuffix` prop also works with locales:
+
+<!-- render:RelativeTimeLocaleWithoutSuffix -->
+
+```svelte no-eval
+<script>
+  import "dayjs/locale/de"; // German
+  import "dayjs/locale/es"; // Spanish
+  import "dayjs/locale/fr"; // French
+  import Time from "svelte-time";
+</script>
+
+<Time relative timestamp="2024-01-01" locale="de" withoutSuffix />
+<!-- Output: "2 Jahre" (German, without "vor") -->
+
+<Time relative timestamp="2024-01-01" locale="es" withoutSuffix />
+<!-- Output: "2 años" (Spanish, without "hace") -->
+
+<Time relative timestamp="2024-01-01" locale="fr" withoutSuffix />
+<!-- Output: "2 ans" (French, without "il y a") -->
+```
+
 ### Reactive locale
 
 The `locale` prop is reactive, so you can bind it to a Svelte store to update all `<Time>` instances when the locale changes.
 
-```svelte
-<script lang="ts">
+```svelte no-eval
+<script>
   import "dayjs/locale/de"; // German
   import "dayjs/locale/es"; // Spanish
   import "dayjs/locale/fr"; // French
   import { writable } from "svelte/store";
   import Time from "svelte-time";
-  import type { Locales } from "svelte-time";
 
-  const locale = writable<Locales>("en");
+  const locale = writable("en");
 
-  function setLocale(loc: Locales) {
+  function setLocale(loc) {
     locale.set(loc);
   }
 </script>
@@ -334,7 +396,7 @@ The `locale` prop is reactive, so you can bind it to a Svelte store to update al
 
 You can also use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default, or pass a dayjs instance with locale already applied.
 
-```svelte
+```svelte no-eval
 <script>
   import "dayjs/locale/de"; // German
   import Time, { dayjs } from "svelte-time";
@@ -432,14 +494,15 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ### Props
 
-| Name      | Type                                                  | Default value                                                                            |
-| :-------- | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| timestamp | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
-| format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
-| relative  | `boolean`                                             | `false`                                                                                  |
-| live      | `boolean` &#124; `number`                             | `false`                                                                                  |
-| locale    | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
-| formatted | `string`                                              | `""`                                                                                     |
+| Name          | Type                                                  | Default value                                                                            |
+| :------------ | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
+| timestamp     | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
+| format        | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
+| relative      | `boolean`                                             | `false`                                                                                  |
+| withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
+| live          | `boolean` &#124; `number`                             | `false`                                                                                  |
+| locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
+| formatted     | `string`                                              | `""`                                                                                     |
 
 ## Examples
 

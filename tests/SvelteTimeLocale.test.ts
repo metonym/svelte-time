@@ -156,6 +156,62 @@ describe("svelte-time-locale", () => {
     );
   });
 
+  test("handles relative time with withoutSuffix in different locales", async () => {
+    const target = document.body;
+    instance = new SvelteTimeLocale({ target });
+
+    // German relative time without suffix
+    const germanRelativeWithoutSuffix = getElement(
+      '[data-test="german-relative-without-suffix"]',
+    );
+    expect(germanRelativeWithoutSuffix.innerHTML).toEqual(
+      dayjs(FIXED_DATE).locale("de").fromNow(true),
+    );
+
+    // Spanish relative time without suffix
+    const spanishRelativeWithoutSuffix = getElement(
+      '[data-test="spanish-relative-without-suffix"]',
+    );
+    expect(spanishRelativeWithoutSuffix.innerHTML).toEqual(
+      dayjs(FIXED_DATE).locale("es").fromNow(true),
+    );
+
+    // French relative time without suffix
+    const frenchRelativeWithoutSuffix = getElement(
+      '[data-test="french-relative-without-suffix"]',
+    );
+    expect(frenchRelativeWithoutSuffix.innerHTML).toEqual(
+      dayjs(FIXED_DATE).locale("fr").fromNow(true),
+    );
+
+    // Japanese relative time without suffix
+    const japaneseRelativeWithoutSuffix = getElement(
+      '[data-test="japanese-relative-without-suffix"]',
+    );
+    expect(japaneseRelativeWithoutSuffix.innerHTML).toEqual(
+      dayjs(FIXED_DATE).locale("ja").fromNow(true),
+    );
+  });
+
+  test("handles action with locale and withoutSuffix", async () => {
+    const target = document.body;
+    instance = new SvelteTimeLocale({ target });
+
+    const actionLocaleDeWithoutSuffix = getElement(
+      '[data-test="action-locale-de-without-suffix"]',
+    );
+    expect(actionLocaleDeWithoutSuffix.innerText).toEqual(
+      dayjs(FIXED_DATE).locale("de").fromNow(true),
+    );
+
+    const actionLocaleEsWithoutSuffix = getElement(
+      '[data-test="action-locale-es-without-suffix"]',
+    );
+    expect(actionLocaleEsWithoutSuffix.innerText).toEqual(
+      dayjs(FIXED_DATE).locale("es").fromNow(true),
+    );
+  });
+
   test("preserves locale from dayjs instance (legacy behavior)", async () => {
     const target = document.body;
     instance = new SvelteTimeLocale({ target });

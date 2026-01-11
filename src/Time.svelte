@@ -23,6 +23,13 @@
   export let relative = false;
 
   /**
+   * Set to `true` to remove the "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago").
+   * Only applies when `relative` is `true`.
+   * @type {boolean}
+   */
+  export let withoutSuffix = false;
+
+  /**
    * Set to `true` to update the relative time at 60 second interval.
    * Pass in a number (ms) to specify the interval length
    * @type {boolean | number}
@@ -77,13 +84,15 @@
     clearInterval(interval);
     interval = setInterval(
       () => {
-        formatted = dayjs(timestamp).locale(effectiveLocale).from(dayjs());
+        formatted = dayjs(timestamp)
+          .locale(effectiveLocale)
+          .from(dayjs(), withoutSuffix);
       },
       Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
     );
   }
   $: formatted = relative
-    ? dayjs(timestamp).locale(effectiveLocale).from(dayjs())
+    ? dayjs(timestamp).locale(effectiveLocale).from(dayjs(), withoutSuffix)
     : dayjs(timestamp).locale(effectiveLocale).format(format);
   $: title = relative
     ? dayjs(timestamp).locale(effectiveLocale).format(format)
