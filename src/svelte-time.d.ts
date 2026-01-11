@@ -3,7 +3,7 @@ import type { TimeProps } from "./Time.svelte";
 
 export interface SvelteTimeOptions extends Pick<
   TimeProps,
-  "timestamp" | "format" | "relative" | "live" | "title"
+  "timestamp" | "format" | "relative" | "live" | "title" | "locale"
 > {}
 
 export const svelteTime: Action<

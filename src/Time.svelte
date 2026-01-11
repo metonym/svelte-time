@@ -30,6 +30,12 @@
   export let live = false;
 
   /**
+   * The locale to use for formatting
+   * @type {import("./locales").Locales}
+   */
+  export let locale = "en";
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()`
    * @type {string}
@@ -48,18 +54,40 @@
     return () => clearInterval(interval);
   });
 
+  /**
+   * Get the effective locale to use.
+   * If locale prop is default "en" and timestamp is a dayjs instance with a locale set,
+   * preserve the timestamp's locale for backward compatibility.
+   */
+  $: effectiveLocale = (() => {
+    if (locale !== "en") {
+      return locale;
+    }
+    // Check if timestamp is a dayjs instance with a locale set
+    if (timestamp && typeof timestamp === "object" && "$L" in timestamp) {
+      const timestampLocale = timestamp.$L;
+      if (timestampLocale && timestampLocale !== "en") {
+        return timestampLocale;
+      }
+    }
+    return locale;
+  })();
+
   $: if (relative && live !== false) {
+    clearInterval(interval);
     interval = setInterval(
       () => {
-        formatted = dayjs(timestamp).from();
+        formatted = dayjs(timestamp).locale(effectiveLocale).from(dayjs());
       },
       Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
     );
   }
   $: formatted = relative
-    ? dayjs(timestamp).from()
-    : dayjs(timestamp).format(format);
-  $: title = relative ? dayjs(timestamp).format(format) : undefined;
+    ? dayjs(timestamp).locale(effectiveLocale).from(dayjs())
+    : dayjs(timestamp).locale(effectiveLocale).format(format);
+  $: title = relative
+    ? dayjs(timestamp).locale(effectiveLocale).format(format)
+    : undefined;
 </script>
 
 <time {title} {...$$restProps} datetime={timestamp}>

@@ -208,6 +208,34 @@ Specify a custom update interval using the `live` prop.
 ></time>
 ```
 
+#### Locale
+
+Use the `locale` prop to format timestamps in different languages. Make sure to import the locale from `dayjs` first.
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German locale
+  import "dayjs/locale/es"; // Spanish locale
+  import { svelteTime } from "svelte-time";
+</script>
+
+<time
+  use:svelteTime={{
+    timestamp: "2024-01-01",
+    format: "dddd, MMMM D, YYYY",
+    locale: "de",
+  }}
+></time>
+
+<time
+  use:svelteTime={{
+    relative: true,
+    timestamp: "2024-01-01",
+    locale: "es",
+  }}
+></time>
+```
+
 ### `dayjs` export
 
 The `dayjs` library is exported from this package for your convenience.
@@ -230,20 +258,92 @@ The `dayjs` library is exported from this package for your convenience.
 
 The default `dayjs` locale is English. No other locale is loaded by default for performance reasons.
 
-To use a [custome locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs`. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+To use a [custom locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs` and use the `locale` prop. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
 
 ```svelte
 <script>
-  import "dayjs/locale/de"; // German locale
+  import "dayjs/locale/de"; // German
+  import "dayjs/locale/es"; // Spanish
+  import "dayjs/locale/fr"; // French
+  import "dayjs/locale/ja"; // Japanese
+  import Time from "svelte-time";
+</script>
+
+<Time timestamp="2024-01-01" format="dddd, MMMM D, YYYY" locale="de" />
+<Time timestamp="2024-01-01" format="dddd, D [de] MMMM [de] YYYY" locale="es" />
+<Time timestamp="2024-01-01" format="dddd D MMMM YYYY" locale="fr" />
+<Time timestamp="2024-01-01" format="YYYY年M月D日(dddd)" locale="ja" />
+```
+
+The `Locales` type is exported for TypeScript usage.
+
+```typescript
+import type { Locales } from "svelte-time";
+
+const locale: Locales = "de";
+const localeStore = writable<Locales>("en");
+```
+
+The `locale` prop also works with relative time.
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German
+  import "dayjs/locale/es"; // Spanish
+  import "dayjs/locale/fr"; // French
+  import "dayjs/locale/ja"; // Japanese
+  import Time from "svelte-time";
+</script>
+
+<Time relative timestamp="2024-01-01" locale="de" />
+<Time relative timestamp="2024-01-01" locale="es" />
+<Time relative timestamp="2024-01-01" locale="fr" />
+<Time relative timestamp="2024-01-01" locale="ja" />
+```
+
+### Reactive locale
+
+The `locale` prop is reactive, so you can bind it to a Svelte store to update all `<Time>` instances when the locale changes.
+
+```svelte
+<script lang="ts">
+  import "dayjs/locale/de"; // German
+  import "dayjs/locale/es"; // Spanish
+  import "dayjs/locale/fr"; // French
+  import { writable } from "svelte/store";
+  import Time from "svelte-time";
+  import type { Locales } from "svelte-time";
+
+  const locale = writable<Locales>("en");
+
+  function setLocale(loc: Locales) {
+    locale.set(loc);
+  }
+</script>
+
+<button on:click={() => setLocale("en")}>English</button>
+<button on:click={() => setLocale("de")}>Deutsch</button>
+<button on:click={() => setLocale("es")}>Español</button>
+<button on:click={() => setLocale("fr")}>Français</button>
+
+<Time timestamp="2024-01-01" format="dddd, MMMM D, YYYY" locale={$locale} />
+<Time relative timestamp="2024-01-01" locale={$locale} />
+```
+
+### Custom locale (legacy)
+
+You can also use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default, or pass a dayjs instance with locale already applied.
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German
   import Time, { dayjs } from "svelte-time";
 </script>
 
 <Time timestamp={dayjs().locale("de")} format="dddd, MMMM D, YYYY" />
 ```
 
-### Custom locale (global)
-
-Use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default.
+To set a global default locale:
 
 ```svelte no-eval
 <script>
@@ -338,6 +438,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | format    | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
 | relative  | `boolean`                                             | `false`                                                                                  |
 | live      | `boolean` &#124; `number`                             | `false`                                                                                  |
+| locale    | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
 | formatted | `string`                                              | `""`                                                                                     |
 
 ## Examples
