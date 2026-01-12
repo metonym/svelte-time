@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/metonym/svelte-time/releases/tag/v2.1.0) - 2026-01-12
+
+**Features**
+
+- add `withoutSuffix` prop to remove "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago")
+- add `locale` prop to support internationalization with multiple locales
+
 ## [2.0.2](https://github.com/metonym/svelte-time/releases/tag/v2.0.2) - 2025-10-23
 
 **Fixes**
