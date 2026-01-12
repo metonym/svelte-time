@@ -1,8 +1,6 @@
 import dayjs from "dayjs/esm";
 import relativeTime from "dayjs/esm/plugin/relativeTime";
-import duration from "dayjs/esm/plugin/duration";
 
 dayjs.extend(relativeTime);
-dayjs.extend(duration);
 
 export { dayjs };

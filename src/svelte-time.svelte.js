@@ -1,4 +1,4 @@
-import { dayjs } from "./dayjs";
+import { dayjs } from "./dayjs-time";
 
 /**
  * @typedef {import("./svelte-time.svelte").SvelteTimeOptions} SvelteTimeOptions
