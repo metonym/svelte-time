@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- ## Unreleased -->
 
+## [1.1.0](https://github.com/metonym/svelte-time/releases/tag/v1.1.0) - 2025-01-XX
+
+**Features**
+
+- add `withoutSuffix` prop to remove "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago")
+- add `locale` prop to support internationalization with multiple locales
+
 ## [1.0.0](https://github.com/metonym/svelte-time/releases/tag/v1.0.0) - 2025-01-23
 
 **Features**
