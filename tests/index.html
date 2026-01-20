@@ -2,6 +2,13 @@
   import "github-markdown-css/github-markdown-dark.css";
   import { mount } from "svelte";
   import Readme from "../README.md";
+  import favicon from "./favicon.svg";
+
+  const faviconElement = document.createElement("link");
+  faviconElement.rel = "icon";
+  faviconElement.type = "image/svg+xml";
+  faviconElement.href = favicon;
+  document.head.appendChild(faviconElement);
 
   mount(Readme, { target: document.getElementById("readme") });
 </script>

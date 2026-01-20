@@ -15,8 +15,6 @@ type PluginReadmeOptions = {
 
 export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
   const watchDir = path.join(__dirname, options.watchDir);
-  let base = "/";
-
   const marked = new Marked(
     markedHighlight({
       async: true,
@@ -80,10 +78,6 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
         return;
       }
     },
-    configResolved(config) {
-      // Get the base URL from Vite config.
-      base = config.base;
-    },
     transformIndexHtml(html) {
       return `<html lang="en">
   <head>
@@ -93,7 +87,6 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
       name="description"
       content="${options.description}"
     />
-    <link rel="icon" type="image/svg+xml" href="${base}favicon.svg" />
     <title>${options.title}</title>
     <style>
       html {
