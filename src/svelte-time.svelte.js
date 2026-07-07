@@ -15,7 +15,7 @@ export const svelteTime = (node, options = {}) => {
     clearInterval(interval);
     interval = undefined;
 
-    const timestamp = options.timestamp || new Date().toISOString();
+    const timestamp = options.timestamp ?? new Date().toISOString();
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const withoutSuffix = options.withoutSuffix ?? false;
