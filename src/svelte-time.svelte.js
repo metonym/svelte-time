@@ -21,6 +21,7 @@ export const svelteTime = (node, options = {}) => {
     const relative = options.relative === true;
     const withoutSuffix = options.withoutSuffix ?? false;
     const live = options.live ?? false;
+    const tz = options.tz;
     let locale = options.locale ?? "en";
 
     // If locale is default "en" and timestamp is a dayjs instance with a locale set,
@@ -37,29 +38,36 @@ export const svelteTime = (node, options = {}) => {
       }
     }
 
-    let formatted = dayjs(timestamp).locale(locale).format(format);
+    const getDay = () => {
+      const base = dayjs(timestamp);
+      if (tz === undefined) return base.locale(locale);
+      if (typeof base.tz !== "function") {
+        throw new Error(
+          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
+            "see https://github.com/metonym/svelte-time#custom-timezone",
+        );
+      }
+      return base.tz(tz).locale(locale);
+    };
+
+    let formatted = getDay().format(format);
 
     if (relative) {
       // Use dayjs's built-in withoutSuffix parameter (locale-aware)
-      formatted = dayjs(timestamp).locale(locale).from(dayjs(), withoutSuffix);
+      formatted = getDay().from(dayjs(), withoutSuffix);
 
       if ("title" in options) {
         if (options.title !== undefined) {
           node.setAttribute("title", options.title);
         }
       } else {
-        node.setAttribute(
-          "title",
-          dayjs(timestamp).locale(locale).format(format),
-        );
+        node.setAttribute("title", getDay().format(format));
       }
 
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.textContent = dayjs(timestamp)
-              .locale(locale)
-              .from(dayjs(), withoutSuffix);
+            node.textContent = getDay().from(dayjs(), withoutSuffix);
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );

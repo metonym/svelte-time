@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import { flushSync, mount, unmount } from "svelte";
-import Time, { svelteTime } from "svelte-time";
+import Time, { svelteTime, time } from "svelte-time";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 describe("component/action parity for edge-case timestamps", () => {
   beforeEach(() => {
@@ -42,4 +47,42 @@ describe("component/action parity for edge-case timestamps", () => {
       unmount(instance);
     });
   }
+});
+
+describe("component/action/attachment parity for the tz prop", () => {
+  afterEach(() => {
+    document.body.innerHTML = "";
+  });
+
+  test("all three surfaces render an identical zoned value", () => {
+    const timestamp = "2013-11-18T11:55:20Z";
+    const format = "YYYY-MM-DDTHH:mm:ss";
+    const tz = "America/Toronto";
+    const expected = dayjs(timestamp).tz(tz).format(format);
+
+    const instance = mount(Time, {
+      target: document.body,
+      props: { "data-test": "component", timestamp, tz, format },
+    });
+    flushSync();
+
+    const actionNode = document.createElement("time");
+    document.body.appendChild(actionNode);
+    const action = svelteTime(actionNode, { timestamp, tz, format });
+
+    const attachmentNode = document.createElement("time");
+    document.body.appendChild(attachmentNode);
+    time({ timestamp, tz, format })(attachmentNode);
+
+    const componentText = document
+      .querySelector('[data-test="component"]')
+      ?.textContent?.trim();
+
+    expect(componentText).toEqual(expected);
+    expect(actionNode.textContent?.trim()).toEqual(expected);
+    expect(attachmentNode.textContent?.trim()).toEqual(expected);
+
+    action?.destroy?.();
+    unmount(instance);
+  });
 });
