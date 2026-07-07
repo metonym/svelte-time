@@ -5,3 +5,6 @@ import type { Dayjs } from "dayjs";
  * re-runs on every tick of the shared timer for `intervalMs`.
  */
 export declare function sharedNow(intervalMs: number): Dayjs;
+
+/** Update interval appropriate to the timestamp's age. */
+export declare function liveInterval(ageMs: number): number;
