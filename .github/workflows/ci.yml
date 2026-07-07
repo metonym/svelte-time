@@ -6,6 +6,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tz: [UTC, America/Los_Angeles, Pacific/Auckland]
+    env:
+      TZ: ${{ matrix.tz }}
     steps:
       - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2

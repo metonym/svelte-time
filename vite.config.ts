@@ -22,7 +22,28 @@ export default defineConfig({
   ],
   resolve: {
     alias: { [pkg.name]: path.resolve("./src") },
-    conditions: ["browser"],
   },
-  test: { globals: true, environment: "jsdom" },
+  test: {
+    globals: true,
+    projects: [
+      {
+        extends: true,
+        resolve: { conditions: ["browser"] },
+        test: {
+          name: "client",
+          environment: "jsdom",
+          include: ["**/*.test.ts"],
+          exclude: ["**/node_modules/**", "ssr/**"],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "ssr",
+          environment: "node",
+          include: ["ssr/**/*.test.ts"],
+        },
+      },
+    ],
+  },
 });
