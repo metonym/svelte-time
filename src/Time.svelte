@@ -47,15 +47,16 @@
   import { toDatetime } from "./datetime";
   import { sharedNow } from "./ticker";
 
-  const DEFAULT_INTERVAL = 60 * 1_000;
-
   const canTick = typeof document !== "undefined";
 
-  const now = $derived(
-    relative && live !== false && canTick
-      ? sharedNow(Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL))
-      : dayjs(),
-  );
+  /** Update interval appropriate to the timestamp's age. */
+  function liveInterval(ageMs) {
+    const age = Math.abs(ageMs);
+    if (age < 60_000) return 10_000; // seconds-old: tick every 10s
+    if (age < 3_600_000) return 30_000; // minutes-old: every 30s
+    if (age < 86_400_000) return 300_000; // hours-old: every 5 min
+    return 3_600_000; // days-old and beyond: hourly
+  }
 
   /**
    * Get the effective locale to use.
@@ -81,6 +82,31 @@
    * @type {import("dayjs").Dayjs}
    */
   const day = $derived(dayjs(timestamp).locale(effectiveLocale));
+
+  // Tier for adaptive `live === true` scheduling. Written from an effect
+  // (rather than derived directly from `now`) to avoid a `$derived` cycle:
+  // `now` is selected by this interval, so deriving the interval from `now`
+  // directly would make `now` depend on itself. Seeded once from the raw
+  // props (not the reactive `day`) since this is only an initial guess —
+  // the effect below corrects it as soon as it runs.
+  let interval = $state(liveInterval(dayjs(timestamp).diff(dayjs())));
+
+  $effect(() => {
+    if (relative && live === true) {
+      const next = liveInterval(day.diff(now));
+      if (next !== interval) interval = next;
+    }
+  });
+
+  const effectiveInterval = $derived(
+    typeof live === "number" ? Math.abs(live) : interval,
+  );
+
+  const now = $derived(
+    relative && live !== false && canTick
+      ? sharedNow(effectiveInterval)
+      : dayjs(),
+  );
 
   /**
    * Formatted timestamp.

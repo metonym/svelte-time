@@ -24,7 +24,24 @@ export function sharedNow(intervalMs) {
         now = dayjs();
         update();
       }, intervalMs);
-      return () => clearInterval(id);
+
+      let onVisibilityChange;
+      if (typeof document !== "undefined") {
+        onVisibilityChange = () => {
+          if (!document.hidden) {
+            now = dayjs();
+            update();
+          }
+        };
+        document.addEventListener("visibilitychange", onVisibilityChange);
+      }
+
+      return () => {
+        clearInterval(id);
+        if (onVisibilityChange) {
+          document.removeEventListener("visibilitychange", onVisibilityChange);
+        }
+      };
     });
     read = () => {
       subscribe();

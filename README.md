@@ -124,13 +124,13 @@ Set the value to `undefined` to omit the `title` altogether.
 
 ### Live updates
 
-Set `live` to `true` for a live updating relative timestamp. The default refresh interval is 60 seconds.
+Set `live` to `true` for a live updating relative timestamp. Updates follow an adaptive schedule based on the timestamp's age — every 10s while under a minute old, 30s while under an hour old, 5 minutes while under a day old, and hourly beyond that — migrating to the slower tier as the timestamp ages. It also refreshes immediately when a backgrounded tab becomes visible again, so you never see stale, timer-throttled text.
 
 ```svelte
 <Time live relative />
 ```
 
-To customize the interval, pass a value to `live` in milliseconds (ms).
+To force a fixed interval instead, pass a value to `live` in milliseconds (ms).
 
 ```svelte
 <!-- Update every 30 seconds -->
