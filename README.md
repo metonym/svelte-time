@@ -270,6 +270,37 @@ Specify a custom update interval using the `live` prop.
 ></time>
 ```
 
+### `time` attachment
+
+[Attachments](https://svelte.dev/docs/svelte/@attach) (the `@attach` directive, Svelte 5.29+) are the successor to actions. The `time` attachment is an alternative to the `svelteTime` action with fully reactive options: it re-runs whenever any reactive value used to build its options changes, including options built inline in the template. In `live` mode, it shares the same global timer as the `Time` component instead of owning a `setInterval` per element.
+
+<!-- render:TimeAttachment -->
+
+```svelte
+<script>
+  import { time } from "svelte-time";
+</script>
+
+<time {@attach time({ timestamp: "2021-02-02", format: "YYYY-MM-DD" })}></time>
+```
+
+Because options are reactive, an inline options object built from `$state` updates the element automatically, with no `update()` contract required:
+
+<!-- render:TimeAttachmentReactive -->
+
+```svelte
+<script lang="ts">
+  import { time } from "svelte-time";
+
+  let timestamp = $state("2021-02-02");
+</script>
+
+<time {@attach time({ timestamp, format: "YYYY-MM-DD" })}></time>
+<button onclick={() => (timestamp = "2021-02-03")}>Update</button>
+```
+
+The `@attach` directive requires Svelte 5.29+ to use. The `svelteTime` action remains fully supported.
+
 ### Remove "ago" suffix
 
 Set `withoutSuffix` to `true` to remove the "ago" suffix from relative time.

@@ -1,5 +1,7 @@
 import { expectTypeOf, test } from "vitest";
 import type { Snippet } from "svelte";
+import { time } from "svelte-time";
+import type { Attachment } from "svelte/attachments";
 import type { TimeProps, SvelteTimeOptions, Locales } from "svelte-time";
 
 test("format is a plain string", () => {
@@ -25,4 +27,11 @@ test("children accepts a snippet receiving the formatted string", () => {
   // @ts-expect-error — a Snippet<[number]> is not assignable to Snippet<[string]>
   const props: TimeProps = { children: (() => {}) as Snippet<[number]> };
   void props;
+});
+
+test("time attachment returns an Attachment<HTMLElement>", () => {
+  expectTypeOf(time()).toEqualTypeOf<Attachment<HTMLElement>>();
+  expectTypeOf(time)
+    .parameter(0)
+    .toEqualTypeOf<Partial<SvelteTimeOptions> | undefined>();
 });

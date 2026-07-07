@@ -52,18 +52,9 @@
 
   import { dayjs } from "./dayjs";
   import { toDatetime } from "./datetime";
-  import { sharedNow } from "./ticker";
+  import { liveInterval, sharedNow } from "./ticker";
 
   const canTick = typeof document !== "undefined";
-
-  /** Update interval appropriate to the timestamp's age. */
-  function liveInterval(ageMs) {
-    const age = Math.abs(ageMs);
-    if (age < 60_000) return 10_000; // seconds-old: tick every 10s
-    if (age < 3_600_000) return 30_000; // minutes-old: every 30s
-    if (age < 86_400_000) return 300_000; // hours-old: every 5 min
-    return 3_600_000; // days-old and beyond: hourly
-  }
 
   /**
    * Get the effective locale to use.
