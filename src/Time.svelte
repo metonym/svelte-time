@@ -74,6 +74,7 @@
 
   import { toDatetime } from "./datetime";
   import { dayjs } from "./dayjs";
+  import { resolveLocale } from "./format";
   import { microFormat } from "./micro";
   import { liveInterval, sharedNow } from "./ticker";
 
@@ -84,19 +85,7 @@
    * If locale prop is default "en" and timestamp is a dayjs instance with a locale set,
    * preserve the timestamp's locale for backward compatibility.
    */
-  const effectiveLocale = $derived.by(() => {
-    if (locale !== "en") {
-      return locale;
-    }
-    // Check if timestamp is a dayjs instance with a locale set
-    if (timestamp && typeof timestamp === "object" && "$L" in timestamp) {
-      const timestampLocale = timestamp.$L;
-      if (timestampLocale && timestampLocale !== "en") {
-        return timestampLocale;
-      }
-    }
-    return locale;
-  });
+  const effectiveLocale = $derived(resolveLocale(timestamp, locale));
 
   /**
    * Parsed timestamp with the timezone (if provided) and effective locale

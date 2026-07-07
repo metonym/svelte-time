@@ -63,8 +63,7 @@ export const svelteTime = (node, options = {}) => {
       formatted =
         relativeStyle === "micro"
           ? microFormat(getDay().diff(dayjs()))
-          : // Use dayjs's built-in withoutSuffix parameter (locale-aware)
-            getDay().from(dayjs(), withoutSuffix);
+          : getDay().from(dayjs(), withoutSuffix);
 
       if ("title" in options) {
         if (options.title !== undefined) {

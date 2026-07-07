@@ -821,6 +821,33 @@ The `duration` attachment is the [attachment](#time-attachment) equivalent of `s
 <time {@attach duration({ value: 3661000 })}></time>
 ```
 
+## Utilities
+
+The formatting logic and shared clock behind `<Time>` and `svelteTime` are also available as standalone primitives, for use outside a `<time>` element — an `aria-label`, `document.title`, a toast, server code.
+
+```svelte
+<script>
+  import { now, relativeTime } from "svelte-time";
+
+  // Re-derives every 30s from the shared timer — no timer of its own.
+  const label = $derived(relativeTime(post.createdAt, { from: now(30_000) }));
+</script>
+
+<button aria-label="Posted {label}">…</button>
+```
+
+### `now(intervalMs?)`
+
+Reactive current time backed by the shared ticker. When read inside an effect or derived, the caller re-runs every `intervalMs` (default `60_000`); all readers of the same interval share one timer. Returns a fresh, non-reactive value on the server.
+
+### `formatTime(timestamp, options?)`
+
+Formats a timestamp as a string with byte-identical output to the `<Time>` component's `format` prop — same defaults, same locale fallback.
+
+### `relativeTime(timestamp, options?)`
+
+Formats a relative time string with byte-identical output to the `<Time>` component's `relative` prop. Pass `from` to set the reference point — use `now(...)` for a result that stays live.
+
 ## API
 
 ### `Time` component props
