@@ -23,6 +23,7 @@ export function time(options = {}) {
     const relativeStyle = options.relativeStyle ?? "default";
     const live = options.live ?? false;
     const tz = options.tz;
+    const relativeThreshold = options.relativeThreshold;
     let locale = options.locale ?? "en";
 
     // If locale is default "en" and timestamp is a dayjs instance with a locale set,
@@ -63,7 +64,11 @@ export function time(options = {}) {
       now = sharedNow(interval);
     }
 
-    if (relative) {
+    const isPastThreshold =
+      relativeThreshold != null && Math.abs(day.diff(now)) >= relativeThreshold;
+    const showRelative = relative && !isPastThreshold;
+
+    if (showRelative) {
       if ("title" in options) {
         if (options.title !== undefined) {
           node.setAttribute("title", options.title);
@@ -78,7 +83,7 @@ export function time(options = {}) {
     const datetime = toDatetime(timestamp);
     if (datetime) node.setAttribute("datetime", datetime);
     else node.removeAttribute("datetime");
-    node.textContent = relative
+    node.textContent = showRelative
       ? relativeStyle === "micro"
         ? microFormat(day.diff(now))
         : day.from(now, withoutSuffix)

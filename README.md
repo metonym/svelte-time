@@ -154,6 +154,17 @@ To force a fixed interval instead, pass a value to `live` in milliseconds (ms).
 <Time live={10 * 60 * 1_000} relative />
 ```
 
+### Auto-switch to absolute format
+
+Set `relativeThreshold` (age in ms) to switch from `relative` to the absolute `format` once a timestamp gets old enough. Only takes effect while `relative` is `true`. Combined with `live`, the switch happens automatically as time passes; without `live`, `relativeThreshold` only affects the value computed at render time.
+
+<!-- render:RelativeThreshold -->
+
+```svelte
+<!-- Shows "a minute ago", flips to "4:40 am" after 2 hours -->
+<Time relative live format="h:mm a" relativeThreshold={2 * 60 * 60 * 1000} />
+```
+
 ### `svelteTime` action
 
 An alternative to the `Time` component is to use the `svelteTime` action to format a timestamp in a raw HTML element.
@@ -270,6 +281,19 @@ Specify a custom update interval using the `live` prop.
 ></time>
 ```
 
+Use `relativeThreshold` to switch to the absolute `format` once the timestamp's age (ms) meets or exceeds it.
+
+```svelte
+<time
+  use:svelteTime={{
+    relative: true,
+    live: true,
+    format: "h:mm a",
+    relativeThreshold: 2 * 60 * 60 * 1_000, // 2 hours
+  }}
+></time>
+```
+
 ### `time` attachment
 
 [Attachments](https://svelte.dev/docs/svelte/@attach) (the `@attach` directive, Svelte 5.29+) are the successor to actions. The `time` attachment is an alternative to the `svelteTime` action with fully reactive options: it re-runs whenever any reactive value used to build its options changes, including options built inline in the template. In `live` mode, it shares the same global timer as the `Time` component instead of owning a `setInterval` per element.
@@ -300,6 +324,19 @@ Because options are reactive, an inline options object built from `$state` updat
 ```
 
 The `@attach` directive requires Svelte 5.29+ to use. The `svelteTime` action remains fully supported.
+
+`relativeThreshold` works the same way as the `Time` component and `svelteTime` action:
+
+```svelte
+<time
+  {@attach time({
+    relative: true,
+    live: true,
+    format: "h:mm a",
+    relativeThreshold: 2 * 60 * 60 * 1_000, // 2 hours
+  })}
+></time>
+```
 
 ### Remove "ago" suffix
 

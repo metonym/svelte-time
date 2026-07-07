@@ -24,6 +24,7 @@ export const svelteTime = (node, options = {}) => {
     const relativeStyle = options.relativeStyle ?? "default";
     const live = options.live ?? false;
     const tz = options.tz;
+    const relativeThreshold = options.relativeThreshold;
     let locale = options.locale ?? "en";
 
     // If locale is default "en" and timestamp is a dayjs instance with a locale set,
@@ -52,9 +53,13 @@ export const svelteTime = (node, options = {}) => {
       return base.tz(tz).locale(locale);
     };
 
+    const isPastThreshold = (at) =>
+      relativeThreshold != null &&
+      Math.abs(getDay().diff(at)) >= relativeThreshold;
+
     let formatted = getDay().format(format);
 
-    if (relative) {
+    if (relative && !isPastThreshold(dayjs())) {
       formatted =
         relativeStyle === "micro"
           ? microFormat(getDay().diff(dayjs()))
@@ -72,10 +77,16 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
+            const now = dayjs();
+            if (isPastThreshold(now)) {
+              node.textContent = getDay().format(format);
+              node.removeAttribute("title");
+              return;
+            }
             node.textContent =
               relativeStyle === "micro"
-                ? microFormat(getDay().diff(dayjs()))
-                : getDay().from(dayjs(), withoutSuffix);
+                ? microFormat(getDay().diff(now))
+                : getDay().from(now, withoutSuffix);
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
