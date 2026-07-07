@@ -1,9 +1,9 @@
 import type { ConfigType } from "dayjs";
-import type { Component } from "svelte";
+import type { Component, Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 import type { Locales } from "./locales";
 
-type RestProps = SvelteHTMLElements["time"];
+type RestProps = Omit<SvelteHTMLElements["time"], "children">;
 
 export interface TimeProps extends RestProps {
   /**
@@ -45,6 +45,12 @@ export interface TimeProps extends RestProps {
    * @default "en"
    */
   locale?: Locales;
+
+  /**
+   * Snippet rendered inside the `time` element instead of the plain
+   * formatted string. Receives the formatted value as its argument.
+   */
+  children?: Snippet<[string]>;
 
   [key: `data-${string}`]: any;
 }

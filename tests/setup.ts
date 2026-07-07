@@ -1,7 +1,4 @@
-if (
-  typeof window !== "undefined" &&
-  !("innerText" in HTMLElement.prototype)
-) {
+if (typeof window !== "undefined" && !("innerText" in HTMLElement.prototype)) {
   Object.defineProperty(HTMLElement.prototype, "innerText", {
     configurable: true,
     enumerable: true,

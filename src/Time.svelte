@@ -40,6 +40,13 @@
      * @type {import("./locales").Locales}
      */
     locale = "en",
+
+    /**
+     * Snippet rendered inside the `time` element instead of the plain
+     * formatted string. Receives the formatted value as its argument.
+     * @type {import("svelte").Snippet<[string]> | undefined}
+     */
+    children,
     ...rest
   } = $props();
 
@@ -118,6 +125,12 @@
   const title = $derived(relative ? day.format(format) : undefined);
 </script>
 
-<time {title} {...rest} datetime={toDatetime(timestamp)}>
-  {formatted}
-</time>
+{#if children}
+  <time {title} {...rest} datetime={toDatetime(timestamp)}>
+    {@render children(formatted)}
+  </time>
+{:else}
+  <time {title} {...rest} datetime={toDatetime(timestamp)}>
+    {formatted}
+  </time>
+{/if}

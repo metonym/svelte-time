@@ -1,5 +1,6 @@
 import { render } from "svelte/server";
 import Time, { dayjs } from "svelte-time";
+import TimeChildren from "./TimeChildren.ssr.test.svelte";
 
 describe("Time (SSR)", () => {
   const TS = "2024-01-01T00:00:00.000Z";
@@ -28,6 +29,13 @@ describe("Time (SSR)", () => {
     render(Time, { props: { timestamp: TS, relative: true, live: true } });
     expect(spy).not.toHaveBeenCalled();
     spy.mockRestore();
+  });
+
+  test("children snippet renders custom markup in the server HTML", () => {
+    const { body } = render(TimeChildren, { props: { timestamp: TS } });
+    expect(body).toContain(
+      `<strong>${dayjs(TS).format("MMM DD, YYYY")}</strong>`,
+    );
   });
 
   test("never renders 'Invalid Date' for valid inputs", () => {

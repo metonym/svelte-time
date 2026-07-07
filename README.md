@@ -122,6 +122,20 @@ Set the value to `undefined` to omit the `title` altogether.
 <Time relative title={undefined} />
 ```
 
+### Custom markup
+
+Pass a `children` snippet to render custom markup instead of the plain formatted text. The snippet receives the formatted value as its argument, and the component still owns the `<time>` element, `title`, and `datetime` handling.
+
+<!-- render:CustomMarkup -->
+
+```svelte
+<Time relative timestamp={post.createdAt}>
+  {#snippet children(formatted)}
+    <strong>{formatted}</strong>
+  {/snippet}
+</Time>
+```
+
 ### Live updates
 
 Set `live` to `true` for a live updating relative timestamp. Updates follow an adaptive schedule based on the timestamp's age — every 10s while under a minute old, 30s while under an hour old, 5 minutes while under a day old, and hourly beyond that — migrating to the slower tier as the timestamp ages. It also refreshes immediately when a backgrounded tab becomes visible again, so you never see stale, timer-throttled text.
@@ -567,6 +581,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
 | live          | `boolean` &#124; `number`                             | `false`                                                                                  |
 | locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
+| children      | `Snippet<[string]>`                                   | `undefined`                                                                              |
 
 ## Examples
 
