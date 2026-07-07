@@ -52,13 +52,15 @@ describe("svelte-time", () => {
     expect(timestampDate.innerHTML).toEqual(
       dayjs(date).format("dddd @ h:mm a"),
     );
-    expect(timestampDate.getAttribute("datetime")).toEqual(date + "");
+    expect(timestampDate.getAttribute("datetime")).toEqual(date.toISOString());
 
     const timestampNumber = getElement('[data-test="timestamp-number"]')!;
     expect(timestampNumber.innerHTML).toEqual(
       dayjs(1e10).format("dddd @ h:mm A · MMMM D, YYYY"),
     );
-    expect(timestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
+    expect(timestampNumber.getAttribute("datetime")).toEqual(
+      new Date(1e10).toISOString(),
+    );
 
     const relative = getElement('[data-test="relative"]')!;
     expect(relative.innerHTML).toEqual("a few seconds ago");
@@ -72,7 +74,9 @@ describe("svelte-time", () => {
       '[data-test="relative-timestamp-number"]',
     )!;
     expect(relativeTimestampNumber.innerHTML).toEqual("54 years ago");
-    expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(1e10 + "");
+    expect(relativeTimestampNumber.getAttribute("datetime")).toEqual(
+      new Date(1e10).toISOString(),
+    );
 
     const relativeLive = getElement('[data-test="relative-live"]');
     const actionRelativeLive = getElement('[data-test="action-relative-live"]');

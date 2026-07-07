@@ -58,7 +58,7 @@ The displayed time defaults to `new Date().toISOString()` and is formatted as `"
 <Time />
 ```
 
-The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`.
+The `timestamp` prop can be any of the following `dayjs` values: `string | number | Date | Dayjs`. String timestamps are written to `datetime` as-is; `Date`/`Dayjs`/`number` inputs are normalized to ISO 8601; invalid inputs omit the attribute.
 
 <!-- render:CustomTimestamp -->
 

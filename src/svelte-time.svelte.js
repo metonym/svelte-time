@@ -1,4 +1,5 @@
 import { dayjs } from "./dayjs";
+import { toDatetime } from "./datetime";
 
 /**
  * @typedef {import("./svelte-time.svelte").SvelteTimeOptions} SvelteTimeOptions
@@ -67,7 +68,12 @@ export const svelteTime = (node, options = {}) => {
       node.removeAttribute("title");
     }
 
-    node.setAttribute("datetime", timestamp);
+    const datetime = toDatetime(timestamp);
+    if (datetime === undefined) {
+      node.removeAttribute("datetime");
+    } else {
+      node.setAttribute("datetime", datetime);
+    }
     node.innerText = formatted;
   };
 

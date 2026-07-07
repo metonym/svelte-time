@@ -44,6 +44,7 @@
   } = $props();
 
   import { dayjs } from "./dayjs";
+  import { toDatetime } from "./datetime";
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
@@ -105,6 +106,6 @@
   );
 </script>
 
-<time {title} {...rest} datetime={timestamp}>
+<time {title} {...rest} datetime={toDatetime(timestamp)}>
   {formatted}
 </time>
