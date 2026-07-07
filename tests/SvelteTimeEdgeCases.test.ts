@@ -89,6 +89,121 @@ describe("svelte-time-edge-cases", () => {
     });
   });
 
+  describe("adaptive live scheduling", () => {
+    test("fresh timestamp uses the 10s tier", async () => {
+      const setIntervalSpy = vi.spyOn(global, "setInterval");
+      const target = document.body;
+
+      instance = mount(Time, {
+        target,
+        props: {
+          "data-test": "adaptive-fresh",
+          timestamp: dayjs().toISOString(),
+          relative: true,
+          live: true,
+        },
+      });
+      flushSync();
+
+      expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 10_000);
+      setIntervalSpy.mockRestore();
+    });
+
+    test("two-day-old timestamp uses the hourly tier", async () => {
+      const setIntervalSpy = vi.spyOn(global, "setInterval");
+      const target = document.body;
+
+      instance = mount(Time, {
+        target,
+        props: {
+          "data-test": "adaptive-old",
+          timestamp: dayjs().subtract(2, "day").toISOString(),
+          relative: true,
+          live: true,
+        },
+      });
+      flushSync();
+
+      expect(setIntervalSpy).toHaveBeenCalledWith(
+        expect.any(Function),
+        3_600_000,
+      );
+      setIntervalSpy.mockRestore();
+    });
+
+    test("numeric live pins the exact interval, bypassing adaptive tiers", async () => {
+      const setIntervalSpy = vi.spyOn(global, "setInterval");
+      const target = document.body;
+
+      instance = mount(Time, {
+        target,
+        props: {
+          "data-test": "adaptive-numeric",
+          timestamp: dayjs().toISOString(),
+          relative: true,
+          live: 30_000,
+        },
+      });
+      flushSync();
+
+      expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+      expect(setIntervalSpy).not.toHaveBeenCalledWith(
+        expect.any(Function),
+        10_000,
+      );
+      setIntervalSpy.mockRestore();
+    });
+
+    test("escalates from the 10s tier to the 30s tier as the timestamp ages", async () => {
+      const setIntervalSpy = vi.spyOn(global, "setInterval");
+      const target = document.body;
+
+      instance = mount(Time, {
+        target,
+        props: {
+          "data-test": "adaptive-escalate",
+          timestamp: dayjs().toISOString(),
+          relative: true,
+          live: true,
+        },
+      });
+      flushSync();
+      expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 10_000);
+
+      vi.advanceTimersByTime(60_000);
+      await tick();
+
+      expect(setIntervalSpy).toHaveBeenCalledWith(expect.any(Function), 30_000);
+      setIntervalSpy.mockRestore();
+    });
+
+    test("refreshes immediately when a hidden tab becomes visible", async () => {
+      const target = document.body;
+
+      instance = mount(Time, {
+        target,
+        props: {
+          "data-test": "adaptive-visibility",
+          timestamp: dayjs().toISOString(),
+          relative: true,
+          live: true,
+        },
+      });
+      flushSync();
+
+      vi.setSystemTime(dayjs().add(5, "minute").toDate());
+      Object.defineProperty(document, "hidden", {
+        value: false,
+        configurable: true,
+      });
+      document.dispatchEvent(new Event("visibilitychange"));
+      flushSync();
+
+      const element = getElement('[data-test="adaptive-visibility"]');
+      expect(element.innerHTML).toEqual("5 minutes ago");
+    });
+  });
+
   describe("memory leak / interval cleanup", () => {
     test("should clear interval on unmount", async () => {
       const clearIntervalSpy = vi.spyOn(global, "clearInterval");

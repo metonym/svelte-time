@@ -124,11 +124,12 @@ describe("svelte-time-reactive", () => {
     flushSync();
     expect(element.innerHTML).toEqual("a few seconds ago");
 
-    vi.runOnlyPendingTimers();
+    // Fresh timestamp starts on the adaptive 10s tier.
+    vi.advanceTimersByTime(50_000);
     await tick();
     expect(element.innerHTML).toEqual("a minute ago");
 
-    vi.runOnlyPendingTimers();
+    vi.advanceTimersByTime(40_000);
     await tick();
     expect(element.innerHTML).toEqual("2 minutes ago");
   });
