@@ -1,4 +1,4 @@
-import type { ConfigType, OptionType } from "dayjs";
+import type { ConfigType } from "dayjs";
 import type { Component } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 import type { Locales } from "./locales";
@@ -15,10 +15,9 @@ export interface TimeProps extends RestProps {
   /**
    * Timestamp format for display.
    * It's also used as a title in the `relative` mode
-   * @type {import("dayjs").OptionType}
    * @default "MMM DD, YYYY"
    */
-  format?: OptionType;
+  format?: string;
 
   /**
    * Set to `true` to display the relative time from the provided `timestamp`.
@@ -46,13 +45,6 @@ export interface TimeProps extends RestProps {
    * @default "en"
    */
   locale?: Locales;
-
-  /**
-   * Formatted timestamp.
-   * Result of invoking `dayjs().format()`
-   * @default ""
-   */
-  formatted?: string;
 
   [key: `data-${string}`]: any;
 }
