@@ -9,6 +9,19 @@ import { dayjs } from "./dayjs";
 const tickers = new Map();
 
 /**
+ * Update interval appropriate to the timestamp's age.
+ * @param {number} ageMs
+ * @returns {number}
+ */
+export function liveInterval(ageMs) {
+  const age = Math.abs(ageMs);
+  if (age < 60_000) return 10_000; // seconds-old: tick every 10s
+  if (age < 3_600_000) return 30_000; // minutes-old: every 30s
+  if (age < 86_400_000) return 300_000; // hours-old: every 5 min
+  return 3_600_000; // days-old and beyond: hourly
+}
+
+/**
  * Reactive "now". When read inside an effect or derived, the caller
  * re-runs on every tick of the shared timer for `intervalMs`.
  * @param {number} intervalMs
