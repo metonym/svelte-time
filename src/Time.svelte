@@ -45,22 +45,17 @@
 
   import { dayjs } from "./dayjs";
   import { toDatetime } from "./datetime";
+  import { sharedNow } from "./ticker";
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
-  let now = $state(dayjs());
+  const canTick = typeof document !== "undefined";
 
-  $effect(() => {
-    if (relative && live !== false) {
-      const interval = setInterval(
-        () => {
-          now = dayjs();
-        },
-        Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
-      );
-      return () => clearInterval(interval);
-    }
-  });
+  const now = $derived(
+    relative && live !== false && canTick
+      ? sharedNow(Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL))
+      : dayjs(),
+  );
 
   /**
    * Get the effective locale to use.

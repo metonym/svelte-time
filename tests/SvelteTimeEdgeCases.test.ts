@@ -110,9 +110,27 @@ describe("svelte-time-edge-cases", () => {
 
       unmount(instance);
       instance = null;
+      await tick(); // createSubscriber defers teardown by a microtask
 
       expect(clearIntervalSpy).toHaveBeenCalled();
       clearIntervalSpy.mockRestore();
+    });
+
+    test("live components with the same interval share one timer", () => {
+      const spy = vi.spyOn(global, "setInterval");
+      const a = mount(Time, {
+        target: document.body,
+        props: { relative: true, live: true },
+      });
+      const b = mount(Time, {
+        target: document.body,
+        props: { relative: true, live: true },
+      });
+      flushSync();
+      expect(spy).toHaveBeenCalledTimes(1); // was 2 before this change
+      unmount(a);
+      unmount(b);
+      spy.mockRestore();
     });
 
     test("multiple components should each manage their own intervals", async () => {
@@ -176,6 +194,7 @@ describe("svelte-time-edge-cases", () => {
         flushSync();
         unmount(inst);
         document.body.innerHTML = "";
+        await tick(); // createSubscriber defers teardown by a microtask
       }
 
       expect(clearIntervalSpy).toHaveBeenCalledTimes(100);
