@@ -57,7 +57,7 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.innerText = dayjs(timestamp)
+            node.textContent = dayjs(timestamp)
               .locale(locale)
               .from(dayjs(), withoutSuffix);
           },
@@ -74,7 +74,7 @@ export const svelteTime = (node, options = {}) => {
     } else {
       node.setAttribute("datetime", datetime);
     }
-    node.innerText = formatted;
+    node.textContent = formatted;
   };
 
   updateTime(options);

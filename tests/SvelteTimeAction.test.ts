@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { flushSync, mount, unmount } from "svelte";
+import { svelteTime } from "../src/svelte-time.svelte.js";
 import SvelteTimeAction from "./examples/SvelteTimeAction.svelte";
 
 describe("svelte-time-action", () => {
@@ -80,6 +81,19 @@ describe("svelte-time-action", () => {
     expect(timeElement.tagName.toLowerCase()).toBe("time");
     // The action should preserve the original element structure
     expect(timeElement.children.length).toBe(0);
+  });
+
+  test("writes plain text content (single text node)", () => {
+    const node = document.createElement("time");
+    document.body.appendChild(node);
+    const handle = svelteTime(node, {
+      timestamp: "2020-02-01",
+      format: "YYYY-MM-DD",
+    });
+    expect(node.childNodes.length).toBe(1);
+    expect(node.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+    expect(node.textContent).toBe("2020-02-01");
+    handle?.destroy?.();
   });
 
   // Regression test for https://github.com/metonym/svelte-time/issues/66
