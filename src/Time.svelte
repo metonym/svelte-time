@@ -48,20 +48,18 @@
 
   const DEFAULT_INTERVAL = 60 * 1_000;
 
-  let tick = $state(0);
+  let now = $state(dayjs());
 
   $effect(() => {
-    /** @type {undefined | NodeJS.Timeout} */
-    let interval;
     if (relative && live !== false) {
-      interval = setInterval(
+      const interval = setInterval(
         () => {
-          tick++;
+          now = dayjs();
         },
         Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
       );
+      return () => clearInterval(interval);
     }
-    return () => clearInterval(interval);
   });
 
   /**
@@ -84,26 +82,28 @@
   });
 
   /**
+   * Parsed timestamp with the effective locale applied.
+   * @type {import("dayjs").Dayjs}
+   */
+  const day = $derived(dayjs(timestamp).locale(effectiveLocale));
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()` or `dayjs().from()`
    * @type {string}
    */
-  let formatted = $derived.by(() => {
-    tick;
-    if (relative) {
-      // Use dayjs's built-in withoutSuffix parameter (locale-aware)
-      return dayjs(timestamp)
-        .locale(effectiveLocale)
-        .from(dayjs(), withoutSuffix);
-    }
-    return dayjs(timestamp).locale(effectiveLocale).format(format);
-  });
-
-  const title = $derived(
+  let formatted = $derived(
     relative
-      ? dayjs(timestamp).locale(effectiveLocale).format(format)
-      : undefined,
+      ? day.from(live !== false ? now : dayjs(), withoutSuffix)
+      : day.format(format),
   );
+
+  /**
+   * Title timestamp.
+   * Result of invoking `dayjs().format()`
+   * @type {string | undefined}
+   */
+  const title = $derived(relative ? day.format(format) : undefined);
 </script>
 
 <time {title} {...rest} datetime={toDatetime(timestamp)}>
