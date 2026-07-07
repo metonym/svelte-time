@@ -340,10 +340,11 @@ To use a [custom locale](https://day.js.org/docs/en/i18n/changing-locale), impor
 <Time timestamp="2024-01-01" format="YYYY年M月D日(dddd)" locale="ja" />
 ```
 
-The `Locales` type is exported for TypeScript usage.
+The `Locales` type is exported for TypeScript usage, along with `TimeProps` and
+`SvelteTimeOptions` for typing component wrappers and action options.
 
 ```typescript
-import type { Locales } from "svelte-time";
+import type { Locales, TimeProps, SvelteTimeOptions } from "svelte-time";
 
 const locale: Locales = "de";
 const localeStore = writable<Locales>("en");
@@ -535,7 +536,6 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
 | live          | `boolean` &#124; `number`                             | `false`                                                                                  |
 | locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
-| formatted     | `string`                                              | `""`                                                                                     |
 
 ## Examples
 

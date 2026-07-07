@@ -35,6 +35,11 @@ export default defineConfig({
           setupFiles: ["./setup.ts"],
           include: ["**/*.test.ts"],
           exclude: ["**/node_modules/**", "ssr/**"],
+          typecheck: {
+            enabled: true,
+            include: ["**/*.test-d.ts"],
+            ignoreSourceErrors: true,
+          },
         },
       },
       {

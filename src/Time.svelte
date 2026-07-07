@@ -9,7 +9,7 @@
     /**
      * Timestamp format for display.
      * It's also used as a title in the `relative` mode
-     * @type {import("dayjs").OptionType}
+     * @type {string}
      * @example "YYYY-MM-DD"
      */
     format = "MMM DD, YYYY",
