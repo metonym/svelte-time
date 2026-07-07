@@ -236,7 +236,9 @@ describe("svelte-time-edge-cases", () => {
       const element = getElement('[data-test="epoch"]');
       const formattedDate = dayjs(0).format("YYYY-MM-DD");
       expect(element.innerHTML).toEqual(formattedDate);
-      expect(element.getAttribute("datetime")).toEqual("0");
+      expect(element.getAttribute("datetime")).toEqual(
+        "1970-01-01T00:00:00.000Z",
+      );
     });
 
     test("undefined timestamp should use default (current date)", async () => {

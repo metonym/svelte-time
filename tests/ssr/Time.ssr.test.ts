@@ -11,6 +11,12 @@ describe("Time (SSR)", () => {
     expect(body).toContain(`datetime="${TS}"`);
   });
 
+  test("normalizes Date inputs to ISO in the server-rendered datetime attribute", () => {
+    const date = new Date(TS);
+    const { body } = render(Time, { props: { timestamp: date } });
+    expect(body).toContain(`datetime="${date.toISOString()}"`);
+  });
+
   test("relative mode renders text and a title on the server", () => {
     const { body } = render(Time, { props: { timestamp: TS, relative: true } });
     expect(body).toContain(dayjs(TS).from(dayjs()));
