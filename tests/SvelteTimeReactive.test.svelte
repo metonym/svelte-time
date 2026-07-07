@@ -41,6 +41,8 @@
   >Toggle relative</button
 >
 
+<Time data-test="reactive-relative-timestamp" {timestamp} {relative} />
+
 <Time
   data-test="reactive-live"
   timestamp={new Date().toISOString()}

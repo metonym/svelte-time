@@ -81,6 +81,27 @@ describe("svelte-time-reactive", () => {
     expect(element.title).toBeFalsy();
   });
 
+  test("changing timestamp in relative non-live mode recomputes against current time", async () => {
+    const target = document.body;
+    instance = mount(SvelteTimeReactive, { target });
+    flushSync();
+
+    const element = getElement('[data-test="reactive-relative-timestamp"]');
+    const button = getElement('[data-test="btn-relative"]');
+
+    button.click();
+    flushSync();
+    expect(element.innerHTML).toEqual("4 years ago");
+
+    vi.setSystemTime(dayjs(FIXED_DATE).add(10, "minute").toDate());
+
+    const timestampButton = getElement('[data-test="btn-timestamp"]');
+    timestampButton.click();
+    flushSync();
+
+    expect(element.innerHTML).toEqual("3 years ago");
+  });
+
   test("live prop changes should start/stop updates", async () => {
     const target = document.body;
     instance = mount(SvelteTimeReactive, { target });
