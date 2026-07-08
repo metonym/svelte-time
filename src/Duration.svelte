@@ -68,6 +68,7 @@
     ...rest
   } = $props();
 
+  import { untrack } from "svelte";
   import { dayjs } from "./dayjs";
   import { formatDuration } from "./duration-format";
   import { liveInterval, sharedNow } from "./ticker";
@@ -78,7 +79,9 @@
   // why this is seeded via `$state` + an effect rather than derived
   // directly from `now` (avoiding a `now` -> interval -> `now` cycle).
   let interval = $state(
-    liveInterval(since === undefined ? 0 : dayjs(since).diff(dayjs())),
+    untrack(() =>
+      liveInterval(since === undefined ? 0 : dayjs(since).diff(dayjs())),
+    ),
   );
 
   $effect(() => {
