@@ -1,4 +1,5 @@
 <script>
+  /** @type {import("./Time.svelte.d.ts").TimeProps} */
   const {
     /**
      * Original timestamp
