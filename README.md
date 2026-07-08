@@ -10,7 +10,7 @@ Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for 
 
 ## About
 
-`svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
+`svelte-time` is a Svelte component and action library for formatting timestamps and durations, encoding the machine-parseable value in the semantic `time` element.
 
 Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight date-time library.
 
@@ -421,7 +421,7 @@ This also works with the `svelteTime` action and the `time` attachment:
 
 The `dayjs` library is exported from this package for your convenience.
 
-**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time).
+**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time) and the [duration plugin](https://day.js.org/docs/en/durations/durations).
 
 <!-- render:DayjsExport -->
 
@@ -706,9 +706,124 @@ dayjs().local().format("z"); // EST
 dayjs().local().format("zzz"); // Eastern Standard Time
 ```
 
+## Duration
+
+`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length, a countdown, or a stopwatch — as opposed to `Time`, which formats a point in time.
+
+### `Duration` component
+
+`value` accepts a plain number (paired with `unit`), an ISO 8601 duration string (e.g. `"PT1H30M"`), a plain object of unit fields, or a dayjs `Duration` instance. The default `format` is `"HH:mm:ss"`.
+
+<!-- render:DurationBasic -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+</script>
+
+<!-- Default format: "HH:mm:ss" -->
+<Duration value={3661000} />
+<!-- Output: "01:01:01" -->
+
+<!-- unit converts a plain number before formatting -->
+<Duration value={90} unit="seconds" format="mm:ss" />
+<!-- Output: "01:30" -->
+```
+
+Unlike dayjs's own `duration.format()`, which drops any magnitude above the units present in the template, `format` rolls that magnitude into the largest unit that _is_ present — handy for players/timers that hide hours until they're needed:
+
+```svelte
+<Duration value={5400000} format="mm:ss" />
+<!-- Output: "90:00", not "30:00" -->
+```
+
+### Humanize
+
+Set `humanize` to `true` to render the duration as a natural-language string (using dayjs's `duration.humanize()`) instead of `format`. Set `withSuffix` to `true` to include a relative suffix (e.g. "in an hour" / "an hour ago") — off by default, since a plain span (a video length, a meeting duration) isn't inherently relative to now.
+
+<!-- render:DurationHumanize -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+</script>
+
+<Duration value={3600000} humanize />
+<!-- Output: "an hour" -->
+
+<Duration value={3600000} humanize withSuffix />
+<!-- Output: "in an hour" -->
+```
+
+### Locale
+
+Use the `locale` prop to format durations in different languages. Make sure to import the locale from `dayjs` first.
+
+<!-- render:DurationLocale -->
+
+```svelte
+<script>
+  import "dayjs/locale/de";
+  import { Duration } from "svelte-time";
+</script>
+
+<Duration value={3600000} humanize locale="de" />
+<!-- Output: "eine Stunde" -->
+```
+
+### Live elapsed duration (stopwatch)
+
+Pass a `since` timestamp instead of `value` to display the elapsed time since that instant — `since` and `live` turn `Duration` into a stopwatch, ticking at an adaptive interval (the same shared clock the `Time` component's `relative live` mode uses). `value`/`unit` are ignored when `since` is set.
+
+<!-- render:DurationSince -->
+
+```svelte
+<script>
+  import { Duration } from "svelte-time";
+
+  const since = new Date().toISOString();
+</script>
+
+<Duration {since} live format="HH:mm:ss" />
+```
+
+Pass a number to `live` for a fixed interval instead of the adaptive default:
+
+```svelte
+<Duration since={startedAt} live={1000} format="HH:mm:ss" />
+```
+
+### `svelteDuration` action
+
+An alternative to the `Duration` component is the `svelteDuration` action, for formatting a duration on a raw HTML element. The API is the same as the `Duration` component.
+
+<!-- render:SvelteDurationAction -->
+
+```svelte
+<script>
+  import { svelteDuration } from "svelte-time";
+</script>
+
+<time use:svelteDuration={{ value: 3661000 }}></time>
+```
+
+### `duration` attachment
+
+The `duration` attachment is the [attachment](#time-attachment) equivalent of `svelteDuration`, with the same fully-reactive behavior as the `time` attachment.
+
+<!-- render:DurationAttachmentExample -->
+
+```svelte
+<script>
+  import { duration } from "svelte-time";
+</script>
+
+<time {@attach duration({ value: 3661000 })}></time>
+```
+
 ## API
 
-### Props
+### `Time` component props
 
 | Name              | Type                                                  | Default value              | Description                                                                                                                                                                       |
 | :---------------- | :---------------------------------------------------- | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -736,6 +851,20 @@ Both the `svelteTime` action and the `time` attachment accept the same options a
 ### Accessibility
 
 The machine-readable `datetime` attribute is the accessible, parseable channel; the `title` tooltip isn't reachable via touch or keyboard, so don't rely on it to convey essential information: show the absolute date in text when it matters. Live text updates are deliberately not announced (`aria-live` is intentionally omitted): minute-by-minute announcements would be hostile to screen-reader users.
+
+### `Duration` component props
+
+| Name       | Type                                                                                                                                        | Default value                                                                         |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| value      | `number` &#124; `string` &#124; `object` &#124; `Duration`                                                                                  | `0` (ignored when `since` is set)                                                     |
+| unit       | `"milliseconds"` &#124; `"seconds"` &#124; `"minutes"` &#124; `"hours"` &#124; `"days"` &#124; `"weeks"` &#124; `"months"` &#124; `"years"` | `"milliseconds"` (only applies when `value` is a plain number)                        |
+| since      | `string` &#124; `number` &#124; `Date` &#124; `Dayjs`                                                                                       | `undefined` (see [live elapsed duration](#live-elapsed-duration-stopwatch))           |
+| format     | `string`                                                                                                                                    | `"HH:mm:ss"`                                                                          |
+| humanize   | `boolean`                                                                                                                                   | `false`                                                                               |
+| withSuffix | `boolean`                                                                                                                                   | `false` (only applies when `humanize` is `true`)                                      |
+| locale     | `Locales` (TypeScript) &#124; `string`                                                                                                      | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
+| live       | `boolean` &#124; `number`                                                                                                                   | `false` (only applies when `since` is set)                                            |
+| children   | `Snippet<[string]>`                                                                                                                         | `undefined`                                                                           |
 
 ## Examples
 
