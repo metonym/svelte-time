@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0](https://github.com/metonym/svelte-time/releases/tag/v2.2.0) - 2026-07-08
+
+**Features**
+
+- add `Duration` component, `svelteDuration` action, and `duration` attachment
+- add `time` attachment
+- add `children` snippet support for custom markup in `Time` and `Duration`
+- add `tz` prop for per-instance timezone conversion
+- add `relativeStyle` prop for compact relative time output
+- add `relativeThreshold` prop to control relative time thresholds
+- export `now`, `formatTime`, and `relativeTime` primitives
+- annotate generated locale union with human-readable names
+- upgrade `dayjs` to `^1.11.21`
+
+**Fixes**
+
+- preserve falsy timestamps in `svelteTime`
+- emit valid ISO 8601 `datetime` values for non-string timestamps
+- restore hand-rolled `.d.ts` files for `dayjs`, `datetime`, and `ticker` subpath exports
+- correct `format` typing, remove the phantom `formatted` prop, and export public types
+- avoid passing a `null` title to `setAttribute`
+- improve type safety across `Time`, `Duration`, formatting helpers, ticker utilities, and generated declarations
+
+**Performance**
+
+- parse timestamps once and reuse derived values
+- update action output via `textContent`
+- share a single live-update timer across components
+- add adaptive live-update scheduling with visibility-aware refresh
+
 ## [2.1.0](https://github.com/metonym/svelte-time/releases/tag/v2.1.0) - 2026-01-12
 
 **Features**
