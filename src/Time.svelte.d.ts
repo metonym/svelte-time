@@ -5,6 +5,13 @@ import type { Locales } from "./locales";
 
 type RestProps = Omit<SvelteHTMLElements["time"], "children">;
 
+/**
+ * Presentation style for `relative` output. `"micro"` renders a
+ * compact single unit (e.g. "4d") instead of the humanized string
+ * (e.g. "4 days ago").
+ */
+export type RelativeStyle = "default" | "micro";
+
 export interface TimeProps extends RestProps {
   /**
    * Original timestamp
@@ -32,6 +39,16 @@ export interface TimeProps extends RestProps {
    * @default false
    */
   withoutSuffix?: boolean;
+
+  /**
+   * Presentation style for `relative` output. `"micro"` renders a
+   * compact single unit (e.g. "4d") instead of the humanized string
+   * (e.g. "4 days ago"). Only applies when `relative` is `true`. Output
+   * uses English unit letters regardless of the `locale` prop — see
+   * README.
+   * @default "default"
+   */
+  relativeStyle?: RelativeStyle;
 
   /**
    * Set to `true` to update the relative time at 60 second interval.

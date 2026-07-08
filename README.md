@@ -342,6 +342,40 @@ This also works with the `svelteTime` action:
 ></time>
 ```
 
+### Compact relative time
+
+Set `relativeStyle` to `"micro"` to render relative time as a compact single unit (e.g. `"4d"`) instead of the humanized string (e.g. `"4 days ago"`) — handy for dense UIs like comment lists and notification feeds. Only applies when `relative` is `true`. Output uses fixed English unit letters (`y`/`mo`/`d`/`h`/`m`/`s`) regardless of the `locale` prop, since dayjs's `relativeTime` locale tables have no single-letter forms to draw from.
+
+<!-- render:RelativeStyleMicro -->
+
+```svelte
+<Time relative timestamp={pastDate} />
+<!-- Output: "4 days ago" -->
+
+<Time relative relativeStyle="micro" timestamp={pastDate} />
+<!-- Output: "4d" instead of "4 days ago" -->
+```
+
+This also works with the `svelteTime` action and the `time` attachment:
+
+```svelte
+<time
+  use:svelteTime={{
+    relative: true,
+    timestamp: pastDate,
+    relativeStyle: "micro",
+  }}
+></time>
+
+<time
+  {@attach time({
+    relative: true,
+    timestamp: pastDate,
+    relativeStyle: "micro",
+  })}
+></time>
+```
+
 ### `dayjs` export
 
 The `dayjs` library is exported from this package for your convenience.
@@ -385,14 +419,20 @@ To use a [custom locale](https://day.js.org/docs/en/i18n/changing-locale), impor
 <Time timestamp="2024-01-01" format="YYYY年M月D日(dddd)" locale="ja" />
 ```
 
-The `Locales` type is exported for TypeScript usage, along with `TimeProps` and
-`SvelteTimeOptions` for typing component wrappers and action options.
+The `Locales` type is exported for TypeScript usage, along with `TimeProps`,
+`SvelteTimeOptions`, and `RelativeStyle` for typing component wrappers and action options.
 
 ```typescript
-import type { Locales, TimeProps, SvelteTimeOptions } from "svelte-time";
+import type {
+  Locales,
+  TimeProps,
+  SvelteTimeOptions,
+  RelativeStyle,
+} from "svelte-time";
 
 const locale: Locales = "de";
 const localeStore = writable<Locales>("en");
+let style: RelativeStyle = $state("default");
 ```
 
 The `locale` prop also works with relative time.
@@ -607,6 +647,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | format        | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
 | relative      | `boolean`                                             | `false`                                                                                  |
 | withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
+| relativeStyle | `RelativeStyle` (`"default"` &#124; `"micro"`)        | `"default"` (only applies when `relative` is `true`)                                     |
 | live          | `boolean` &#124; `number`                             | `false`                                                                                  |
 | locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
 | tz            | `string`                                              | `undefined` (See [tz prop](#tz-prop); requires the dayjs `utc`/`timezone` plugins)       |

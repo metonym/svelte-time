@@ -29,6 +29,14 @@
     withoutSuffix = false,
 
     /**
+     * Presentation style for `relative` output. `"micro"` renders a
+     * compact single unit (e.g. "4d") instead of the humanized string
+     * (e.g. "4 days ago"). Only applies when `relative` is `true`.
+     * @type {import("./Time.svelte").RelativeStyle}
+     */
+    relativeStyle = "default",
+
+    /**
      * Set to `true` to update the relative time at 60 second interval.
      * Pass in a number (ms) to specify the interval length
      * @type {boolean | number}
@@ -59,6 +67,7 @@
 
   import { dayjs } from "./dayjs";
   import { toDatetime } from "./datetime";
+  import { microFormat } from "./micro";
   import { liveInterval, sharedNow } from "./ticker";
 
   const canTick = typeof document !== "undefined";
@@ -131,7 +140,9 @@
    */
   let formatted = $derived(
     relative
-      ? day.from(live !== false ? now : dayjs(), withoutSuffix)
+      ? relativeStyle === "micro"
+        ? microFormat(day.diff(live !== false ? now : dayjs()))
+        : day.from(live !== false ? now : dayjs(), withoutSuffix)
       : day.format(format),
   );
 

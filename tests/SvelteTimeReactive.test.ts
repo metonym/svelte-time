@@ -133,4 +133,21 @@ describe("svelte-time-reactive", () => {
     await tick();
     expect(element.innerHTML).toEqual("2 minutes ago");
   });
+
+  test('relativeStyle="micro" + live ticks and changes tier (59s -> 1m)', async () => {
+    const target = document.body;
+    instance = mount(SvelteTimeReactive, { target });
+    flushSync();
+
+    const element = getElement('[data-test="reactive-live-micro"]');
+    expect(element.innerHTML).toEqual("0s");
+
+    vi.advanceTimersByTime(59_000);
+    await tick();
+    expect(element.innerHTML).toEqual("59s");
+
+    vi.advanceTimersByTime(1_000);
+    await tick();
+    expect(element.innerHTML).toEqual("1m");
+  });
 });

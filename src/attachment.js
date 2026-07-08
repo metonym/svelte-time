@@ -1,5 +1,6 @@
 import { dayjs } from "./dayjs";
 import { toDatetime } from "./datetime";
+import { microFormat } from "./micro";
 import { liveInterval, sharedNow } from "./ticker";
 
 const DEFAULT_INTERVAL = 60 * 1_000;
@@ -19,6 +20,7 @@ export function time(options = {}) {
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const withoutSuffix = options.withoutSuffix ?? false;
+    const relativeStyle = options.relativeStyle ?? "default";
     const live = options.live ?? false;
     const tz = options.tz;
     let locale = options.locale ?? "en";
@@ -77,7 +79,9 @@ export function time(options = {}) {
     if (datetime) node.setAttribute("datetime", datetime);
     else node.removeAttribute("datetime");
     node.textContent = relative
-      ? day.from(now, withoutSuffix)
+      ? relativeStyle === "micro"
+        ? microFormat(day.diff(now))
+        : day.from(now, withoutSuffix)
       : day.format(format);
   };
 }
