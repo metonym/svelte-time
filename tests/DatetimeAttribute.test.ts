@@ -1,3 +1,4 @@
+import type { ConfigType } from "dayjs";
 import dayjs from "dayjs";
 import { flushSync, mount, unmount } from "svelte";
 import Time, { svelteTime, time } from "svelte-time";
@@ -14,7 +15,7 @@ describe("datetime attribute contract", () => {
     document.body.innerHTML = "";
   });
 
-  function renderComponent(timestamp: unknown) {
+  function renderComponent(timestamp: ConfigType) {
     instance = mount(Time, {
       target: document.body,
       props: {
@@ -27,7 +28,7 @@ describe("datetime attribute contract", () => {
     return document.querySelector('[data-test="component"]') as HTMLElement;
   }
 
-  function renderAction(timestamp: unknown) {
+  function renderAction(timestamp: ConfigType) {
     const node = document.createElement("time");
     node.setAttribute("data-test", "action");
     document.body.appendChild(node);
@@ -38,7 +39,7 @@ describe("datetime attribute contract", () => {
     return node;
   }
 
-  function renderAttachment(timestamp: unknown) {
+  function renderAttachment(timestamp: ConfigType) {
     const node = document.createElement("time");
     node.setAttribute("data-test", "attachment");
     document.body.appendChild(node);
