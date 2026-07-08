@@ -72,6 +72,7 @@
     ...rest
   } = $props();
 
+  import { untrack } from "svelte";
   import { toDatetime } from "./datetime";
   import { dayjs } from "./dayjs";
   import { resolveLocale } from "./format";
@@ -110,7 +111,9 @@
   // directly would make `now` depend on itself. Seeded once from the raw
   // props (not the reactive `day`) since this is only an initial guess —
   // the effect below corrects it as soon as it runs.
-  let interval = $state(liveInterval(dayjs(timestamp).diff(dayjs())));
+  let interval = $state(
+    untrack(() => liveInterval(dayjs(timestamp).diff(dayjs()))),
+  );
 
   $effect(() => {
     if (relative && live === true) {
