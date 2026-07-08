@@ -57,6 +57,13 @@
     tz = undefined,
 
     /**
+     * When `relative` is `true`, switch to displaying `format` once the
+     * timestamp's age (in ms) meets or exceeds this value.
+     * @type {number | undefined}
+     */
+    relativeThreshold = undefined,
+
+    /**
      * Snippet rendered inside the `time` element instead of the plain
      * formatted string. Receives the formatted value as its argument.
      * @type {import("svelte").Snippet<[string]> | undefined}
@@ -134,12 +141,22 @@
   );
 
   /**
+   * Whether the timestamp's age has met or exceeded `relativeThreshold`,
+   * in which case `relative` display gives way to `format`.
+   * @type {boolean}
+   */
+  const isPastThreshold = $derived(
+    relativeThreshold != null &&
+      Math.abs(day.diff(live !== false ? now : dayjs())) >= relativeThreshold,
+  );
+
+  /**
    * Formatted timestamp.
    * Result of invoking `dayjs().format()` or `dayjs().from()`
    * @type {string}
    */
   let formatted = $derived(
-    relative
+    relative && !isPastThreshold
       ? relativeStyle === "micro"
         ? microFormat(day.diff(live !== false ? now : dayjs()))
         : day.from(live !== false ? now : dayjs(), withoutSuffix)
@@ -151,7 +168,9 @@
    * Result of invoking `dayjs().format()`
    * @type {string | undefined}
    */
-  const title = $derived(relative ? day.format(format) : undefined);
+  const title = $derived(
+    relative && !isPastThreshold ? day.format(format) : undefined,
+  );
 </script>
 
 {#if children}

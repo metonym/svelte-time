@@ -74,6 +74,14 @@ export interface TimeProps extends RestProps {
   tz?: string;
 
   /**
+   * When `relative` is `true`, switch to displaying `format` once the
+   * timestamp's age (in ms) meets or exceeds this value. Left `undefined`
+   * (the default), relative display never expires.
+   * @default undefined
+   */
+  relativeThreshold?: number;
+
+  /**
    * Snippet rendered inside the `time` element instead of the plain
    * formatted string. Receives the formatted value as its argument.
    */
