@@ -1,4 +1,5 @@
 <script>
+  /** @type {import("./Duration.svelte.d.ts").DurationProps} */
   const {
     /**
      * Duration value. Accepts anything dayjs's `duration()` accepts: a
