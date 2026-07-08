@@ -708,7 +708,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Duration
 
-`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length, a countdown, or a stopwatch — as opposed to `Time`, which formats a point in time.
+`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component).
 
 ### `Duration` component
 
@@ -821,6 +821,77 @@ The `duration` attachment is the [attachment](#time-attachment) equivalent of `s
 <time {@attach duration({ value: 3661000 })}></time>
 ```
 
+### `Countdown` component
+
+`Countdown` counts down to a future instant — the mirror image of `Duration`'s `since` stopwatch mode. Pass a `to` timestamp (a point in time that hasn't happened yet — a `Date`, ISO string, or anything dayjs accepts); the displayed value is `to - now`, clamped at zero. Unlike `Duration`, `live` defaults to `true` and ticks every second (rather than the coarser adaptive schedule used for slowly-decaying "x minutes ago" text), since a countdown's final seconds are the ones that matter most. Changing `to` to a new instant restarts the countdown.
+
+<!-- render:CountdownBasic -->
+
+```svelte
+<script>
+  import { Countdown } from "svelte-time";
+
+  let to = $state(new Date(Date.now() + 20_000));
+</script>
+
+<!-- Ticks live by default, once per second -->
+<Countdown {to} />
+
+<!-- format hides hours until they're needed -->
+<Countdown {to} format="mm:ss" />
+
+<!-- Changing `to` restarts the countdown -->
+<button onclick={() => (to = new Date(Date.now() + 20_000))}>Reset</button>
+```
+
+### `oncomplete` and the `done` flag
+
+`oncomplete` fires once, when the countdown reaches `to` (immediately, if `to` is already in the past; again, if `to` is later changed to another already-elapsed instant). The `children` snippet receives a `done` boolean alongside the formatted value, so you can swap in different markup once the countdown finishes without a separate `$effect`.
+
+<!-- render:CountdownOnComplete -->
+
+```svelte
+<script>
+  import { Countdown } from "svelte-time";
+
+  let to = $state(new Date(Date.now() + 5000));
+</script>
+
+<Countdown {to} oncomplete={() => console.log("done!")}>
+  {#snippet children(formatted, done)}
+    {done ? "Done!" : formatted}
+  {/snippet}
+</Countdown>
+```
+
+### `svelteCountdown` action
+
+An alternative to the `Countdown` component is the `svelteCountdown` action, for counting down on a raw HTML element. The API is the same as the `Countdown` component.
+
+```svelte
+<script>
+  import { svelteCountdown } from "svelte-time";
+
+  const to = new Date(Date.now() + 20_000);
+</script>
+
+<time use:svelteCountdown={{ to, oncomplete: () => console.log("done!") }}></time>
+```
+
+### `countdown` attachment
+
+The `countdown` attachment is the [attachment](#time-attachment) equivalent of `svelteCountdown`, with the same fully-reactive behavior as the `time` and `duration` attachments.
+
+```svelte
+<script>
+  import { countdown } from "svelte-time";
+
+  const to = new Date(Date.now() + 20_000);
+</script>
+
+<time {@attach countdown({ to, oncomplete: () => console.log("done!") })}></time>
+```
+
 ## Utilities
 
 The formatting logic and shared clock behind `<Time>` and `svelteTime` are also available as standalone primitives, for use outside a `<time>` element — an `aria-label`, `document.title`, a toast, server code.
@@ -892,6 +963,19 @@ The machine-readable `datetime` attribute is the accessible, parseable channel; 
 | locale     | `Locales` (TypeScript) &#124; `string`                                                                                                      | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
 | live       | `boolean` &#124; `number`                                                                                                                   | `false` (only applies when `since` is set)                                            |
 | children   | `Snippet<[string]>`                                                                                                                         | `undefined`                                                                           |
+
+### `Countdown` component props
+
+| Name       | Type                                                    | Default value                                                                         |
+| :--------- | :------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| to         | `string` &#124; `number` &#124; `Date` &#124; `Dayjs`    | (required) target instant to count down to                                            |
+| format     | `string`                                                 | `"HH:mm:ss"`                                                                          |
+| humanize   | `boolean`                                                | `false`                                                                               |
+| withSuffix | `boolean`                                                | `false` (only applies when `humanize` is `true`)                                      |
+| locale     | `Locales` (TypeScript) &#124; `string`                   | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
+| live       | `boolean` &#124; `number`                                | `true` (ticks every second; pass a number for a custom fixed interval in ms)          |
+| oncomplete | `() => void`                                             | `undefined`; fires once, when the countdown reaches `to`                              |
+| children   | `Snippet<[string, boolean]>`                             | `undefined`; receives the formatted value and a `done` flag                           |
 
 ## Examples
 
