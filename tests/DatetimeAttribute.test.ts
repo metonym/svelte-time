@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { flushSync, mount, unmount } from "svelte";
-import Time, { svelteTime } from "svelte-time";
+import Time, { svelteTime, time } from "svelte-time";
 
 describe("datetime attribute contract", () => {
   const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
@@ -38,11 +38,19 @@ describe("datetime attribute contract", () => {
     return node;
   }
 
+  function renderAttachment(timestamp: unknown) {
+    const node = document.createElement("time");
+    node.setAttribute("data-test", "attachment");
+    document.body.appendChild(node);
+    time({ timestamp, format: "YYYY-MM-DD" })(node);
+    return node;
+  }
+
   test.each([
     ["Date", new Date("2024-01-01T00:00:00.000Z")],
     ["Dayjs", dayjs("2024-01-01T00:00:00.000Z")],
     ["number", 1e10],
-  ])("%s inputs are normalized to ISO 8601 in both render paths", (_, timestamp) => {
+  ])("%s inputs are normalized to ISO 8601 in all three render paths", (_, timestamp) => {
     const component = renderComponent(timestamp);
     expect(component.getAttribute("datetime")).toMatch(ISO);
 
@@ -54,9 +62,14 @@ describe("datetime attribute contract", () => {
 
     const action = renderAction(timestamp);
     expect(action.getAttribute("datetime")).toMatch(ISO);
+
+    document.body.innerHTML = "";
+
+    const attachment = renderAttachment(timestamp);
+    expect(attachment.getAttribute("datetime")).toMatch(ISO);
   });
 
-  test("string inputs pass through as-is in both render paths", () => {
+  test("string inputs pass through as-is in all three render paths", () => {
     const timestamp = "2020-02-01";
 
     const component = renderComponent(timestamp);
@@ -70,9 +83,14 @@ describe("datetime attribute contract", () => {
 
     const action = renderAction(timestamp);
     expect(action.getAttribute("datetime")).toEqual(timestamp);
+
+    document.body.innerHTML = "";
+
+    const attachment = renderAttachment(timestamp);
+    expect(attachment.getAttribute("datetime")).toEqual(timestamp);
   });
 
-  test("invalid inputs omit the datetime attribute in both render paths", () => {
+  test("invalid inputs omit the datetime attribute in all three render paths", () => {
     const timestamp = "not a date";
 
     const component = renderComponent(timestamp);
@@ -86,5 +104,10 @@ describe("datetime attribute contract", () => {
 
     const action = renderAction(timestamp);
     expect(action.hasAttribute("datetime")).toEqual(false);
+
+    document.body.innerHTML = "";
+
+    const attachment = renderAttachment(timestamp);
+    expect(attachment.hasAttribute("datetime")).toEqual(false);
   });
 });
