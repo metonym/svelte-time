@@ -29,7 +29,7 @@
     "marked": "^18.0.5",
     "marked-base-url": "^1.1.10",
     "marked-highlight": "^2.2.4",
-    "shiki": "^3.17.0",
+    "shiki": "^4.3.1",
     "svelte": "^5.45.2",
     "typescript": "^5.9.3",
     "vite": "^7.2.6",
