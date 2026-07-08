@@ -53,7 +53,7 @@ export const svelteTime = (node, options = {}) => {
           : getDay().from(dayjs(), withoutSuffix);
 
       if ("title" in options) {
-        if (options.title !== undefined) {
+        if (options.title != null) {
           node.setAttribute("title", options.title);
         }
       } else {

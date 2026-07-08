@@ -58,7 +58,7 @@ export function time(options = {}) {
 
     if (showRelative) {
       if ("title" in options) {
-        if (options.title !== undefined) {
+        if (options.title != null) {
           node.setAttribute("title", options.title);
         }
       } else {
