@@ -59,7 +59,7 @@ function renderTemplate(totalMs, template) {
  * `Duration` component, `svelteDuration` action, and `duration` attachment
  * so the formatting logic lives in exactly one place.
  * @param {object} options
- * @param {number | string | object | import("dayjs").Duration} [options.value]
+ * @param {number | string | object | import("./duration-format").DayjsDuration} [options.value]
  * @param {"milliseconds" | "seconds" | "minutes" | "hours" | "days" | "weeks" | "months" | "years"} [options.unit]
  * @param {string} [options.format]
  * @param {boolean} [options.humanize]
@@ -79,7 +79,11 @@ export function formatDuration({
     ? value
     : typeof value === "number"
       ? dayjs.duration(value, unit)
-      : dayjs.duration(value);
+      : dayjs.duration(
+          /** @type {import("dayjs/plugin/duration").DurationUnitsObjectType} */ (
+            value
+          ),
+        );
 
   const duration = base.locale(locale);
 
