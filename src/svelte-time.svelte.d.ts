@@ -1,19 +1,20 @@
 import type { Action } from "svelte/action";
 import type { TimeProps } from "./Time.svelte";
 
-export interface SvelteTimeOptions extends Pick<
-  TimeProps,
-  | "timestamp"
-  | "format"
-  | "relative"
-  | "withoutSuffix"
-  | "relativeStyle"
-  | "live"
-  | "title"
-  | "locale"
-  | "tz"
-  | "relativeThreshold"
-> {}
+export interface SvelteTimeOptions
+  extends Pick<
+    TimeProps,
+    | "timestamp"
+    | "format"
+    | "relative"
+    | "withoutSuffix"
+    | "relativeStyle"
+    | "live"
+    | "title"
+    | "locale"
+    | "tz"
+    | "relativeThreshold"
+  > {}
 
 export const svelteTime: Action<
   HTMLElement,

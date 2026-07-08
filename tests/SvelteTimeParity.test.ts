@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { flushSync, mount, tick, unmount } from "svelte";
 import Time, { svelteTime, time } from "svelte-time";
 import RelativeThreshold from "./RelativeThreshold.test.svelte";

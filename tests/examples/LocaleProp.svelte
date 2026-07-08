@@ -7,7 +7,11 @@
 </script>
 
 <div>
-  <Time timestamp="2024-01-01" format="dddd, MMMM D, YYYY" locale="de" />
+  <Time
+    timestamp="2024-01-01"
+    format="dddd, MMMM D, YYYY"
+    locale="de"
+  />
 </div>
 
 <div>
@@ -19,9 +23,17 @@
 </div>
 
 <div>
-  <Time timestamp="2024-01-01" format="dddd D MMMM YYYY" locale="fr" />
+  <Time
+    timestamp="2024-01-01"
+    format="dddd D MMMM YYYY"
+    locale="fr"
+  />
 </div>
 
 <div>
-  <Time timestamp="2024-01-01" format="YYYY年M月D日(dddd)" locale="ja" />
+  <Time
+    timestamp="2024-01-01"
+    format="YYYY年M月D日(dddd)"
+    locale="ja"
+  />
 </div>

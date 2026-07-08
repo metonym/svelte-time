@@ -2,4 +2,7 @@
   import Time from "svelte-time";
 </script>
 
-<Time relative title={undefined} />
+<Time
+  relative
+  title={undefined}
+/>

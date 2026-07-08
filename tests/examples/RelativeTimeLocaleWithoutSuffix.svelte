@@ -6,13 +6,28 @@
 </script>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="de" withoutSuffix />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="de"
+    withoutSuffix
+  />
 </div>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="es" withoutSuffix />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="es"
+    withoutSuffix
+  />
 </div>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="fr" withoutSuffix />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="fr"
+    withoutSuffix
+  />
 </div>

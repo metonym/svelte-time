@@ -1,4 +1,5 @@
 <script lang="ts">
+  // biome-ignore lint/correctness/noUnusedImports: `time` is used in the {@attach} directives below
   import { time } from "svelte-time";
 </script>
 

@@ -2,8 +2,8 @@ import dayjs from "dayjs";
 import { flushSync, mount, tick, unmount } from "svelte";
 import { dayjs as dayjsExported } from "svelte-time";
 import SvelteTime from "./SvelteTime.test.svelte";
-import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 import SvelteTimeCustomTitle from "./SvelteTimeCustomTitle.test.svelte";
+import SvelteTimeLive from "./SvelteTimeLive.test.svelte";
 
 describe("svelte-time", () => {
   let instance: null | ReturnType<typeof mount> = null;

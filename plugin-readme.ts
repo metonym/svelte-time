@@ -1,8 +1,8 @@
+import fsp from "node:fs/promises";
+import path from "node:path";
 import { Marked } from "marked";
 import { baseUrl } from "marked-base-url";
 import { markedHighlight } from "marked-highlight";
-import fsp from "node:fs/promises";
-import path from "node:path";
 import { codeToHtml } from "shiki";
 import type { Plugin } from "vite";
 
@@ -12,6 +12,8 @@ type PluginReadmeOptions = {
   watchDir: string;
   baseUrl: string;
 };
+
+const RENDER_COMMENT_REGEX = /<!--\s*render:(\w+)\s*-->/;
 
 export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
   const watchDir = path.join(__dirname, options.watchDir);
@@ -35,8 +37,7 @@ export const pluginReadme = (options: PluginReadmeOptions): Plugin => {
         html(html) {
           if (html.text.includes("render:")) {
             // Parse the name from the comment (after "render:")
-            const regex = /<!--\s*render:(\w+)\s*-->/;
-            const match = html.text.match(regex);
+            const match = html.text.match(RENDER_COMMENT_REGEX);
             const componentName = match?.[1];
 
             if (!componentName) {

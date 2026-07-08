@@ -1,6 +1,5 @@
 <script lang="ts">
-  import Time, { svelteTime } from "svelte-time";
-  import { dayjs } from "svelte-time";
+  import Time, { dayjs, svelteTime } from "svelte-time";
 
   let time = dayjs().format("MMM DD, YYYY");
   let relativeTime = dayjs().from(dayjs());
@@ -8,7 +7,10 @@
 
 <!-- Basic -->
 <Time data-test="default" />
-<Time data-test="timestamp-string" timestamp="2020-02-01" />
+<Time
+  data-test="timestamp-string"
+  timestamp="2020-02-01"
+/>
 <Time
   data-test="timestamp-date"
   timestamp={new Date()}
@@ -21,13 +23,31 @@
 />
 
 <!-- Relative time -->
-<Time data-test="relative" relative />
-<Time data-test="relative-timestamp" relative timestamp="2021-02-02" />
-<Time data-test="relative-timestamp-number" relative timestamp={1e10} />
-<Time data-test="relative-live" relative live />
+<Time
+  data-test="relative"
+  relative
+/>
+<Time
+  data-test="relative-timestamp"
+  relative
+  timestamp="2021-02-02"
+/>
+<Time
+  data-test="relative-timestamp-number"
+  relative
+  timestamp={1e10}
+/>
+<Time
+  data-test="relative-live"
+  relative
+  live
+/>
 
 <!-- Action -->
-<time data-test="action" use:svelteTime></time>
+<time
+  data-test="action"
+  use:svelteTime
+></time>
 <time
   data-test="action-timestamp-format"
   use:svelteTime={{

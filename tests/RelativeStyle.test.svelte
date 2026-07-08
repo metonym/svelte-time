@@ -29,7 +29,11 @@
 />
 
 <!-- relativeStyle omitted -->
-<Time data-test="omitted-style" relative timestamp="2023-12-28T00:00:00.000Z" />
+<Time
+  data-test="omitted-style"
+  relative
+  timestamp="2023-12-28T00:00:00.000Z"
+/>
 
 <!-- relativeStyle={undefined} -->
 <Time

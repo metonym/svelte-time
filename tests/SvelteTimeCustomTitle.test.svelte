@@ -2,9 +2,17 @@
   import Time, { svelteTime } from "svelte-time";
 </script>
 
-<Time data-test="custom-title" relative title="Custom title" />
+<Time
+  data-test="custom-title"
+  relative
+  title="Custom title"
+/>
 
-<Time data-test="custom-title-omit" relative title={undefined} />
+<Time
+  data-test="custom-title-omit"
+  relative
+  title={undefined}
+/>
 
 <time
   data-test="action-custom-title"

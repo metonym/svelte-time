@@ -7,17 +7,33 @@
 </script>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="de" />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="de"
+  />
 </div>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="es" />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="es"
+  />
 </div>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="fr" />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="fr"
+  />
 </div>
 
 <div>
-  <Time relative timestamp="2024-01-01" locale="ja" />
+  <Time
+    relative
+    timestamp="2024-01-01"
+    locale="ja"
+  />
 </div>

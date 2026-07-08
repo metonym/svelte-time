@@ -11,7 +11,12 @@
   }
 </script>
 
-<button onclick={updateTimestamp}>Update</button>
+<button
+  type="button"
+  onclick={updateTimestamp}
+>
+  Update
+</button>
 
 <div>
   <time use:svelteTime={{ timestamp, format }}></time>

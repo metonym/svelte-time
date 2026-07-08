@@ -3,7 +3,11 @@
 </script>
 
 <!-- Relative with suffix (default) -->
-<Time data-test="relative-with-suffix" relative timestamp="2021-02-02" />
+<Time
+  data-test="relative-with-suffix"
+  relative
+  timestamp="2021-02-02"
+/>
 
 <!-- Relative without suffix -->
 <Time
@@ -14,7 +18,11 @@
 />
 
 <!-- Future timestamp with suffix (default) -->
-<Time data-test="future-with-suffix" relative timestamp="2025-02-02" />
+<Time
+  data-test="future-with-suffix"
+  relative
+  timestamp="2025-02-02"
+/>
 
 <!-- Future timestamp without suffix -->
 <Time
