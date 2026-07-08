@@ -11,10 +11,10 @@
     "isolatedModules": true,
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "strict": true,
-    "types": ["svelte", "vitest/globals"],
+    "types": ["node", "svelte", "vitest/globals"],
     "paths": {
       "svelte-time": ["./src"],
       "svelte-time/*": ["./src/*"]
