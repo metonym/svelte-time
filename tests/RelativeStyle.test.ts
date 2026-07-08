@@ -60,6 +60,20 @@ describe("Time component with relativeStyle prop", () => {
     );
   });
 
+  test('relativeStyle="micro" ignores locale — always renders English unit letters', () => {
+    const target = document.body;
+    instance = mount(RelativeStyleTest, { target });
+    flushSync();
+
+    const element = getElement('[data-test="micro-german-locale"]');
+    expect(element.innerHTML).toEqual("4d");
+    // the title still localizes, since it's the plain absolute `format` —
+    // only the micro body text is locale-independent
+    expect(element.title).toEqual(
+      dayjs("2023-12-28T00:00:00.000Z").locale("de").format("MMM DD, YYYY"),
+    );
+  });
+
   test('relativeStyle="micro" is a no-op without relative', () => {
     const target = document.body;
     instance = mount(RelativeStyleTest, { target });

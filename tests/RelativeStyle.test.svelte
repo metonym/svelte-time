@@ -1,4 +1,5 @@
 <script lang="ts">
+  import "dayjs/locale/de"; // German
   import Time from "svelte-time";
 </script>
 
@@ -7,6 +8,16 @@
   data-test="micro"
   relative
   relativeStyle="micro"
+  timestamp="2023-12-28T00:00:00.000Z"
+  format="MMM DD, YYYY"
+/>
+
+<!-- relativeStyle="micro" ignores locale — English unit letters regardless -->
+<Time
+  data-test="micro-german-locale"
+  relative
+  relativeStyle="micro"
+  locale="de"
   timestamp="2023-12-28T00:00:00.000Z"
   format="MMM DD, YYYY"
 />
