@@ -47,6 +47,16 @@ export interface TimeProps extends RestProps {
   locale?: Locales;
 
   /**
+   * IANA timezone name (e.g. "America/New_York") to render the
+   * timestamp in. Requires the dayjs `utc` and `timezone` plugins to be
+   * extended by the consumer — throws at runtime otherwise. Left
+   * `undefined` (the default), the timestamp renders in the browser's
+   * local timezone, matching dayjs's own default behavior.
+   * @default undefined
+   */
+  tz?: string;
+
+  /**
    * Snippet rendered inside the `time` element instead of the plain
    * formatted string. Receives the formatted value as its argument.
    */

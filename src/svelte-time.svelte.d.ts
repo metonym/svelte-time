@@ -10,6 +10,7 @@ export interface SvelteTimeOptions extends Pick<
   | "live"
   | "title"
   | "locale"
+  | "tz"
 > {}
 
 export const svelteTime: Action<

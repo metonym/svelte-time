@@ -20,6 +20,7 @@ export function time(options = {}) {
     const relative = options.relative === true;
     const withoutSuffix = options.withoutSuffix ?? false;
     const live = options.live ?? false;
+    const tz = options.tz;
     let locale = options.locale ?? "en";
 
     // If locale is default "en" and timestamp is a dayjs instance with a locale set,
@@ -36,7 +37,14 @@ export function time(options = {}) {
       }
     }
 
-    const day = dayjs(timestamp).locale(locale);
+    const base = dayjs(timestamp);
+    if (tz !== undefined && typeof base.tz !== "function") {
+      throw new Error(
+        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
+          "see https://github.com/metonym/svelte-time#custom-timezone",
+      );
+    }
+    const day = (tz === undefined ? base : base.tz(tz)).locale(locale);
 
     let now = dayjs();
     if (relative && live !== false) {

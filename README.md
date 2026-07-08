@@ -494,6 +494,29 @@ To set a global default locale:
 </script>
 ```
 
+### tz prop
+
+Pass a `tz` prop to render a timestamp in a given [IANA timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) without pre-building a `dayjs.tz(...)` value yourself. This requires the `utc` and `timezone` plugins from `dayjs` to be extended; if they're missing, `tz` throws a clear error instead of failing silently.
+
+<!-- render:TzProp -->
+
+```svelte
+<script>
+  import utc from "dayjs/plugin/utc";
+  import timezone from "dayjs/plugin/timezone";
+  import Time, { dayjs } from "svelte-time";
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+</script>
+
+<Time
+  timestamp="2013-11-18T11:55:20Z"
+  tz="America/Toronto"
+  format="YYYY-MM-DDTHH:mm:ss"
+/>
+```
+
 ### Custom timezone
 
 To use a [custom timezone](https://day.js.org/docs/en/timezone/timezone), import the `utc` and `timezone` plugins from `dayjs`.
@@ -533,6 +556,11 @@ Use the [`dayjs.tz.setDefault`](https://day.js.org/docs/en/timezone/default-time
   dayjs.tz.setDefault("America/New_York");
 </script>
 ```
+
+> **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)` — it does
+> not change what `<Time>` renders by itself. Use the `tz` prop (above) for the common case, or
+> pass a `dayjs.tz(value)` result as the `timestamp` prop explicitly if you're relying on a
+> global default.
 
 ### User timezone
 
@@ -581,6 +609,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 | withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
 | live          | `boolean` &#124; `number`                             | `false`                                                                                  |
 | locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
+| tz            | `string`                                              | `undefined` (See [tz prop](#tz-prop); requires the dayjs `utc`/`timezone` plugins)       |
 | children      | `Snippet<[string]>`                                   | `undefined`                                                                              |
 
 ## Examples

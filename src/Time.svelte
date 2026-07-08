@@ -42,6 +42,13 @@
     locale = "en",
 
     /**
+     * IANA timezone name (e.g. "America/New_York") to render the timestamp
+     * in. Requires the dayjs `utc` and `timezone` plugins to be extended.
+     * @type {string | undefined}
+     */
+    tz = undefined,
+
+    /**
      * Snippet rendered inside the `time` element instead of the plain
      * formatted string. Receives the formatted value as its argument.
      * @type {import("svelte").Snippet<[string]> | undefined}
@@ -76,10 +83,21 @@
   });
 
   /**
-   * Parsed timestamp with the effective locale applied.
+   * Parsed timestamp with the timezone (if provided) and effective locale
+   * applied.
    * @type {import("dayjs").Dayjs}
    */
-  const day = $derived(dayjs(timestamp).locale(effectiveLocale));
+  const day = $derived.by(() => {
+    const base = dayjs(timestamp);
+    if (tz === undefined) return base.locale(effectiveLocale);
+    if (typeof base.tz !== "function") {
+      throw new Error(
+        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
+          "see https://github.com/metonym/svelte-time#custom-timezone",
+      );
+    }
+    return base.tz(tz).locale(effectiveLocale);
+  });
 
   // Tier for adaptive `live === true` scheduling. Written from an effect
   // (rather than derived directly from `now`) to avoid a `$derived` cycle:
