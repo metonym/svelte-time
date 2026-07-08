@@ -3,11 +3,11 @@ import localeDayjs from "dayjs/locale.json" with { type: "json" };
 
 const locales: string[] = [];
 
-for (const { key } of localeDayjs) {
+for (const { key, name } of localeDayjs) {
   if (key === "en") {
-    locales.unshift(`'${key}'`);
+    locales.unshift(`'${key}' /* ${name} */`);
   } else {
-    locales.push(`'${key}'`);
+    locales.push(`'${key}' /* ${name} */`);
   }
 }
 
