@@ -13,7 +13,7 @@
         "dlz": "^0.1.3",
         "github-markdown-css": "^5.9.0",
         "jsdom": "^27.2.0",
-        "marked": "^17.0.1",
+        "marked": "^18.0.5",
         "marked-base-url": "^1.1.10",
         "marked-highlight": "^2.2.4",
         "shiki": "^3.17.0",
@@ -311,7 +311,7 @@
 
     "magic-string": ["magic-string@0.30.17", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.0" } }, "sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA=="],
 
-    "marked": ["marked@17.0.1", "", { "bin": { "marked": "bin/marked.js" } }, "sha512-boeBdiS0ghpWcSwoNm/jJBwdpFaMnZWRzjA6SkUMYb40SVaN1x7mmfGKp0jvexGcx+7y2La5zRZsYFZI6Qpypg=="],
+    "marked": ["marked@18.0.5", "", { "bin": { "marked": "bin/marked.js" } }, "sha512-S6GcvALHg6K4ohtu4E7x0a1AqhAjp6cV8KhLSyN9qVapnzJkusVBxZRcIU9AeYsbe6P1hKDusSbEOzGyyuce6w=="],
 
     "marked-base-url": ["marked-base-url@1.1.10", "", { "peerDependencies": { "marked": ">= 4 < 19" } }, "sha512-Szoa+MAjZg1eiDiYrzK3JwJrgRPG7gvVyf858eOonKJKJB2JGP+Z6V83gvH85labGN1VHPgANq3Jk4V47u9xAA=="],
 
