@@ -4,6 +4,12 @@ import { defineConfig } from "vite";
 import pkg from "./package.json";
 import { pluginReadme } from "./plugin-readme";
 
+declare module "vite" {
+  interface UserConfig {
+    test?: import("vitest/config").TestUserConfig;
+  }
+}
+
 export default defineConfig({
   base: `/${pkg.name}`,
   root: "./tests",
