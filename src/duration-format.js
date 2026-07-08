@@ -4,7 +4,7 @@ const TOKEN_REGEX = /\[([^\]]+)]|Y+|M+|D+|H+|m+|s+|S+/g;
 
 /** Largest-to-smallest so excess magnitude rolls into the largest
  * token present in the template instead of being dropped. */
-const HIERARCHY = ["Y", "M", "D", "H", "m", "s", "S"];
+const HIERARCHY = /** @type {const} */ (["Y", "M", "D", "H", "m", "s", "S"]);
 
 /** Matches dayjs duration's own approximation constants (365d/year, ~30.4d/month). */
 const UNIT_MS = {
