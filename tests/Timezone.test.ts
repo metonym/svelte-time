@@ -1,7 +1,7 @@
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { flushSync, mount, unmount } from "svelte";
-import Time, { dayjs } from "svelte-time";
+import Time, { dayjs, svelteTime, time } from "svelte-time";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -62,5 +62,25 @@ describe("tz prop", () => {
 
     expect(datetimeWithTz).toEqual(datetimeWithoutTz);
     expect(datetimeWithTz).toEqual(TIMESTAMP);
+  });
+
+  // With the plugins extended (unlike TimezoneMissingPlugin.test.ts), an
+  // unrecognized IANA zone name is a distinct, previously-untested failure
+  // mode: it's dayjs/Intl's own RangeError, not svelte-time's "requires the
+  // utc/timezone plugins" message. Pin what actually happens so a future
+  // change can't silently swallow or reword it without a test noticing.
+  test("unknown zone name: propagates dayjs/Intl's own RangeError, not our plugin-guard message", () => {
+    const props = { timestamp: TIMESTAMP, tz: "Not/AZone", format: FORMAT };
+
+    expect(() => render(props)).toThrow(RangeError);
+    expect(() => render(props)).toThrow(/invalid time zone/i);
+
+    const actionNode = document.createElement("time");
+    document.body.appendChild(actionNode);
+    expect(() => svelteTime(actionNode, props)).toThrow(RangeError);
+
+    const attachmentNode = document.createElement("time");
+    document.body.appendChild(attachmentNode);
+    expect(() => time(props)(attachmentNode)).toThrow(RangeError);
   });
 });
