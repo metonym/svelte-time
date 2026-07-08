@@ -58,6 +58,6 @@
 <Time
   data-test="unknown-style"
   relative
-  relativeStyle="bogus"
+  relativeStyle={"bogus" as any}
   timestamp="2023-12-28T00:00:00.000Z"
 />
