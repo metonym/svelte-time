@@ -2,11 +2,13 @@
 
 [![NPM][npm]][npm-url]
 
-**Note:** `svelte-time@2.0.0` only supports Svelte 5 in Runes mode.
+**Note:** `svelte-time@2` requires Svelte 5, since its internals use runes. The consuming app does not need to enable runes mode itself, since runes are opt-in per component.
 
 Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for Svelte 3, 4, and 5 (non-Runes mode).
 
 ---
+
+## About
 
 `svelte-time` is a Svelte component and action to make a timestamp human-readable while encoding the machine-parseable value in the semantic `time` element.
 
@@ -24,7 +26,22 @@ Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight
 
 Try it in the [Svelte REPL](https://svelte.dev/playground/e2a27786f93d42878388de482de403c9).
 
----
+It offers three interchangeable primitives, all backed by the same shared timer logic.
+
+| Primitive                      | Export       | Use it when...                                                                                                                            |
+| :----------------------------- | :----------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| [Component](#time-component)   | `Time`       | you want a declarative element with a `timestamp` prop, and full SSR support                                                              |
+| [Action](#sveltetime-action)   | `svelteTime` | you want `use:svelteTime` on a plain element, no extra markup, and don't need the shared adaptive timer                                   |
+| [Attachment](#time-attachment) | `time`       | you want the `@attach`-based alternative to the action, with reactive options and the same shared, adaptive timer as the `Time` component |
+
+The [`dayjs`](#dayjs-export) re-export is also available as a convenience utility, not a rendering primitive.
+
+### Compatibility
+
+| Package version                                           | Svelte version                                    | Notes                                                                   |
+| :-------------------------------------------------------- | :------------------------------------------------ | :---------------------------------------------------------------------- |
+| [1.x](https://github.com/metonym/svelte-time/tree/v1.0.0) | 3, 4, 5 (non-runes)                               | Uses `export let` and legacy reactivity                                 |
+| 2.x                                                       | 5+ (component, action); 5.29+ (`time` attachment) | Internals use runes; the consuming app does not need runes mode enabled |
 
 ## Installation
 
@@ -84,7 +101,7 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 
 ### Relative time
 
-Set the `relative` prop value to `true` for the relative time displayed in a human-readable format.
+Set `relative` to `true` to display the time relative to now (e.g. "4 days ago").
 
 <!-- render:RelativeTime -->
 
@@ -95,8 +112,6 @@ Set the `relative` prop value to `true` for the relative time displayed in a hum
 
 <Time relative timestamp={1e10} />
 ```
-
-When using relative time, the `title` attribute will display a formatted timestamp.
 
 Use the `format` prop to customize the [format](https://day.js.org/docs/en/display/format).
 
@@ -114,7 +129,7 @@ When using `relative`, the `time` element will set the formatted timestamp as th
 <Time relative title="Custom title" />
 ```
 
-Set the value to `undefined` to omit the `title` altogether.
+Pass `title={undefined}` to omit the attribute.
 
 <!-- render:RelativeTimeNoTitle -->
 
@@ -138,7 +153,7 @@ Pass a `children` snippet to render custom markup instead of the plain formatted
 
 ### Live updates
 
-Set `live` to `true` for a live updating relative timestamp. Updates follow an adaptive schedule based on the timestamp's age — every 10s while under a minute old, 30s while under an hour old, 5 minutes while under a day old, and hourly beyond that — migrating to the slower tier as the timestamp ages. It also refreshes immediately when a backgrounded tab becomes visible again, so you never see stale, timer-throttled text.
+Set `live` to `true` for a live updating relative timestamp. Updates follow an adaptive schedule based on the timestamp's age. See [Performance](#performance) for the full schedule and how the underlying timer works.
 
 ```svelte
 <Time live relative />
@@ -164,6 +179,25 @@ Set `relativeThreshold` (age in ms) to switch from `relative` to the absolute `f
 <!-- Shows "a minute ago", flips to "4:40 am" after 2 hours -->
 <Time relative live format="h:mm a" relativeThreshold={2 * 60 * 60 * 1000} />
 ```
+
+### Performance
+
+Designed to render thousands of live timestamps without measurable overhead.
+
+- **One timer, not n timers.** All `Time` components and `time` attachments sharing a live-update interval subscribe to a single shared clock; a feed with 1,000 live timestamps on the same tier schedules one `setInterval`, not 1,000. Timers start when the first live consumer mounts and stop when the last unmounts, so an idle page runs zero timers.
+- **Adaptive refresh.** `live={true}` updates on a schedule keyed to the timestamp's age: every 10s while under a minute old, 30s while under an hour old, 5 minutes while under a day old, and hourly beyond that, migrating tiers as the timestamp ages. Fresh timestamps are at most ~10 seconds stale; day-old ones update 60× less often than fixed 60-second polling. Pass a numeric `live` to force a fixed interval instead.
+- **Background tabs.** Browsers throttle timers in hidden tabs; the shared clock refreshes immediately when the tab becomes visible again, so returning users never see stale text.
+- **Cheap updates.** Each component parses its timestamp once per update (the resulting `dayjs` instance is shared by the formatted text and the `title`), and the `svelteTime` action and `time` attachment write updates via `textContent`, avoiding layout-forcing DOM APIs on the tick path.
+
+The `svelteTime` action's `live` option is the exception: it's a simpler, per-node `setInterval` (fixed 60 seconds by default, or a custom interval in ms) that does not share a timer across nodes and does not use the adaptive schedule above. Prefer the `Time` component or the `time` attachment on pages with many live timestamps.
+
+### SSR and SvelteKit
+
+The `Time` component fully renders on the server: text, `title`, and `datetime` are all present in the HTML payload, and no timers are started during SSR (including with `live`).
+
+The `svelteTime` action and the `time` attachment both render an empty `<time>` element until hydration, since neither actions nor attachments run on the server. Prefer the `Time` component over either one when SSR content matters (SEO, no-JS, avoiding a content flash).
+
+Pass an explicit `timestamp` under SSR: the default (`new Date().toISOString()`) is re-evaluated on the client during hydration, so the server- and client-rendered values can differ, and relative text can cross a threshold (e.g. "a few seconds ago" → "a minute ago") between render and hydration.
 
 ### `svelteTime` action
 
@@ -205,36 +239,6 @@ Set `relative` to `true` to use relative time.
     relative: true,
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
-  }}
-></time>
-```
-
-#### Locale
-
-Use the `locale` prop to format timestamps in different languages. Make sure to import the locale from `dayjs` first.
-
-<!-- render:ActionLocale -->
-
-```svelte
-<script>
-  import "dayjs/locale/de"; // German locale
-  import "dayjs/locale/es"; // Spanish locale
-  import { svelteTime } from "svelte-time";
-</script>
-
-<time
-  use:svelteTime={{
-    timestamp: "2024-01-01",
-    format: "dddd, MMMM D, YYYY",
-    locale: "de",
-  }}
-></time>
-
-<time
-  use:svelteTime={{
-    relative: true,
-    timestamp: "2024-01-01",
-    locale: "es",
   }}
 ></time>
 ```
@@ -381,7 +385,7 @@ This also works with the `svelteTime` action:
 
 ### Compact relative time
 
-Set `relativeStyle` to `"micro"` to render relative time as a compact single unit (e.g. `"4d"`) instead of the humanized string (e.g. `"4 days ago"`) — handy for dense UIs like comment lists and notification feeds. Only applies when `relative` is `true`. Output uses fixed English unit letters (`y`/`mo`/`d`/`h`/`m`/`s`) regardless of the `locale` prop, since dayjs's `relativeTime` locale tables have no single-letter forms to draw from.
+Set `relativeStyle` to `"micro"` to render relative time as a compact single unit (e.g. `"4d"`) instead of the humanized string (e.g. `"4 days ago"`), which is handy for dense UIs like comment lists and notification feeds. Only applies when `relative` is `true`. Output uses fixed English unit letters (`y`/`mo`/`d`/`h`/`m`/`s`) regardless of the `locale` prop, since dayjs's `relativeTime` locale tables have no single-letter forms to draw from.
 
 <!-- render:RelativeStyleMicro -->
 
@@ -433,11 +437,13 @@ The `dayjs` library is exported from this package for your convenience.
 </button>
 ```
 
-### Custom locale
+## Internationalization
 
-The default `dayjs` locale is English. No other locale is loaded by default for performance reasons.
+The default `dayjs` locale is English. No other locale is loaded by default for performance reasons: import each locale you need from `dayjs` once, then reference it by key. See the list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
 
-To use a [custom locale](https://day.js.org/docs/en/i18n/changing-locale), import the relevant language from `dayjs` and use the `locale` prop. See a list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+### Component usage
+
+Import the relevant language from `dayjs` and use the `locale` prop.
 
 <!-- render:LocaleProp -->
 
@@ -467,10 +473,42 @@ import type {
   RelativeStyle,
 } from "svelte-time";
 
-const locale: Locales = "de";
-const localeStore = writable<Locales>("en");
+const exampleLocale: Locales = "de";
+let locale = $state<Locales>("de");
 let style: RelativeStyle = $state("default");
 ```
+
+### Action usage
+
+Use the `locale` option to format timestamps in different languages with the `svelteTime` action.
+
+<!-- render:ActionLocale -->
+
+```svelte
+<script>
+  import "dayjs/locale/de"; // German locale
+  import "dayjs/locale/es"; // Spanish locale
+  import { svelteTime } from "svelte-time";
+</script>
+
+<time
+  use:svelteTime={{
+    timestamp: "2024-01-01",
+    format: "dddd, MMMM D, YYYY",
+    locale: "de",
+  }}
+></time>
+
+<time
+  use:svelteTime={{
+    relative: true,
+    timestamp: "2024-01-01",
+    locale: "es",
+  }}
+></time>
+```
+
+### Relative time and `withoutSuffix`
 
 The `locale` prop also works with relative time.
 
@@ -515,7 +553,7 @@ The `withoutSuffix` prop also works with locales:
 
 ### Reactive locale
 
-The `locale` prop is reactive, so you can bind it to a Svelte store to update all `<Time>` instances when the locale changes.
+The `locale` prop is reactive, so binding it to a `$state` variable updates all `<Time>` instances when the locale changes.
 
 <!-- render:ReactiveLocale -->
 
@@ -524,27 +562,21 @@ The `locale` prop is reactive, so you can bind it to a Svelte store to update al
   import "dayjs/locale/de"; // German
   import "dayjs/locale/es"; // Spanish
   import "dayjs/locale/fr"; // French
-  import { writable } from "svelte/store";
-  import Time from "svelte-time";
-  import type { Locales } from "svelte-time";
+  import Time, { type Locales } from "svelte-time";
 
-  const locale = writable<Locales>("en");
-
-  function setLocale(loc: Locales) {
-    locale.set(loc);
-  }
+  let locale = $state<Locales>("en");
 </script>
 
-<button onclick={() => setLocale("en")}>English</button>
-<button onclick={() => setLocale("de")}>Deutsch</button>
-<button onclick={() => setLocale("es")}>Español</button>
-<button onclick={() => setLocale("fr")}>Français</button>
+<button onclick={() => (locale = "en")}>English</button>
+<button onclick={() => (locale = "de")}>Deutsch</button>
+<button onclick={() => (locale = "es")}>Español</button>
+<button onclick={() => (locale = "fr")}>Français</button>
 
-<Time timestamp="2024-01-01" format="dddd, MMMM D, YYYY" locale={$locale} />
-<Time relative timestamp="2024-01-01" locale={$locale} />
+<Time timestamp="2024-01-01" format="dddd, MMMM D, YYYY" {locale} />
+<Time relative timestamp="2024-01-01" {locale} />
 ```
 
-### Custom locale (legacy)
+### Legacy locale (dayjs instance / global default)
 
 You can also use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default, or pass a dayjs instance with locale already applied.
 
@@ -634,14 +666,14 @@ Use the [`dayjs.tz.setDefault`](https://day.js.org/docs/en/timezone/default-time
 </script>
 ```
 
-> **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)` — it does
+> **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)`; it does
 > not change what `<Time>` renders by itself. Use the `tz` prop (above) for the common case, or
 > pass a `dayjs.tz(value)` result as the `timestamp` prop explicitly if you're relying on a
 > global default.
 
 ### User timezone
 
-Use the [`dayjs.ts.guess`](https://day.js.org/docs/en/timezone/guessing-user-timezone) method to guess the user's timezone.
+Use the [`dayjs.tz.guess`](https://day.js.org/docs/en/timezone/guessing-user-timezone) method to guess the user's timezone.
 
 ```js
 import utc from "dayjs/plugin/utc";
@@ -678,17 +710,32 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ### Props
 
-| Name          | Type                                                  | Default value                                                                            |
-| :------------ | :---------------------------------------------------- | :--------------------------------------------------------------------------------------- |
-| timestamp     | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()`                                                               |
-| format        | `string`                                              | `"MMM DD, YYYY"` (See [dayjs display format](https://day.js.org/docs/en/display/format)) |
-| relative      | `boolean`                                             | `false`                                                                                  |
-| withoutSuffix | `boolean`                                             | `false` (only applies when `relative` is `true`)                                         |
-| relativeStyle | `RelativeStyle` (`"default"` &#124; `"micro"`)        | `"default"` (only applies when `relative` is `true`)                                     |
-| live          | `boolean` &#124; `number`                             | `false`                                                                                  |
-| locale        | `Locales` (TypeScript) &#124; `string`                | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))    |
-| tz            | `string`                                              | `undefined` (See [tz prop](#tz-prop); requires the dayjs `utc`/`timezone` plugins)       |
-| children      | `Snippet<[string]>`                                   | `undefined`                                                                              |
+| Name              | Type                                                  | Default value              | Description                                                                                                                                                                       |
+| :---------------- | :---------------------------------------------------- | :------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| timestamp         | `string` &#124; `number` &#124; `Date` &#124; `Dayjs` | `new Date().toISOString()` | The timestamp to display. String values pass through to `datetime` as-is; `Date`/`Dayjs`/`number` values are normalized to ISO 8601.                                              |
+| format            | `string`                                              | `"MMM DD, YYYY"`           | Format for the displayed text (and the `title`, when `relative` is `true`). See the [dayjs display format](https://day.js.org/docs/en/display/format) docs.                       |
+| relative          | `boolean`                                             | `false`                    | Display the timestamp relative to now (e.g. "4 days ago") instead of a formatted date.                                                                                            |
+| withoutSuffix     | `boolean`                                             | `false`                    | Remove the "ago"/"in" suffix from relative time. Only applies when `relative` is `true`.                                                                                          |
+| relativeStyle     | `RelativeStyle` (`"default"` &#124; `"micro"`)        | `"default"`                | Render a compact single unit (e.g. `"4d"`) instead of the humanized string. Only applies when `relative` is `true`. See [Compact relative time](#compact-relative-time).          |
+| live              | `boolean` &#124; `number`                             | `false`                    | Keep relative time updated. `true` uses the adaptive schedule (see [Performance](#performance)); a number sets a fixed interval in ms. Only applies when `relative` is `true`.    |
+| locale            | `Locales` (TypeScript) &#124; `string`                | `"en"`                     | Locale used to format the timestamp. See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale) and [Internationalization](#internationalization).              |
+| tz                | `string`                                              | `undefined`                | IANA timezone (e.g. `"America/New_York"`) to render the timestamp in. Requires the dayjs `utc`/`timezone` plugins. See [tz prop](#tz-prop).                                       |
+| relativeThreshold | `number`                                              | `undefined`                | Switch from `relative` to the absolute `format` once the timestamp's age (ms) meets or exceeds this value. See [Auto-switch to absolute format](#auto-switch-to-absolute-format). |
+| children          | `Snippet<[string]>`                                   | `undefined`                | Custom markup rendered inside the `time` element instead of the plain formatted string; receives the formatted value as its argument. See [Custom markup](#custom-markup).        |
+
+### `svelteTime` action and `time` attachment options
+
+Both the `svelteTime` action and the `time` attachment accept the same options as the `Time` component's props, plus:
+
+| Name  | Type                        | Default value                                   | Description                                                           |
+| :---- | :-------------------------- | :---------------------------------------------- | :-------------------------------------------------------------------- |
+| title | `string` &#124; `undefined` | formatted timestamp (when `relative` is `true`) | Override the `title` attribute; pass `undefined` to omit it entirely. |
+
+`live` accepts the same `boolean | number` values on both, but their timers differ: the `svelteTime` action owns a simpler, per-node fixed interval (60 seconds by default when `true`, or a custom interval in ms), while the `time` attachment shares the same adaptive, global timer as the `Time` component. Neither the action's fixed interval nor the component/attachment's adaptive schedule apply to each other. See [Performance](#performance).
+
+### Accessibility
+
+The machine-readable `datetime` attribute is the accessible, parseable channel; the `title` tooltip isn't reachable via touch or keyboard, so don't rely on it to convey essential information: show the absolute date in text when it matters. Live text updates are deliberately not announced (`aria-live` is intentionally omitted): minute-by-minute announcements would be hostile to screen-reader users.
 
 ## Examples
 
