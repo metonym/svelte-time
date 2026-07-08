@@ -14,6 +14,7 @@ export const svelteTime = (node, options = {}) => {
   /** @type {undefined | NodeJS.Timeout} */
   let interval;
 
+  /** @param {Partial<SvelteTimeOptions>} [options] */
   const updateTime = (options = {}) => {
     clearInterval(interval);
     interval = undefined;
@@ -40,6 +41,7 @@ export const svelteTime = (node, options = {}) => {
       return base.tz(tz).locale(locale);
     };
 
+    /** @param {import("dayjs").Dayjs} at */
     const isPastThreshold = (at) =>
       relativeThreshold != null &&
       Math.abs(getDay().diff(at)) >= relativeThreshold;
