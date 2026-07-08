@@ -87,8 +87,7 @@ export interface TimeProps extends RestProps {
    */
   children?: Snippet<[string]>;
 
-  // biome-ignore lint/suspicious/noExplicitAny: data-* attributes accept any value
-  [key: `data-${string}`]: any;
+  [key: `data-${string}`]: unknown;
 }
 
 declare const Time: Component<TimeProps>;
