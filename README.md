@@ -559,7 +559,8 @@ Use the [`dayjs.tz.setDefault`](https://day.js.org/docs/en/timezone/default-time
 
 > **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)` — it does
 > not change what `<Time>` renders by itself. Use the `tz` prop (above) for the common case, or
-> pass `timestamp={dayjs.tz(value)}` explicitly if you're relying on a global default.
+> pass a `dayjs.tz(value)` result as the `timestamp` prop explicitly if you're relying on a
+> global default.
 
 ### User timezone
 
