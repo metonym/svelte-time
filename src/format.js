@@ -11,7 +11,9 @@ import { dayjs } from "./dayjs";
 export function resolveLocale(timestamp, locale = "en") {
   if (locale !== "en") return locale;
   if (timestamp && typeof timestamp === "object" && "$L" in timestamp) {
-    const timestampLocale = timestamp.$L;
+    const timestampLocale = /** @type {import("./locales").Locales} */ (
+      timestamp.$L
+    );
     if (timestampLocale && timestampLocale !== "en") return timestampLocale;
   }
   return locale;
