@@ -258,3 +258,106 @@ describe("component/action/attachment parity for relativeThreshold", () => {
     unmount(instance);
   });
 });
+
+// tz, relativeStyle, and relativeThreshold each shipped independently
+// (#87, #89, #88) and are well covered in isolation above, but nothing
+// exercises them together on one element — this pins the interaction.
+describe("component/action/attachment parity for tz + relativeStyle + relativeThreshold combined", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-01-01T00:00:00.000Z"));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.innerHTML = "";
+  });
+
+  const FORMAT = "YYYY-MM-DDTHH:mm:ss";
+  const TZ = "America/Toronto";
+  const THRESHOLD = 2 * 60 * 60 * 1_000; // 2 hours
+
+  test("under threshold: all three surfaces render a micro value with a tz-formatted title", () => {
+    const timestamp = dayjs().subtract(1, "hour").toISOString();
+    const options = {
+      relative: true,
+      relativeStyle: "micro",
+      relativeThreshold: THRESHOLD,
+      tz: TZ,
+      format: FORMAT,
+      timestamp,
+    } as const;
+    const expectedTitle = dayjs(timestamp).tz(TZ).format(FORMAT);
+
+    const instance = mount(Time, {
+      target: document.body,
+      props: { "data-test": "component", ...options },
+    });
+    flushSync();
+
+    const actionNode = document.createElement("time");
+    document.body.appendChild(actionNode);
+    const action = svelteTime(actionNode, options);
+
+    const attachmentNode = document.createElement("time");
+    document.body.appendChild(attachmentNode);
+    time(options)(attachmentNode);
+
+    const component = document.querySelector(
+      '[data-test="component"]',
+    ) as HTMLElement;
+
+    expect(component.textContent?.trim()).toEqual("1h");
+    expect(actionNode.textContent?.trim()).toEqual("1h");
+    expect(attachmentNode.textContent?.trim()).toEqual("1h");
+
+    expect(component.title).toEqual(expectedTitle);
+    expect(actionNode.title).toEqual(expectedTitle);
+    expect(attachmentNode.title).toEqual(expectedTitle);
+
+    action?.destroy?.();
+    unmount(instance);
+  });
+
+  test("past threshold: all three surfaces fall back to the tz-formatted absolute value, no title", () => {
+    const timestamp = dayjs().subtract(3, "hour").toISOString();
+    const options = {
+      relative: true,
+      relativeStyle: "micro",
+      relativeThreshold: THRESHOLD,
+      tz: TZ,
+      format: FORMAT,
+      timestamp,
+    } as const;
+    const expected = dayjs(timestamp).tz(TZ).format(FORMAT);
+
+    const instance = mount(Time, {
+      target: document.body,
+      props: { "data-test": "component", ...options },
+    });
+    flushSync();
+
+    const actionNode = document.createElement("time");
+    document.body.appendChild(actionNode);
+    const action = svelteTime(actionNode, options);
+
+    const attachmentNode = document.createElement("time");
+    document.body.appendChild(attachmentNode);
+    time(options)(attachmentNode);
+
+    const component = document.querySelector(
+      '[data-test="component"]',
+    ) as HTMLElement;
+
+    expect(component.textContent?.trim()).toEqual(expected);
+    expect(actionNode.textContent?.trim()).toEqual(expected);
+    expect(attachmentNode.textContent?.trim()).toEqual(expected);
+
+    expect(component.title).toBeFalsy();
+    expect(actionNode.title).toBeFalsy();
+    expect(attachmentNode.title).toBeFalsy();
+
+    action?.destroy?.();
+    unmount(instance);
+  });
+});
