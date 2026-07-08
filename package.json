@@ -27,7 +27,7 @@
     "github-markdown-css": "^5.9.0",
     "jsdom": "^27.2.0",
     "marked": "^17.0.1",
-    "marked-base-url": "^1.1.8",
+    "marked-base-url": "^1.1.10",
     "marked-highlight": "^2.2.3",
     "shiki": "^3.17.0",
     "svelte": "^5.45.2",

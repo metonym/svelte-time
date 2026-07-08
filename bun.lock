@@ -14,7 +14,7 @@
         "github-markdown-css": "^5.9.0",
         "jsdom": "^27.2.0",
         "marked": "^17.0.1",
-        "marked-base-url": "^1.1.8",
+        "marked-base-url": "^1.1.10",
         "marked-highlight": "^2.2.3",
         "shiki": "^3.17.0",
         "svelte": "^5.45.2",
@@ -311,7 +311,7 @@
 
     "marked": ["marked@17.0.1", "", { "bin": { "marked": "bin/marked.js" } }, "sha512-boeBdiS0ghpWcSwoNm/jJBwdpFaMnZWRzjA6SkUMYb40SVaN1x7mmfGKp0jvexGcx+7y2La5zRZsYFZI6Qpypg=="],
 
-    "marked-base-url": ["marked-base-url@1.1.8", "", { "peerDependencies": { "marked": ">= 4 < 18" } }, "sha512-RA80m/VTq82jAnpusyK7B4M45TZ3LMB1ymrdAJI3oaSG4+8MzBc8FFlVKIAhkBrfRM7CxeTHTGUVVK59/eiQyA=="],
+    "marked-base-url": ["marked-base-url@1.1.10", "", { "peerDependencies": { "marked": ">= 4 < 19" } }, "sha512-Szoa+MAjZg1eiDiYrzK3JwJrgRPG7gvVyf858eOonKJKJB2JGP+Z6V83gvH85labGN1VHPgANq3Jk4V47u9xAA=="],
 
     "marked-highlight": ["marked-highlight@2.2.3", "", { "peerDependencies": { "marked": ">=4 <18" } }, "sha512-FCfZRxW/msZAiasCML4isYpxyQWKEEx44vOgdn5Kloae+Qc3q4XR7WjpKKf8oMLk7JP9ZCRd2vhtclJFdwxlWQ=="],
 
