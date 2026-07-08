@@ -12,6 +12,7 @@ export const svelteDuration = (node, options = {}) => {
   /** @type {undefined | NodeJS.Timeout} */
   let interval;
 
+  /** @param {Partial<SvelteDurationOptions>} [options] */
   const render = (options = {}) => {
     const value = options.value ?? 0;
     const unit = options.unit ?? "milliseconds";
@@ -37,6 +38,7 @@ export const svelteDuration = (node, options = {}) => {
     node.textContent = result.formatted;
   };
 
+  /** @param {Partial<SvelteDurationOptions>} [options] */
   const updateDuration = (options = {}) => {
     clearInterval(interval);
     interval = undefined;
