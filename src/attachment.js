@@ -135,3 +135,55 @@ export function duration(options = {}) {
     node.textContent = result.formatted;
   };
 }
+
+/**
+ * Attachment version of `svelteCountdown`. Options are reactive: the
+ * attachment re-runs when any reactive value used to build `options`
+ * changes, and `live` mode subscribes to the shared ticker. Unlike
+ * `duration`'s `since`/`live` (tuned for slowly-decaying "x minutes
+ * ago" text), `live` here ticks every second by default, since a
+ * countdown's final seconds matter most.
+ *
+ * @param {Partial<import("./svelte-countdown.svelte").SvelteCountdownOptions>} [options]
+ * @returns {(node: HTMLElement) => void}
+ * @example <time {@attach countdown({ to: target, oncomplete: () => {} })}></time>
+ */
+export function countdown(options = {}) {
+  let completed = false;
+
+  return (node) => {
+    const to = options.to;
+    const format = options.format ?? "HH:mm:ss";
+    const humanize = options.humanize ?? false;
+    const withSuffix = options.withSuffix ?? false;
+    const locale = options.locale ?? "en";
+    const live = options.live ?? true;
+
+    let now = dayjs();
+    if (live !== false && !completed) {
+      // Reading sharedNow subscribes this attachment to the shared
+      // clock; each tick re-runs the whole attachment.
+      const interval = typeof live === "number" ? Math.abs(live) : 1_000;
+      now = sharedNow(interval);
+    }
+
+    const remainingMs = Math.max(0, dayjs(to).diff(now));
+
+    const result = formatDuration({
+      value: remainingMs,
+      unit: "milliseconds",
+      format,
+      humanize,
+      withSuffix,
+      locale,
+    });
+
+    node.setAttribute("datetime", result.datetime);
+    node.textContent = result.formatted;
+
+    if (remainingMs === 0 && !completed) {
+      completed = true;
+      options.oncomplete?.();
+    }
+  };
+}
