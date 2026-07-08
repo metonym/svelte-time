@@ -3,6 +3,7 @@ import { flushSync, mount, unmount } from "svelte";
 import { svelteTime } from "../src/svelte-time.svelte.js";
 import SvelteTimeAction from "./examples/SvelteTimeAction.svelte";
 import SvelteTimeActionStateRaw from "./examples/SvelteTimeActionStateRaw.svelte";
+import SvelteTimeActionStateRawMutate from "./examples/SvelteTimeActionStateRawMutate.svelte";
 
 describe("svelte-time-action", () => {
   let instance: null | ReturnType<typeof mount> = null;
@@ -148,5 +149,27 @@ describe("svelte-time-action", () => {
 
     expect(timeElement.innerText).toEqual(dayjs("2025-04-02").format(format));
     expect(timeElement.getAttribute("datetime")).toEqual("2025-04-02");
+  });
+
+  // Counterpart to the reassignment regression test above for
+  // https://github.com/metonym/svelte-time/issues/62 — pins the other half
+  // of the documented boundary: $state.raw is not deeply reactive, so
+  // mutating a field on the same reference must NOT update the action.
+  test("does not update when a field on $state.raw is mutated in place", async () => {
+    const target = document.body;
+    instance = mount(SvelteTimeActionStateRawMutate, { target });
+    flushSync();
+
+    const timeElement = getElement("time");
+    const format = "dddd @ h:mm A · MMMM D, YYYY";
+    expect(timeElement.innerText).toEqual(dayjs("2021-02-02").format(format));
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-02");
+
+    const button = getElement("button");
+    button.click();
+    flushSync();
+
+    expect(timeElement.innerText).toEqual(dayjs("2021-02-02").format(format));
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-02");
   });
 });
