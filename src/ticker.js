@@ -38,6 +38,7 @@ export function sharedNow(intervalMs) {
         update();
       }, intervalMs);
 
+      /** @type {(() => void) | undefined} */
       let onVisibilityChange;
       if (typeof document !== "undefined") {
         onVisibilityChange = () => {
