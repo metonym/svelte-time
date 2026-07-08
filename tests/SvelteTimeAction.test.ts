@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import { flushSync, mount, unmount } from "svelte";
 import { svelteTime } from "../src/svelte-time.svelte.js";
 import SvelteTimeAction from "./examples/SvelteTimeAction.svelte";
+import SvelteTimeActionStateRaw from "./examples/SvelteTimeActionStateRaw.svelte";
 
 describe("svelte-time-action", () => {
   let instance: null | ReturnType<typeof mount> = null;
@@ -128,5 +129,24 @@ describe("svelte-time-action", () => {
     );
     expect(timeElement.innerText).toEqual(secondUpdatedFormattedDate);
     expect(timeElement.getAttribute("datetime")).toEqual("2021-02-04");
+  });
+
+  // Regression test for https://github.com/metonym/svelte-time/issues/62
+  test("updates when the whole options object passed via $state.raw is reassigned", async () => {
+    const target = document.body;
+    instance = mount(SvelteTimeActionStateRaw, { target });
+    flushSync();
+
+    const timeElement = getElement("time");
+    const format = "dddd @ h:mm A · MMMM D, YYYY";
+    expect(timeElement.innerText).toEqual(dayjs("2021-02-02").format(format));
+    expect(timeElement.getAttribute("datetime")).toEqual("2021-02-02");
+
+    const button = getElement("button");
+    button.click();
+    flushSync();
+
+    expect(timeElement.innerText).toEqual(dayjs("2025-04-02").format(format));
+    expect(timeElement.getAttribute("datetime")).toEqual("2025-04-02");
   });
 });
