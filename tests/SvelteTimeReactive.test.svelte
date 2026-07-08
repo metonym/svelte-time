@@ -50,3 +50,11 @@
   {live}
 />
 <button data-test="btn-live" onclick={toggleLive}>Toggle live</button>
+
+<Time
+  data-test="reactive-live-micro"
+  timestamp={new Date().toISOString()}
+  relative
+  relativeStyle="micro"
+  live={1000}
+/>

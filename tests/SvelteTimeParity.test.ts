@@ -7,6 +7,51 @@ import Time, { svelteTime, time } from "svelte-time";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+describe('component/action/attachment parity for relativeStyle="micro"', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2024-01-01T00:00:00.000Z"));
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.innerHTML = "";
+  });
+
+  test("component, action, and attachment render the same micro output", () => {
+    const options = {
+      relative: true,
+      relativeStyle: "micro",
+      timestamp: "2023-12-28T00:00:00.000Z",
+    } as const;
+
+    const instance = mount(Time, {
+      target: document.body,
+      props: { "data-test": "component", ...options },
+    });
+    flushSync();
+
+    const actionNode = document.createElement("time");
+    document.body.appendChild(actionNode);
+    const action = svelteTime(actionNode, options);
+
+    const attachmentNode = document.createElement("time");
+    document.body.appendChild(attachmentNode);
+    time(options)(attachmentNode);
+
+    const componentText = document
+      .querySelector('[data-test="component"]')
+      ?.textContent?.trim();
+
+    expect(componentText).toEqual("4d");
+    expect(actionNode.textContent?.trim()).toEqual("4d");
+    expect(attachmentNode.textContent?.trim()).toEqual("4d");
+
+    action?.destroy?.();
+    unmount(instance);
+  });
+});
+
 describe("component/action parity for edge-case timestamps", () => {
   beforeEach(() => {
     vi.useFakeTimers();

@@ -7,6 +7,7 @@ export interface SvelteTimeOptions extends Pick<
   | "format"
   | "relative"
   | "withoutSuffix"
+  | "relativeStyle"
   | "live"
   | "title"
   | "locale"

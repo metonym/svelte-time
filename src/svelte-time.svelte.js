@@ -1,5 +1,6 @@
 import { dayjs } from "./dayjs";
 import { toDatetime } from "./datetime";
+import { microFormat } from "./micro";
 
 /**
  * @typedef {import("./svelte-time.svelte").SvelteTimeOptions} SvelteTimeOptions
@@ -20,6 +21,7 @@ export const svelteTime = (node, options = {}) => {
     const format = options.format || "MMM DD, YYYY";
     const relative = options.relative === true;
     const withoutSuffix = options.withoutSuffix ?? false;
+    const relativeStyle = options.relativeStyle ?? "default";
     const live = options.live ?? false;
     const tz = options.tz;
     let locale = options.locale ?? "en";
@@ -53,8 +55,11 @@ export const svelteTime = (node, options = {}) => {
     let formatted = getDay().format(format);
 
     if (relative) {
-      // Use dayjs's built-in withoutSuffix parameter (locale-aware)
-      formatted = getDay().from(dayjs(), withoutSuffix);
+      formatted =
+        relativeStyle === "micro"
+          ? microFormat(getDay().diff(dayjs()))
+          : // Use dayjs's built-in withoutSuffix parameter (locale-aware)
+            getDay().from(dayjs(), withoutSuffix);
 
       if ("title" in options) {
         if (options.title !== undefined) {
@@ -67,7 +72,10 @@ export const svelteTime = (node, options = {}) => {
       if (live !== false) {
         interval = setInterval(
           () => {
-            node.textContent = getDay().from(dayjs(), withoutSuffix);
+            node.textContent =
+              relativeStyle === "micro"
+                ? microFormat(getDay().diff(dayjs()))
+                : getDay().from(dayjs(), withoutSuffix);
           },
           Math.abs(typeof live === "number" ? live : DEFAULT_INTERVAL),
         );
