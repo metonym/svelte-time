@@ -64,3 +64,16 @@ export function sharedNow(intervalMs) {
   }
   return read();
 }
+
+/**
+ * Reactive current time backed by the shared ticker. When read inside
+ * an effect or derived, the caller re-runs every `intervalMs`
+ * (default 60s). All readers of the same interval share one timer.
+ * On the server, returns a fresh non-reactive instance.
+ * @param {number} [intervalMs]
+ * @returns {import("dayjs").Dayjs}
+ */
+export function now(intervalMs = 60_000) {
+  if (typeof document === "undefined") return dayjs();
+  return sharedNow(Math.abs(intervalMs));
+}
