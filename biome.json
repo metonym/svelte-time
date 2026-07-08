@@ -1,0 +1,108 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": ["**", "!!**/.*/**/*"]
+  },
+  "formatter": {
+    "attributePosition": "multiline",
+    "indentStyle": "space"
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": {
+      "enabled": true,
+      "indentScriptAndStyle": true
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "performance": {
+        "noAccumulatingSpread": "error",
+        "noAwaitInLoops": "error",
+        "noDelete": "error",
+        "noDynamicNamespaceImportAccess": "error",
+        "noNamespaceImport": "error",
+        "noReExportAll": "error",
+        "useTopLevelRegex": "error"
+      },
+      "complexity": {
+        "noCommaOperator": "error",
+        "noForEach": "error",
+        "noUselessConstructor": "error",
+        "noUselessEmptyExport": "error",
+        "noUselessFragments": "error",
+        "noUselessLabel": "error",
+        "noUselessLoneBlockStatements": "error",
+        "noUselessRename": "error",
+        "noUselessSwitchCase": "error",
+        "noUselessTypeConstraint": "error",
+        "useArrowFunction": "error",
+        "useLiteralKeys": "error",
+        "noImportantStyles": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noImportCycles": "error"
+      },
+      "style": {
+        "noImplicitBoolean": "error",
+        "noNegationElse": "error",
+        "noParameterAssign": "error",
+        "noRestrictedGlobals": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useDefaultParameterLast": "error",
+        "useExponentiationOperator": "error",
+        "useNodejsImportProtocol": "error",
+        "useNumberNamespace": "error",
+        "useSingleVarDeclarator": "error",
+        "noCommonJs": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.svg"],
+      "formatter": {
+        "enabled": false
+      },
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noSvgWithoutTitle": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["tests/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noAwaitInLoops": "off",
+            "noNamespaceImport": "off",
+            "useTopLevelRegex": "off"
+          },
+          "style": {
+            "noNonNullAssertion": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["examples/**"],
+      "linter": {
+        "enabled": false
+      }
+    }
+  ]
+}
