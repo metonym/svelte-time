@@ -6,17 +6,31 @@
 </script>
 
 <div>
-  <Time relative timestamp={pastDate} />
+  <Time
+    relative
+    timestamp={pastDate}
+  />
 </div>
 
 <div>
-  <Time relative timestamp={pastDate} withoutSuffix />
+  <Time
+    relative
+    timestamp={pastDate}
+    withoutSuffix
+  />
 </div>
 
 <div>
-  <Time relative timestamp={futureDate} />
+  <Time
+    relative
+    timestamp={futureDate}
+  />
 </div>
 
 <div>
-  <Time relative timestamp={futureDate} withoutSuffix />
+  <Time
+    relative
+    timestamp={futureDate}
+    withoutSuffix
+  />
 </div>

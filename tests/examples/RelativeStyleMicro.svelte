@@ -5,9 +5,16 @@
 </script>
 
 <div>
-  <Time relative timestamp={pastDate} />
+  <Time
+    relative
+    timestamp={pastDate}
+  />
 </div>
 
 <div>
-  <Time relative relativeStyle="micro" timestamp={pastDate} />
+  <Time
+    relative
+    relativeStyle="micro"
+    timestamp={pastDate}
+  />
 </div>

@@ -1,8 +1,8 @@
-import { expectTypeOf, test } from "vitest";
 import type { Snippet } from "svelte";
-import { time } from "svelte-time";
 import type { Attachment } from "svelte/attachments";
-import type { TimeProps, SvelteTimeOptions, Locales } from "svelte-time";
+import type { Locales, SvelteTimeOptions, TimeProps } from "svelte-time";
+import { time } from "svelte-time";
+import { expectTypeOf, test } from "vitest";
 
 test("format is a plain string", () => {
   expectTypeOf<TimeProps["format"]>().toEqualTypeOf<string | undefined>();

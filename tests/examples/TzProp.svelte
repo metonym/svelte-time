@@ -1,6 +1,6 @@
 <script>
-  import utc from "dayjs/plugin/utc";
   import timezone from "dayjs/plugin/timezone";
+  import utc from "dayjs/plugin/utc";
   import Time, { dayjs } from "svelte-time";
 
   dayjs.extend(utc);

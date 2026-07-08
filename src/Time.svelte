@@ -72,8 +72,8 @@
     ...rest
   } = $props();
 
-  import { dayjs } from "./dayjs";
   import { toDatetime } from "./datetime";
+  import { dayjs } from "./dayjs";
   import { microFormat } from "./micro";
   import { liveInterval, sharedNow } from "./ticker";
 
@@ -147,7 +147,7 @@
    */
   const isPastThreshold = $derived(
     relativeThreshold != null &&
-      Math.abs(day.diff(live !== false ? now : dayjs())) >= relativeThreshold,
+      Math.abs(day.diff(live === false ? dayjs() : now)) >= relativeThreshold,
   );
 
   /**
@@ -158,8 +158,8 @@
   let formatted = $derived(
     relative && !isPastThreshold
       ? relativeStyle === "micro"
-        ? microFormat(day.diff(live !== false ? now : dayjs()))
-        : day.from(live !== false ? now : dayjs(), withoutSuffix)
+        ? microFormat(day.diff(live === false ? dayjs() : now))
+        : day.from(live === false ? dayjs() : now, withoutSuffix)
       : day.format(format),
   );
 
@@ -174,11 +174,19 @@
 </script>
 
 {#if children}
-  <time {title} {...rest} datetime={toDatetime(timestamp)}>
+  <time
+    {title}
+    {...rest}
+    datetime={toDatetime(timestamp)}
+  >
     {@render children(formatted)}
   </time>
 {:else}
-  <time {title} {...rest} datetime={toDatetime(timestamp)}>
+  <time
+    {title}
+    {...rest}
+    datetime={toDatetime(timestamp)}
+  >
     {formatted}
   </time>
 {/if}

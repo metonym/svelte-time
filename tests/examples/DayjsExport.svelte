@@ -4,6 +4,9 @@
   let timestamp = $state("");
 </script>
 
-<button onclick={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}>
+<button
+  type="button"
+  onclick={() => (timestamp = dayjs().format("HH:mm:ss.SSSSSS"))}
+>
   Update {timestamp}
 </button>

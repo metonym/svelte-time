@@ -1,5 +1,5 @@
-import { dayjs } from "./dayjs";
 import { toDatetime } from "./datetime";
+import { dayjs } from "./dayjs";
 import { microFormat } from "./micro";
 
 /**
@@ -11,7 +11,7 @@ export const svelteTime = (node, options = {}) => {
   const DEFAULT_INTERVAL = 60 * 1_000;
 
   /** @type {undefined | NodeJS.Timeout} */
-  let interval = undefined;
+  let interval;
 
   const updateTime = (options = {}) => {
     clearInterval(interval);

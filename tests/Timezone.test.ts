@@ -1,5 +1,5 @@
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { flushSync, mount, unmount } from "svelte";
 import Time, { dayjs } from "svelte-time";
 

@@ -1,9 +1,9 @@
+import { $ } from "bun";
 import localeDayjs from "dayjs/locale.json" with { type: "json" };
-import { format } from "prettier";
 
 const locales: string[] = [];
 
-for (const { key, name } of localeDayjs) {
+for (const { key } of localeDayjs) {
   if (key === "en") {
     locales.unshift(`'${key}'`);
   } else {
@@ -11,10 +11,7 @@ for (const { key, name } of localeDayjs) {
   }
 }
 
-const localesType = await format(
-  `/** @default "en" */\nexport type Locales = ${locales.join(" | ")};`,
-  { parser: "typescript" },
-);
-Bun.write("src/locales.d.ts", localesType);
+const localesType = `/** @default "en" */\nexport type Locales = ${locales.join(" | ")};\n`;
 
-export {};
+await Bun.write("src/locales.d.ts", localesType);
+await $`bunx biome format --write src/locales.d.ts`;

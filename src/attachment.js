@@ -1,5 +1,5 @@
-import { dayjs } from "./dayjs";
 import { toDatetime } from "./datetime";
+import { dayjs } from "./dayjs";
 import { microFormat } from "./micro";
 import { liveInterval, sharedNow } from "./ticker";
 

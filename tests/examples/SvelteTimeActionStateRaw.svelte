@@ -14,7 +14,12 @@
   }
 </script>
 
-<button onclick={updateData}>Update</button>
+<button
+  type="button"
+  onclick={updateData}
+>
+  Update
+</button>
 
 <div>
   <time use:svelteTime={data}></time>

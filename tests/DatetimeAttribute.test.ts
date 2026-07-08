@@ -42,22 +42,19 @@ describe("datetime attribute contract", () => {
     ["Date", new Date("2024-01-01T00:00:00.000Z")],
     ["Dayjs", dayjs("2024-01-01T00:00:00.000Z")],
     ["number", 1e10],
-  ])(
-    "%s inputs are normalized to ISO 8601 in both render paths",
-    (_, timestamp) => {
-      const component = renderComponent(timestamp);
-      expect(component.getAttribute("datetime")).toMatch(ISO);
+  ])("%s inputs are normalized to ISO 8601 in both render paths", (_, timestamp) => {
+    const component = renderComponent(timestamp);
+    expect(component.getAttribute("datetime")).toMatch(ISO);
 
-      if (instance) {
-        unmount(instance);
-        instance = null;
-      }
-      document.body.innerHTML = "";
+    if (instance) {
+      unmount(instance);
+      instance = null;
+    }
+    document.body.innerHTML = "";
 
-      const action = renderAction(timestamp);
-      expect(action.getAttribute("datetime")).toMatch(ISO);
-    },
-  );
+    const action = renderAction(timestamp);
+    expect(action.getAttribute("datetime")).toMatch(ISO);
+  });
 
   test("string inputs pass through as-is in both render paths", () => {
     const timestamp = "2020-02-01";

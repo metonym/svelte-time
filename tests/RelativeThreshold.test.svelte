@@ -1,4 +1,5 @@
 <script lang="ts">
+  // biome-ignore lint/correctness/noUnusedImports: `time` is used in the {@attach} directive below
   import Time, { svelteTime, time } from "svelte-time";
 
   const THRESHOLD = 2 * 60 * 1_000; // 2 minutes, matches RelativeThreshold.test.ts
@@ -16,7 +17,12 @@
   timestamp={fresh}
 />
 
-<Time data-test="component-default" relative live timestamp={fresh} />
+<Time
+  data-test="component-default"
+  relative
+  live
+  timestamp={fresh}
+/>
 
 <Time
   data-test="component-already-past"

@@ -1,6 +1,7 @@
 // @ts-check
-import HtmlWebpackPlugin from "html-webpack-plugin";
+
 import path from "node:path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 /** @type {"development" | "production"} */
 const NODE_ENV =
