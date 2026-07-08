@@ -1,5 +1,6 @@
 import { toDatetime } from "./datetime";
 import { dayjs } from "./dayjs";
+import { formatDuration } from "./duration-format";
 import { microFormat } from "./micro";
 import { liveInterval, sharedNow } from "./ticker";
 
@@ -88,5 +89,62 @@ export function time(options = {}) {
         ? microFormat(day.diff(now))
         : day.from(now, withoutSuffix)
       : day.format(format);
+  };
+}
+
+/**
+ * Attachment version of `svelteDuration`. Options are reactive: the
+ * attachment re-runs when any reactive value used to build `options`
+ * changes, and `since` + `live` mode subscribes to the shared ticker.
+ *
+ * @param {Partial<import("./svelte-duration.svelte").SvelteDurationOptions>} [options]
+ * @returns {(node: HTMLElement) => void}
+ * @example <time {@attach duration({ since: startedAt, live: true })}></time>
+ */
+export function duration(options = {}) {
+  return (node) => {
+    const value = options.value ?? 0;
+    const unit = options.unit ?? "milliseconds";
+    const since = options.since;
+    const format = options.format ?? "HH:mm:ss";
+    const humanize = options.humanize ?? false;
+    const withSuffix = options.withSuffix ?? false;
+    const locale = options.locale ?? "en";
+    const live = options.live ?? false;
+
+    let result;
+
+    if (since === undefined) {
+      result = formatDuration({
+        value,
+        unit,
+        format,
+        humanize,
+        withSuffix,
+        locale,
+      });
+    } else {
+      let now = dayjs();
+      if (live !== false) {
+        // Reading sharedNow subscribes this attachment to the shared
+        // clock; each tick re-runs the whole attachment.
+        const interval =
+          typeof live === "number"
+            ? Math.abs(live)
+            : liveInterval(dayjs(since).diff(dayjs()));
+        now = sharedNow(interval);
+      }
+      result = formatDuration({
+        value: now.diff(dayjs(since)),
+        unit: "milliseconds",
+        format,
+        humanize,
+        withSuffix,
+        locale,
+      });
+    }
+
+    node.setAttribute("datetime", result.datetime);
+    node.textContent = result.formatted;
   };
 }

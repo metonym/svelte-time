@@ -1,6 +1,11 @@
-export { time } from "./attachment";
+export { duration, time } from "./attachment";
+export type { DurationProps } from "./Duration.svelte";
+export { default as Duration } from "./Duration.svelte";
 export { dayjs } from "./dayjs";
+export type { DayjsDuration, DurationUnit } from "./duration-format";
 export type { Locales } from "./locales";
+export type { SvelteDurationOptions } from "./svelte-duration.svelte";
+export { svelteDuration } from "./svelte-duration.svelte";
 export type { SvelteTimeOptions } from "./svelte-time.svelte";
 export { svelteTime } from "./svelte-time.svelte";
 export type { RelativeStyle, TimeProps } from "./Time.svelte";
