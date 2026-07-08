@@ -1,3 +1,4 @@
+import type { ConfigType } from "dayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/de"; // German
 import relativeTimePlugin from "dayjs/plugin/relativeTime";
@@ -27,7 +28,7 @@ describe("Primitives", () => {
   };
 
   describe("formatTime / relativeTime parity with <Time>", () => {
-    const CASES: Array<[name: string, timestamp: unknown]> = [
+    const CASES: Array<[name: string, timestamp: ConfigType]> = [
       ["ISO string", "2020-02-01T00:00:00.000Z"],
       ["epoch (0)", 0],
       ["Date instance", new Date("2020-02-01T00:00:00.000Z")],

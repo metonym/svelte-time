@@ -1,3 +1,4 @@
+import type { ConfigType } from "dayjs";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
@@ -20,11 +21,12 @@ describe("component/action parity for edge-case timestamps", () => {
   });
 
   const FORMAT = "YYYY-MM-DD";
-  const CASES: Array<[name: string, timestamp: unknown, expected: string]> = [
-    ["epoch (0)", 0, dayjs(0).format(FORMAT)],
-    ["empty string", "", "Invalid Date"],
-    ["date string", "2020-02-01", dayjs("2020-02-01").format(FORMAT)],
-  ];
+  const CASES: Array<[name: string, timestamp: ConfigType, expected: string]> =
+    [
+      ["epoch (0)", 0, dayjs(0).format(FORMAT)],
+      ["empty string", "", "Invalid Date"],
+      ["date string", "2020-02-01", dayjs("2020-02-01").format(FORMAT)],
+    ];
 
   for (const [name, timestamp, expected] of CASES) {
     test(`${name}: component and action agree`, () => {
@@ -107,11 +109,12 @@ describe("component/action/attachment parity for edge-case timestamps", () => {
   });
 
   const FORMAT = "YYYY-MM-DD";
-  const CASES: Array<[name: string, timestamp: unknown, expected: string]> = [
-    ["epoch (0)", 0, dayjs(0).format(FORMAT)],
-    ["empty string", "", "Invalid Date"],
-    ["date string", "2020-02-01", dayjs("2020-02-01").format(FORMAT)],
-  ];
+  const CASES: Array<[name: string, timestamp: ConfigType, expected: string]> =
+    [
+      ["epoch (0)", 0, dayjs(0).format(FORMAT)],
+      ["empty string", "", "Invalid Date"],
+      ["date string", "2020-02-01", dayjs("2020-02-01").format(FORMAT)],
+    ];
 
   for (const [name, timestamp, expected] of CASES) {
     test(`${name}: component and action agree`, () => {
