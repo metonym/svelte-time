@@ -1,6 +1,7 @@
 import { toDatetime } from "./datetime";
 import { dayjs } from "./dayjs";
 import { formatDuration } from "./duration-format";
+import { resolveLocale } from "./format";
 import { microFormat } from "./micro";
 import { liveInterval, sharedNow } from "./ticker";
 
@@ -25,21 +26,7 @@ export function time(options = {}) {
     const live = options.live ?? false;
     const tz = options.tz;
     const relativeThreshold = options.relativeThreshold;
-    let locale = options.locale ?? "en";
-
-    // If locale is default "en" and timestamp is a dayjs instance with a locale set,
-    // preserve the timestamp's locale for backward compatibility
-    if (
-      locale === "en" &&
-      timestamp &&
-      typeof timestamp === "object" &&
-      "$L" in timestamp
-    ) {
-      const timestampLocale = timestamp.$L;
-      if (timestampLocale && timestampLocale !== "en") {
-        locale = timestampLocale;
-      }
-    }
+    const locale = resolveLocale(timestamp, options.locale);
 
     const base = dayjs(timestamp);
     if (tz !== undefined && typeof base.tz !== "function") {
