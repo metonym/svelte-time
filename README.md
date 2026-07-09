@@ -915,7 +915,11 @@ The `countdown` attachment is the [attachment](#time-attachment) equivalent of `
 <!-- Output: "Jun 05, 2024 – Jun 10, 2024" -->
 ```
 
-For a "live"/relative range (e.g. "3 days" as the humanized span between the endpoints), compose `Duration` instead: `<Duration value={dayjs(end).diff(start)} humanize />`.
+For a "live"/relative range (e.g. "3 days" as the humanized span between the endpoints), compose `Duration` instead:
+
+```svelte
+<Duration value={dayjs(end).diff(start)} humanize />
+```
 
 ### `svelteTimeRange` action
 
