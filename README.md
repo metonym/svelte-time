@@ -708,7 +708,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Duration
 
-`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component).
+`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting up from an instant with built-in pause/resume, see the dedicated [`Stopwatch` component](#stopwatch-component); for counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component).
 
 ### `Duration` component
 
@@ -793,6 +793,8 @@ Pass a number to `live` for a fixed interval instead of the adaptive default:
 <Duration since={startedAt} live={1000} format="HH:mm:ss" />
 ```
 
+This mode is a passive readout of `now - since`: pausing requires manually recomputing `since` on every resume to exclude the paused interval. For a stopwatch with built-in pause/resume bookkeeping, see the dedicated [`Stopwatch` component](#stopwatch-component).
+
 ### `svelteDuration` action
 
 An alternative to the `Duration` component is the `svelteDuration` action, for formatting a duration on a raw HTML element. The API is the same as the `Duration` component.
@@ -821,9 +823,81 @@ The `duration` attachment is the [attachment](#time-attachment) equivalent of `s
 <time {@attach duration({ value: 3661000 })}></time>
 ```
 
+### `Stopwatch` component
+
+`Stopwatch` counts up from a `since` instant, with a `running` prop for built-in pause/resume — unlike `Duration`'s `since`/`live` mode, which is a passive readout of `now - since` and requires the caller to manually recompute `since` on every resume to exclude the paused interval, `Stopwatch` owns that bookkeeping internally: pausing freezes the displayed value, and resuming excludes the paused interval from the elapsed count. `since` defaults to the instant the component mounts; changing it later resets the stopwatch to zero and restarts it from the new anchor.
+
+<!-- render:StopwatchBasic -->
+
+```svelte
+<script>
+  import { Stopwatch } from "svelte-time";
+
+  let since = $state(new Date());
+</script>
+
+<!-- Ticks live by default, once per second -->
+<Stopwatch {since} />
+
+<!-- Changing `since` restarts the stopwatch -->
+<button onclick={() => (since = new Date())}>Restart</button>
+```
+
+Pause and resume with the `running` prop; the `children` snippet receives the current `running` state alongside the formatted value:
+
+<!-- render:StopwatchPause -->
+
+```svelte
+<script>
+  import { Stopwatch } from "svelte-time";
+
+  const since = new Date();
+  let running = $state(true);
+</script>
+
+<Stopwatch {since} {running}>
+  {#snippet children(formatted, isRunning)}
+    {formatted}
+    {isRunning ? "(running)" : "(paused)"}
+  {/snippet}
+</Stopwatch>
+
+<button onclick={() => (running = !running)}>
+  {running ? "Pause" : "Resume"}
+</button>
+```
+
+### `svelteStopwatch` action
+
+An alternative to the `Stopwatch` component is the `svelteStopwatch` action, for counting up on a raw HTML element. The API is the same as the `Stopwatch` component.
+
+```svelte
+<script>
+  import { svelteStopwatch } from "svelte-time";
+
+  let running = $state(true);
+</script>
+
+<time use:svelteStopwatch={{ since: new Date(), running }}></time>
+```
+
+### `stopwatch` attachment
+
+The `stopwatch` attachment is the [attachment](#time-attachment) equivalent of `svelteStopwatch`, with the same fully-reactive behavior as the `time`, `duration`, and `countdown` attachments.
+
+```svelte
+<script>
+  import { stopwatch } from "svelte-time";
+
+  let running = $state(true);
+</script>
+
+<time {@attach stopwatch({ since: new Date(), running })}></time>
+```
+
 ### `Countdown` component
 
-`Countdown` counts down to a future instant — the mirror image of `Duration`'s `since` stopwatch mode. Pass a `to` timestamp (a point in time that hasn't happened yet — a `Date`, ISO string, or anything dayjs accepts); the displayed value is `to - now`, clamped at zero. Unlike `Duration`, `live` defaults to `true` and ticks every second (rather than the coarser adaptive schedule used for slowly-decaying "x minutes ago" text), since a countdown's final seconds are the ones that matter most. Changing `to` to a new instant restarts the countdown.
+`Countdown` counts down to a future instant — the mirror image of `Stopwatch`'s pausable count-up. Pass a `to` timestamp (a point in time that hasn't happened yet — a `Date`, ISO string, or anything dayjs accepts); the displayed value is `to - now`, clamped at zero. Unlike `Duration`, `live` defaults to `true` and ticks every second (rather than the coarser adaptive schedule used for slowly-decaying "x minutes ago" text), since a countdown's final seconds are the ones that matter most. Changing `to` to a new instant restarts the countdown.
 
 <!-- render:CountdownBasic -->
 
@@ -963,6 +1037,19 @@ The machine-readable `datetime` attribute is the accessible, parseable channel; 
 | locale     | `Locales` (TypeScript) &#124; `string`                                                                                                      | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
 | live       | `boolean` &#124; `number`                                                                                                                   | `false` (only applies when `since` is set)                                            |
 | children   | `Snippet<[string]>`                                                                                                                         | `undefined`                                                                           |
+
+### `Stopwatch` component props
+
+| Name       | Type                                                    | Default value                                                                         |
+| :--------- | :------------------------------------------------------ | :------------------------------------------------------------------------------------ |
+| since      | `string` &#124; `number` &#124; `Date` &#124; `Dayjs`    | `undefined` (captured once at mount as "now"); changing it resets the stopwatch       |
+| running    | `boolean`                                                | `true`; set to `false` to pause, excluding the paused interval from elapsed time      |
+| format     | `string`                                                 | `"HH:mm:ss"`                                                                          |
+| humanize   | `boolean`                                                | `false`                                                                               |
+| withSuffix | `boolean`                                                | `false` (only applies when `humanize` is `true`)                                      |
+| locale     | `Locales` (TypeScript) &#124; `string`                   | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale)) |
+| live       | `boolean` &#124; `number`                                | `true` (ticks every second while `running`; pass a number for a custom fixed interval in ms) |
+| children   | `Snippet<[string, boolean]>`                             | `undefined`; receives the formatted value and the current `running` state             |
 
 ### `Countdown` component props
 
