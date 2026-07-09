@@ -1,6 +1,7 @@
 import type { Attachment } from "svelte/attachments";
 import type { SvelteCountdownOptions } from "./svelte-countdown.svelte";
 import type { SvelteDurationOptions } from "./svelte-duration.svelte";
+import type { SvelteStopwatchOptions } from "./svelte-stopwatch.svelte";
 import type { SvelteTimeOptions } from "./svelte-time.svelte";
 
 export function time(
@@ -13,4 +14,8 @@ export function duration(
 
 export function countdown(
   options?: Partial<SvelteCountdownOptions>,
+): Attachment<HTMLElement>;
+
+export function stopwatch(
+  options?: Partial<SvelteStopwatchOptions>,
 ): Attachment<HTMLElement>;
