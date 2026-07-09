@@ -1,4 +1,4 @@
-export { countdown, duration, stopwatch, time } from "./attachment";
+export { countdown, duration, stopwatch, time, timeRange } from "./attachment";
 export type { CountdownProps } from "./Countdown.svelte";
 export { default as Countdown } from "./Countdown.svelte";
 export type { DurationProps } from "./Duration.svelte";
@@ -17,6 +17,10 @@ export type { SvelteStopwatchOptions } from "./svelte-stopwatch.svelte";
 export { svelteStopwatch } from "./svelte-stopwatch.svelte";
 export type { SvelteTimeOptions } from "./svelte-time.svelte";
 export { svelteTime } from "./svelte-time.svelte";
+export type { SvelteTimeRangeOptions } from "./svelte-time-range.svelte";
+export { svelteTimeRange } from "./svelte-time-range.svelte";
 export type { RelativeStyle, TimeProps } from "./Time.svelte";
 export { default } from "./Time.svelte";
+export type { TimeRangeProps } from "./TimeRange.svelte";
+export { default as TimeRange } from "./TimeRange.svelte";
 export { now } from "./ticker";

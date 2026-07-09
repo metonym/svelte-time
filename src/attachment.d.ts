@@ -3,6 +3,7 @@ import type { SvelteCountdownOptions } from "./svelte-countdown.svelte";
 import type { SvelteDurationOptions } from "./svelte-duration.svelte";
 import type { SvelteStopwatchOptions } from "./svelte-stopwatch.svelte";
 import type { SvelteTimeOptions } from "./svelte-time.svelte";
+import type { SvelteTimeRangeOptions } from "./svelte-time-range.svelte";
 
 export function time(
   options?: Partial<SvelteTimeOptions>,
@@ -18,4 +19,8 @@ export function countdown(
 
 export function stopwatch(
   options?: Partial<SvelteStopwatchOptions>,
+): Attachment<HTMLElement>;
+
+export function timeRange(
+  options?: Partial<SvelteTimeRangeOptions>,
 ): Attachment<HTMLElement>;
