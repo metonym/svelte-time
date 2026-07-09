@@ -187,3 +187,103 @@ export function countdown(options = {}) {
     }
   };
 }
+
+/**
+ * Per-node pause/resume bookkeeping for the `stopwatch` attachment,
+ * keyed by the attached DOM node. Unlike `duration`/`countdown`
+ * (whose `completed`-style closures live in the outer factory), the
+ * `stopwatch` attachment's own outer factory is re-invoked fresh
+ * whenever `running` changes (since `running` must be read to build
+ * `options`, and that read makes the whole `{@attach}` expression —
+ * including the outer factory call — re-evaluate). A plain outer
+ * closure would therefore lose `pausedMs`/`pausedAt` on every toggle,
+ * so this state is tracked per-node instead, which stays stable
+ * across those re-invocations.
+ * @type {WeakMap<HTMLElement, { anchor: undefined | import("dayjs").Dayjs, pausedMs: number, pausedAt: undefined | import("dayjs").Dayjs, prevSince: import("dayjs").ConfigType, prevRunning: boolean }>}
+ */
+const stopwatchStateByNode = new WeakMap();
+
+/**
+ * Attachment version of `svelteStopwatch`. Options are reactive: the
+ * attachment re-runs when any reactive value used to build `options`
+ * changes, and `live` mode subscribes to the shared ticker.
+ *
+ * @param {Partial<import("./svelte-stopwatch.svelte").SvelteStopwatchOptions>} [options]
+ * @returns {(node: HTMLElement) => void}
+ * @example <time {@attach stopwatch({ since: startedAt, running })}></time>
+ */
+export function stopwatch(options = {}) {
+  return (node) => {
+    let state = stopwatchStateByNode.get(node);
+    if (!state) {
+      state = {
+        anchor: undefined,
+        pausedMs: 0,
+        pausedAt: undefined,
+        prevSince: undefined,
+        prevRunning: true,
+      };
+      stopwatchStateByNode.set(node, state);
+    }
+
+    const since = options.since;
+    const running = options.running ?? true;
+    const format = options.format ?? "HH:mm:ss";
+    const humanize = options.humanize ?? false;
+    const withSuffix = options.withSuffix ?? false;
+    const locale = options.locale ?? "en";
+    const live = options.live ?? true;
+
+    if (
+      state.anchor === undefined ||
+      (since !== undefined && since !== state.prevSince)
+    ) {
+      // Initial run, or `since` changed to a new instant: reset.
+      state.anchor =
+        since === undefined ? (state.anchor ?? dayjs()) : dayjs(since);
+      state.pausedMs = 0;
+      state.pausedAt = running ? undefined : dayjs();
+    } else if (running !== state.prevRunning) {
+      // `running` toggled: track the paused interval so resuming
+      // excludes it from the elapsed count.
+      if (running) {
+        if (state.pausedAt !== undefined) {
+          state.pausedMs += dayjs().diff(state.pausedAt);
+          state.pausedAt = undefined;
+        }
+      } else if (state.pausedAt === undefined) {
+        state.pausedAt = dayjs();
+      }
+    }
+
+    state.prevSince = since;
+    state.prevRunning = running;
+
+    let now = dayjs();
+    if (running && live !== false) {
+      // Reading sharedNow subscribes this attachment to the shared
+      // clock; each tick re-runs the whole attachment.
+      const interval = typeof live === "number" ? Math.abs(live) : 1_000;
+      now = sharedNow(interval);
+    }
+
+    const elapsedMs = Math.max(
+      0,
+      now.diff(state.anchor) -
+        state.pausedMs -
+        (state.pausedAt ? now.diff(state.pausedAt) : 0),
+    );
+
+    const result = formatDuration({
+      value: elapsedMs,
+      unit: "milliseconds",
+      format,
+      humanize,
+      withSuffix,
+      locale,
+    });
+
+    node.setAttribute("datetime", result.datetime);
+    node.textContent = result.formatted;
+  };
+}
