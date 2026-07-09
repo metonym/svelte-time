@@ -708,7 +708,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Duration
 
-`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting up from an instant with built-in pause/resume, see the dedicated [`Stopwatch` component](#stopwatch-component); for counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component).
+`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting up from an instant with built-in pause/resume, see the dedicated [`Stopwatch` component](#stopwatch-component); for counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component). For a span between two fixed endpoints — e.g. an event's start/end — see the dedicated [`TimeRange` component](#timerange-component).
 
 ### `Duration` component
 
@@ -966,6 +966,125 @@ The `countdown` attachment is the [attachment](#time-attachment) equivalent of `
 <time {@attach countdown({ to, oncomplete: () => console.log("done!") })}></time>
 ```
 
+## Time Range
+
+`TimeRange` formats a span between two fixed instants — an event's start/end, a meeting window — as opposed to `Duration`, whose endpoints are open-ended. HTML's `datetime` attribute can only hold a single machine-readable value, so it can't represent a range: `TimeRange` renders **two** `<time>` elements, one per endpoint, each with its own correct `datetime`, joined by a separator.
+
+### `TimeRange` component
+
+`format` (dayjs `.format()` tokens, same default as `Time`) applies independently to `start` and `end` — this is a v1 simplification, not a "smart" range formatter that dedupes a shared year/month (see [API](#api) for the full props list).
+
+<!-- render:TimeRangeBasic -->
+
+```svelte
+<script>
+  import { TimeRange } from "svelte-time";
+</script>
+
+<!-- An event's start/end -->
+<TimeRange
+  start="2024-06-05"
+  end="2024-06-10"
+/>
+<!-- Output: "Jun 05, 2024 – Jun 10, 2024" -->
+```
+
+For a "live"/relative range (e.g. "3 days" as the humanized span between the endpoints), compose `Duration` instead:
+
+```svelte
+<Duration value={dayjs(end).diff(start)} humanize />
+```
+
+### Meeting window
+
+`format` isn't limited to dates — pass a time-only format (and a custom `separator`) for a same-day window.
+
+<!-- render:TimeRangeMeeting -->
+
+```svelte
+<script>
+  import { TimeRange } from "svelte-time";
+</script>
+
+<!-- A same-day meeting window -->
+<TimeRange
+  start="2024-06-05T08:00:00"
+  end="2024-06-05T10:00:00"
+  format="h:mm A"
+/>
+<!-- Output: "8:00 AM – 10:00 AM" -->
+```
+
+### Locale
+
+Use the `locale` prop to format both endpoints in different languages. Make sure to import the locale from `dayjs` first.
+
+<!-- render:TimeRangeLocale -->
+
+```svelte
+<script>
+  import "dayjs/locale/de";
+  import { TimeRange } from "svelte-time";
+</script>
+
+<TimeRange
+  start="2024-06-05"
+  end="2024-06-10"
+  format="D. MMMM"
+  locale="de"
+/>
+<!-- Output: "5. Juni – 10. Juni" -->
+```
+
+### Custom markup
+
+Pass a `children` snippet to fully replace the default output — unlike `Time`/`Duration`'s `children`, which only swaps the inner text of a single element, `TimeRange`'s snippet owns both `<time>` elements and the separator, since `format` alone can't express a "condensed" range (e.g. a shared date shown once, with only the time repeated on each side). Format each side independently with `dayjs` inside the snippet to get that.
+
+<!-- render:TimeRangeCustomMarkup -->
+
+```svelte
+<script>
+  import { dayjs, TimeRange } from "svelte-time";
+
+  const start = "2024-06-05T08:00:00";
+  const end = "2024-06-05T10:00:00";
+</script>
+
+<!-- Condensed: date once, time on each side -->
+<TimeRange {start} {end}>
+  {#snippet children({ startDatetime, endDatetime })}
+    <time datetime={startDatetime}>{dayjs(start).format("MMM D, h:mm A")}</time>
+    –
+    <time datetime={endDatetime}>{dayjs(end).format("h:mm A")}</time>
+  {/snippet}
+</TimeRange>
+<!-- Output: "Jun 5, 8:00 AM – 10:00 AM" -->
+```
+
+### `svelteTimeRange` action
+
+An alternative to the `TimeRange` component is the `svelteTimeRange` action. Since an action attaches to a single DOM node but a range needs two `<time>` elements, `svelteTimeRange` is used on a wrapper element, which it populates with the two `<time>` children and the separator.
+
+```svelte
+<script>
+  import { svelteTimeRange } from "svelte-time";
+</script>
+
+<span use:svelteTimeRange={{ start: "2024-06-05", end: "2024-06-10" }}></span>
+```
+
+### `timeRange` attachment
+
+The `timeRange` attachment is the [attachment](#time-attachment) equivalent of `svelteTimeRange`, with the same reactive options, used on a wrapper element in the same way.
+
+```svelte
+<script>
+  import { timeRange } from "svelte-time";
+</script>
+
+<span {@attach timeRange({ start: "2024-06-05", end: "2024-06-10" })}></span>
+```
+
 ## Utilities
 
 The formatting logic and shared clock behind `<Time>` and `svelteTime` are also available as standalone primitives, for use outside a `<time>` element — an `aria-label`, `document.title`, a toast, server code.
@@ -1063,6 +1182,20 @@ The machine-readable `datetime` attribute is the accessible, parseable channel; 
 | live       | `boolean` &#124; `number`                                | `true` (ticks every second; pass a number for a custom fixed interval in ms)          |
 | oncomplete | `() => void`                                             | `undefined`; fires once, when the countdown reaches `to`                              |
 | children   | `Snippet<[string, boolean]>`                             | `undefined`; receives the formatted value and a `done` flag                           |
+
+### `TimeRange` component props
+
+| Name      | Type                                                   | Default value                                                                                                                                     |
+| :-------- | :------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| start     | `string` &#124; `number` &#124; `Date` &#124; `Dayjs`   | (required) start instant                                                                                                                              |
+| end       | `string` &#124; `number` &#124; `Date` &#124; `Dayjs`   | (required) end instant                                                                                                                                |
+| format    | `string`                                                 | `"MMM DD, YYYY"` (applied independently to `start` and `end`)                                                                                         |
+| separator | `string`                                                 | `" – "`                                                                                                                                                |
+| locale    | `Locales` (TypeScript) &#124; `string`                  | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))                                                                 |
+| tz        | `string`                                                 | `undefined` (applied to both `start` and `end`; requires the dayjs `utc`/`timezone` plugins. See [tz prop](#tz-prop))                                 |
+| children  | `Snippet<[object]>`                                      | `undefined`; receives a single object with `formattedStart`, `formattedEnd`, `startDatetime`, and `endDatetime` fields — destructure only what you need — and replaces the entire default output, not just the inner text   |
+
+The `...rest` props (`SvelteHTMLElements["time"]` minus `children`) are spread onto **both** `<time>` elements — there's no per-side rest-prop split in v1.
 
 ## Examples
 

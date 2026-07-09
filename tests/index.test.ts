@@ -5,6 +5,7 @@ test("Library has exports", () => {
     "Countdown",
     "Duration",
     "Stopwatch",
+    "TimeRange",
     "countdown",
     "dayjs",
     "default",
@@ -17,6 +18,8 @@ test("Library has exports", () => {
     "svelteDuration",
     "svelteStopwatch",
     "svelteTime",
+    "svelteTimeRange",
     "time",
+    "timeRange",
   ]);
 });
