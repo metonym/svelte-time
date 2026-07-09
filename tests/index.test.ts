@@ -4,6 +4,7 @@ test("Library has exports", () => {
   expect(Object.keys(API).sort()).toEqual([
     "Countdown",
     "Duration",
+    "TimeRange",
     "countdown",
     "dayjs",
     "default",
@@ -14,6 +15,8 @@ test("Library has exports", () => {
     "svelteCountdown",
     "svelteDuration",
     "svelteTime",
+    "svelteTimeRange",
     "time",
+    "timeRange",
   ]);
 });

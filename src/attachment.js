@@ -187,3 +187,54 @@ export function countdown(options = {}) {
     }
   };
 }
+
+/**
+ * Attachment version of `svelteTimeRange`. Options are reactive: the
+ * attachment re-runs when any reactive value used to build `options`
+ * changes. Since the target node needs two `<time>` elements (a range
+ * has two endpoints), each run rebuilds them from scratch and replaces
+ * the node's children, rather than mutating a single node in place.
+ *
+ * @param {Partial<import("./svelte-time-range.svelte").SvelteTimeRangeOptions>} [options]
+ * @returns {(node: HTMLElement) => void}
+ * @example <span {@attach timeRange({ start, end })}></span>
+ */
+export function timeRange(options = {}) {
+  return (node) => {
+    const format = options.format || "MMM DD, YYYY";
+    const separator = options.separator ?? " – ";
+    const tz = options.tz;
+    const locale = resolveLocale(options.start, options.locale);
+
+    const getDay = (/** @type {import("dayjs").ConfigType} */ value) => {
+      const base = dayjs(value);
+      if (tz !== undefined && typeof base.tz !== "function") {
+        throw new Error(
+          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
+            "see https://github.com/metonym/svelte-time#custom-timezone",
+        );
+      }
+      return (tz === undefined ? base : base.tz(tz)).locale(locale);
+    };
+
+    const startTime = document.createElement("time");
+    const startDatetime = toDatetime(options.start);
+    if (startDatetime !== undefined) {
+      startTime.setAttribute("datetime", startDatetime);
+    }
+    startTime.textContent = getDay(options.start).format(format);
+
+    const endTime = document.createElement("time");
+    const endDatetime = toDatetime(options.end);
+    if (endDatetime !== undefined) {
+      endTime.setAttribute("datetime", endDatetime);
+    }
+    endTime.textContent = getDay(options.end).format(format);
+
+    node.replaceChildren(
+      startTime,
+      document.createTextNode(separator),
+      endTime,
+    );
+  };
+}
