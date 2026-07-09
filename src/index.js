@@ -1,10 +1,12 @@
-export { countdown, duration, time } from "./attachment";
+export { countdown, duration, stopwatch, time } from "./attachment";
 export { default as Countdown } from "./Countdown.svelte";
 export { default as Duration } from "./Duration.svelte";
 export { dayjs } from "./dayjs";
 export { formatTime, relativeTime } from "./format";
+export { default as Stopwatch } from "./Stopwatch.svelte";
 export { svelteCountdown } from "./svelte-countdown.svelte";
 export { svelteDuration } from "./svelte-duration.svelte";
+export { svelteStopwatch } from "./svelte-stopwatch.svelte";
 export { svelteTime } from "./svelte-time.svelte";
 export { default } from "./Time.svelte";
 export { now } from "./ticker";
