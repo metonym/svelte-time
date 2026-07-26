@@ -1112,6 +1112,392 @@ Formats a timestamp as a string with byte-identical output to the `<Time>` compo
 
 Formats a relative time string with byte-identical output to the `<Time>` component's `relative` prop. Pass `from` to set the reference point — use `now(...)` for a result that stays live.
 
+## `svelte-time/intl` (zero-dependency alternative)
+
+A zero-dependency alternative built on the browser/runtime's native `Intl` APIs instead of dayjs — no external package, no locale files to import, no plugins. It ships alongside (not instead of) the dayjs-based `Time`/`Duration`/`Countdown` primitives above.
+
+> **Trade-off:** this is a formatting-only layer, not a drop-in dayjs replacement. It cannot parse arbitrary date strings, cannot do date arithmetic (`add`/`diff`/`startOf`, etc.), and has no custom token format strings (`"MMM DD, YYYY"`) — it only formats a `Date`/timestamp you already have, using `Intl.DateTimeFormatOptions` fields or `dateStyle`/`timeStyle` presets instead. It also depends on `Intl.DurationFormat`, the newest of the three `Intl` APIs it uses (Baseline since March 2025 — meaningfully less battle-tested than `DateTimeFormat`/`RelativeTimeFormat`, which have been widely available since 2020). See the [full comparison](#svelte-time-vs-svelte-timeintl) below before reaching for this over the dayjs-based package.
+
+`Intl.DateTimeFormat`, `Intl.RelativeTimeFormat`, and `Intl.DurationFormat` are all Baseline widely available in modern browsers, Node, Bun, and Deno — so this subpackage adds zero bytes to your bundle beyond what the platform already ships. Import it from `svelte-time/intl` instead of `svelte-time`.
+
+```bash
+# Same install as above — svelte-time/intl is a subpath of the same package
+npm i svelte-time
+```
+
+It mirrors the same primitives as the main package (component, action, attachment) for `Time`, `TimeRange`, `Stopwatch`, and `Countdown` — there's no intl counterpart to `Duration` since `formatDuration` (below) already covers fixed-span formatting without a component wrapper.
+
+| Primitive  | Export            | Notes                                                          |
+| :--------- | :---------------- | :---------------------------------------------------------------- |
+| Component  | `Time`            | same shape as the main `Time` component                          |
+| Component  | `TimeRange`       | renders a single condensed range via `formatRange` (see below)   |
+| Component  | `Stopwatch`       | same shape as the main `Stopwatch` component                     |
+| Component  | `Countdown`       | same shape as the main `Countdown` component                     |
+| Action     | `svelteTime`      | same shape as the main `svelteTime` action                        |
+| Action     | `svelteTimeRange` | same shape as the main `svelteTimeRange` action                  |
+| Action     | `svelteStopwatch` | same shape as the main `svelteStopwatch` action                  |
+| Action     | `svelteCountdown` | same shape as the main `svelteCountdown` action                  |
+| Attachment | `time`            | same shape as the main `time` attachment                         |
+| Attachment | `timeRange`       | attachment version of `TimeRange`                                 |
+| Attachment | `stopwatch`       | attachment version of `Stopwatch`                                 |
+| Attachment | `countdown`       | attachment version of `Countdown`                                 |
+
+### `Time` component
+
+`options` is a plain [`Intl.DateTimeFormatOptions`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#options) object instead of a dayjs token string. The default is `dateStyle: "medium"`.
+
+<!-- render:IntlBasic -->
+
+```svelte
+<script>
+  import { Time } from "svelte-time/intl";
+</script>
+
+<Time />
+```
+
+<!-- render:IntlCustomOptions -->
+
+```svelte
+<Time
+  timestamp="2020-02-01"
+  options={{ weekday: "long", year: "numeric", month: "short", day: "numeric" }}
+/>
+
+<Time timestamp={new Date()} options={{ year: "numeric", month: "2-digit", day: "2-digit" }} />
+```
+
+### `dateStyle` / `timeStyle` presets
+
+`Intl.DateTimeFormat`'s built-in style presets (`"short"`, `"medium"`, `"long"`, `"full"`) are a locale-aware alternative to hand-writing a token string.
+
+<!-- render:IntlDateStyle -->
+
+```svelte
+<Time {timestamp} options={{ dateStyle: "short" }} />
+<Time {timestamp} options={{ dateStyle: "full" }} />
+<Time {timestamp} options={{ dateStyle: "medium", timeStyle: "short" }} />
+```
+
+### Relative time
+
+Set `relative` to `true`, same as the main package. `numeric` maps directly to [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat)'s option: `"auto"` (default) prefers words like "yesterday"/"tomorrow" where the locale has one; `"always"` forces the numeric form ("1 day ago").
+
+<!-- render:IntlRelative -->
+
+```svelte
+<Time relative timestamp={Date.now() - 4 * 86_400_000} />
+<Time relative timestamp={Date.now() + 2 * 3_600_000} />
+```
+
+<!-- render:IntlRelativeAlways -->
+
+```svelte
+<!-- numeric="auto" (default): "yesterday" -->
+<Time relative {timestamp} />
+
+<!-- numeric="always": "1 day ago" -->
+<Time relative {timestamp} numeric="always" />
+```
+
+### Live updates
+
+Same `live` prop as the main package's `Time` component — `true` for the adaptive shared-clock schedule, or a number for a fixed interval in ms.
+
+<!-- render:IntlLive -->
+
+```svelte
+<Time relative live {timestamp} />
+```
+
+### Locale
+
+Pass any [BCP-47 locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation) tag directly — no separate locale files to import, unlike dayjs. The runtime's built-in ICU data covers every locale it supports.
+
+<!-- render:IntlLocale -->
+
+```svelte
+<Time {timestamp} locale="de" options={{ dateStyle: "long" }} />
+<Time {timestamp} locale="ja" options={{ dateStyle: "long" }} />
+<Time {timestamp} locale="ar" options={{ dateStyle: "long" }} />
+<Time relative {timestamp} locale="fr" />
+```
+
+### Alternate calendars and numbering systems
+
+`calendar` and `numberingSystem` are supported natively, with no plugins — something dayjs can't do without significant extra code.
+
+<!-- render:IntlCalendar -->
+
+```svelte
+<Time {timestamp} options={{ dateStyle: "long", calendar: "japanese" }} />
+<Time {timestamp} options={{ dateStyle: "long", calendar: "islamic" }} />
+<Time {timestamp} options={{ dateStyle: "long", calendar: "buddhist" }} />
+<Time {timestamp} options={{ dateStyle: "long", numberingSystem: "arab" }} />
+```
+
+### `TimeRange` component
+
+Formats a span between two dates via [`Intl.DateTimeFormat.prototype.formatRange`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange), which condenses the shared parts of the range (e.g. "Jan 10 – 15, 2026" instead of spelling out both full dates). Unlike the main package's `TimeRange` (which renders **two** `<time>` elements, one per endpoint, joined by a separator — necessary since a single `datetime` attribute can't hold a range), this renders **one** `<time>` element using the native condensed text, with an [ISO 8601 interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) (`start/end`) as its `datetime`.
+
+<!-- render:IntlTimeRange -->
+
+```svelte
+<script>
+  import { TimeRange } from "svelte-time/intl";
+</script>
+
+<!-- Output: "Jan 10 – 15, 2026" -->
+<TimeRange start="2026-01-10" end="2026-01-15" />
+
+<!-- Spans months/years automatically -->
+<TimeRange start="2026-01-10" end="2026-03-02" />
+
+<TimeRange start="2026-01-10" end="2026-01-15" options={{ dateStyle: "long" }} />
+```
+
+### `svelteTime` action
+
+Same shape as the main package's `svelteTime` action.
+
+<!-- render:IntlSvelteTimeAction -->
+
+```svelte
+<script>
+  import { svelteTime } from "svelte-time/intl";
+</script>
+
+<time use:svelteTime></time>
+
+<time
+  use:svelteTime={{
+    timestamp: "2021-02-02",
+    options: { dateStyle: "long" },
+  }}
+></time>
+```
+
+### `time` attachment
+
+<!-- render:IntlTimeAttachment -->
+
+```svelte
+<script>
+  import { time } from "svelte-time/intl";
+</script>
+
+<time {@attach time({ timestamp: "2021-02-02", options: { dateStyle: "long" } })}></time>
+```
+
+### `svelteTimeRange` action
+
+<!-- render:IntlSvelteTimeRangeAction -->
+
+```svelte
+<script>
+  import { svelteTimeRange } from "svelte-time/intl";
+</script>
+
+<time use:svelteTimeRange={{ start: "2026-01-10", end: "2026-01-15" }}></time>
+```
+
+### `timeRange` attachment
+
+<!-- render:IntlTimeRangeAttachment -->
+
+```svelte
+<script>
+  import { timeRange } from "svelte-time/intl";
+</script>
+
+<time {@attach timeRange({ start: "2026-01-10", end: "2026-01-15" })}></time>
+```
+
+### `Stopwatch` component
+
+Same shape as the main package's `Stopwatch` — counts up from a `since` instant, with a `running` prop for built-in pause/resume. `style` replaces `format`/`humanize`/`withSuffix`: `"digital"` (default) gives `"HH:mm:ss"`-style output; `"long"`/`"short"`/`"narrow"` give a humanized readout via `Intl.DurationFormat`.
+
+<!-- render:IntlStopwatchBasic -->
+
+```svelte
+<script>
+  import { Stopwatch } from "svelte-time/intl";
+
+  let since = $state(new Date());
+</script>
+
+<!-- Ticks live by default, once per second -->
+<Stopwatch {since} />
+
+<!-- Changing `since` restarts the stopwatch -->
+<button onclick={() => (since = new Date())}>Restart</button>
+```
+
+Pause and resume with the `running` prop; the `children` snippet receives the current `running` state alongside the formatted value:
+
+<!-- render:IntlStopwatchPause -->
+
+```svelte
+<script>
+  import { Stopwatch } from "svelte-time/intl";
+
+  const since = new Date();
+  let running = $state(true);
+</script>
+
+<Stopwatch {since} {running}>
+  {#snippet children(formatted, isRunning)}
+    {formatted}
+    {isRunning ? "(running)" : "(paused)"}
+  {/snippet}
+</Stopwatch>
+
+<button onclick={() => (running = !running)}>
+  {running ? "Pause" : "Resume"}
+</button>
+```
+
+### `svelteStopwatch` action
+
+```svelte
+<script>
+  import { svelteStopwatch } from "svelte-time/intl";
+
+  let running = $state(true);
+</script>
+
+<time use:svelteStopwatch={{ since: new Date(), running }}></time>
+```
+
+### `stopwatch` attachment
+
+```svelte
+<script>
+  import { stopwatch } from "svelte-time/intl";
+
+  let running = $state(true);
+</script>
+
+<time {@attach stopwatch({ since: new Date(), running })}></time>
+```
+
+### `Countdown` component
+
+Same shape as the main package's `Countdown` — counts down to a future `to` instant, clamped at zero, ticking every second by default.
+
+<!-- render:IntlCountdownBasic -->
+
+```svelte
+<script>
+  import { Countdown } from "svelte-time/intl";
+
+  let to = $state(new Date(Date.now() + 20_000));
+</script>
+
+<!-- Ticks live by default, once per second -->
+<Countdown {to} />
+
+<!-- style="long" gives a humanized readout -->
+<Countdown {to} style="long" />
+
+<!-- Changing `to` restarts the countdown -->
+<button onclick={() => (to = new Date(Date.now() + 20_000))}>Reset</button>
+```
+
+`oncomplete` fires once, when the countdown reaches `to`. The `children` snippet receives a `done` boolean alongside the formatted value.
+
+<!-- render:IntlCountdownOnComplete -->
+
+```svelte
+<script>
+  import { Countdown } from "svelte-time/intl";
+
+  let to = $state(new Date(Date.now() + 5000));
+</script>
+
+<Countdown {to} oncomplete={() => console.log("done!")}>
+  {#snippet children(formatted, done)}
+    {done ? "Done!" : formatted}
+  {/snippet}
+</Countdown>
+```
+
+### `svelteCountdown` action
+
+```svelte
+<script>
+  import { svelteCountdown } from "svelte-time/intl";
+</script>
+
+<time use:svelteCountdown={{ to: new Date(Date.now() + 20_000), oncomplete: () => console.log("done!") }}></time>
+```
+
+### `countdown` attachment
+
+```svelte
+<script>
+  import { countdown } from "svelte-time/intl";
+
+  const to = new Date(Date.now() + 20_000);
+</script>
+
+<time {@attach countdown({ to, oncomplete: () => console.log("done!") })}></time>
+```
+
+### `formatDuration(ms, options?)`
+
+Backed by [`Intl.DurationFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat) — `style` accepts `"digital"` (default, e.g. `"1:30:25"`), `"long"`, `"short"`, or `"narrow"`.
+
+<!-- render:IntlDuration -->
+
+```svelte
+<script>
+  import { formatDuration } from "svelte-time/intl";
+
+  const ms = 5_425_000; // 1h 30m 25s
+</script>
+
+<p>digital (default): {formatDuration(ms)}</p>
+<p>long: {formatDuration(ms, { style: "long" })}</p>
+<p>narrow: {formatDuration(ms, { style: "narrow" })}</p>
+<p>negative: {formatDuration(-42_000)}</p>
+```
+
+### Utility functions
+
+`formatTime`, `relativeTime`, and `formatRange` are also available standalone, for use outside a `<time>` element.
+
+<!-- render:IntlUtilities -->
+
+```svelte
+<script>
+  import { formatRange, formatTime, relativeTime } from "svelte-time/intl";
+
+  const timestamp = "2026-01-10T00:00:00Z";
+</script>
+
+<ul>
+  <li>formatTime: {formatTime(timestamp)}</li>
+  <li>relativeTime: {relativeTime(timestamp)}</li>
+  <li>formatRange: {formatRange(timestamp, "2026-01-15T00:00:00Z")}</li>
+</ul>
+```
+
+### `svelte-time` vs. `svelte-time/intl`
+
+`svelte-time/intl` trades away dayjs's parsing, arithmetic, and format-string flexibility for a zero-dependency footprint. If your app already depends on dayjs elsewhere, or needs any of the "no" rows below, use the dayjs-based package instead.
+
+| Aspect                    | `svelte-time` (dayjs)                                          | `svelte-time/intl`                                                       |
+| :------------------------ | :--------------------------------------------------------------- | :------------------------------------------------------------------------- |
+| Runtime dependency        | dayjs + `relativeTime`/`duration` plugins                        | none — built on platform `Intl` APIs                                       |
+| Format style              | token strings, e.g. `"MMM DD, YYYY"`                              | `Intl.DateTimeFormatOptions` fields, or `dateStyle`/`timeStyle` presets     |
+| Parsing arbitrary formats | yes, via dayjs                                                    | no — formats a `Date`/timestamp you already have                           |
+| Date arithmetic           | yes (`add`/`diff`/`startOf`, etc.)                                | no                                                                          |
+| Date ranges                | yes — `TimeRange` renders two `<time>` elements + separator      | yes — `TimeRange`/`formatRange` render one condensed native string        |
+| Alternate calendars/numbering systems | requires extra dayjs plugins                          | built in (`calendar`/`numberingSystem` options)                            |
+| Locale loading            | import each locale from `dayjs/locale/*`                         | none — covered by the runtime's built-in ICU data                          |
+| Browser baseline support  | n/a (bundled library)                                             | `DateTimeFormat`/`RelativeTimeFormat`/`formatRange`: widely available since 2020; `DurationFormat`: newer (Baseline since March 2025) |
+
 ## API
 
 ### `Time` component props
