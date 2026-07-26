@@ -12,6 +12,8 @@ export const svelteCountdown = (node, options = {}) => {
   /** @type {undefined | NodeJS.Timeout} */
   let interval;
   let completed = false;
+  /** @type {import("dayjs").ConfigType} */
+  let lastTo;
 
   /** @param {Partial<SvelteCountdownOptions>} [options] */
   const render = (options = {}) => {
@@ -47,7 +49,11 @@ export const svelteCountdown = (node, options = {}) => {
   const updateCountdown = (options = {}) => {
     clearInterval(interval);
     interval = undefined;
-    completed = false;
+
+    if (options.to !== lastTo) {
+      completed = false;
+      lastTo = options.to;
+    }
 
     render(options);
 
