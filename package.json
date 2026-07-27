@@ -22,7 +22,7 @@
     "dayjs": "^1.11.21"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.2",
+    "@biomejs/biome": "2.5.5",
     "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@types/node": "^26.1.0",
     "dlz": "^0.1.3",
