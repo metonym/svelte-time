@@ -1,12 +1,12 @@
 <script>
   const {
-    /** Start instant to count elapsed time from. Captured once at mount
-     * as "now" when omitted. Changing `since` resets the stopwatch.
+    /** Start instant. Captured as "now" at mount when omitted. Changing
+     * `since` resets the stopwatch.
      * @type {import("./format").TimeInput | undefined} */
     since = undefined,
 
-    /** Set to `false` to pause (freezes the displayed value); back to
-     * `true` to resume — the paused interval is excluded.
+    /** Set to `false` to pause (freezes the display); back to `true`
+     * to resume. The paused gap is excluded.
      * @type {boolean} */
     running = true,
 

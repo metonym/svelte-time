@@ -12,7 +12,7 @@ export declare function resolveLocale(
 ): Locales;
 
 /**
- * Format a timestamp as a string — same output as <Time format={...} />.
+ * Format a timestamp as a string. Same output as <Time format={...} />.
  */
 export declare function formatTime(
   timestamp: ConfigType,
@@ -20,7 +20,7 @@ export declare function formatTime(
 ): string;
 
 /**
- * Relative time string — same output as <Time relative />.
+ * Relative time string. Same output as <Time relative />.
  * `from` sets the reference point (pass `now(...)` for a reactive result).
  */
 export declare function relativeTime(

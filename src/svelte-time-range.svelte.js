@@ -8,9 +8,9 @@ import { resolveLocale } from "./format";
  * @type {SvelteTimeRangeAction}
  */
 export const svelteTimeRange = (node, options = {}) => {
-  // An action attaches to a single node, but a range needs two <time>
-  // elements — build them once here and mutate their attributes/text
-  // on every update, mirroring how `svelteTime` mutates a single node.
+  // An action attaches to one node; a range needs two <time> elements.
+  // Build them once and mutate attributes/text on each update, like
+  // `svelteTime` mutates a single node.
   const startTime = document.createElement("time");
   const separatorText = document.createTextNode("");
   const endTime = document.createElement("time");
@@ -20,8 +20,8 @@ export const svelteTimeRange = (node, options = {}) => {
   const requireTz = (base) => {
     if (typeof base.tz === "function") return;
     throw new Error(
-      "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-        "see https://github.com/metonym/svelte-time#custom-timezone",
+      "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+        "See https://github.com/metonym/svelte-time#custom-timezone",
     );
   };
 

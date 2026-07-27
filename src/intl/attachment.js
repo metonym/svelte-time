@@ -10,7 +10,7 @@ import { sharedNow } from "./ticker";
 /**
  * Attachment version of `svelteTime` (intl). Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes, and live mode subscribes to the shared ticker.
+ * changes. Live mode subscribes to the shared ticker.
  * @param {Partial<import("./svelte-time.svelte").SvelteTimeOptions>} [options]
  * @returns {(node: HTMLElement) => void}
  * @example <time {@attach time({ relative: true, timestamp })}></time>
@@ -118,8 +118,8 @@ export function countdown(options = {}) {
 
 /**
  * Per-node pause/resume bookkeeping for the `stopwatch` attachment,
- * keyed by the attached DOM node — mirrors the main package's approach,
- * since the outer factory is re-invoked fresh whenever `running` changes.
+ * keyed by the attached DOM node. Same approach as the main package:
+ * the outer factory is re-invoked whenever `running` changes.
  * @type {WeakMap<HTMLElement, { anchor: undefined | Date, pausedMs: number, pausedAt: undefined | Date, prevSince: undefined | import("./format").TimeInput, prevRunning: boolean }>}
  */
 const stopwatchStateByNode = new WeakMap();

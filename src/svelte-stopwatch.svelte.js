@@ -56,13 +56,12 @@ export const svelteStopwatch = (node, options = {}) => {
     const running = options.running ?? true;
 
     if (anchor === undefined || (since !== undefined && since !== prevSince)) {
-      // Initial mount, or `since` changed to a new instant: reset.
+      // Initial mount, or `since` changed: reset.
       anchor = since === undefined ? (anchor ?? dayjs()) : dayjs(since);
       pausedMs = 0;
       pausedAt = running ? undefined : dayjs();
     } else if (running !== prevRunning) {
-      // `running` toggled: track the paused interval so resuming
-      // excludes it from the elapsed count.
+      // `running` toggled: track the paused gap so resume excludes it.
       if (running) {
         if (pausedAt !== undefined) {
           pausedMs += dayjs().diff(pausedAt);

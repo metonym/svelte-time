@@ -3,7 +3,7 @@ import { dayjs } from "./dayjs";
 const TOKEN_REGEX = /\[([^\]]+)]|Y+|M+|D+|H+|m+|s+|S+/g;
 
 /** Largest-to-smallest so excess magnitude rolls into the largest
- * token present in the template instead of being dropped. */
+ * token present in the template. */
 const HIERARCHY = /** @type {const} */ (["Y", "M", "D", "H", "m", "s", "S"]);
 
 /** Matches dayjs duration's own approximation constants (365d/year, ~30.4d/month). */
@@ -18,12 +18,11 @@ const UNIT_MS = {
 };
 
 /**
- * Render `totalMs` against `template`. Unlike dayjs's own decomposed
- * `duration.format()` (which drops any magnitude above the units present
- * in the template — e.g. `format="mm:ss"` on 90 minutes renders "30:00"),
- * this rolls all magnitude larger than the largest present token into
- * that token — the same example renders "90:00". Supports the `[...]`
- * literal-text escape.
+ * Render `totalMs` against `template`. dayjs's own `duration.format()`
+ * drops magnitude above the units in the template: `format="mm:ss"` on
+ * 90 minutes renders "30:00". This rolls excess into the largest present
+ * token, so the same example renders "90:00". Supports `[...]` literal
+ * escapes.
  * @param {number} totalMs
  * @param {string} template
  * @returns {string}
@@ -55,9 +54,8 @@ function renderTemplate(totalMs, template) {
 }
 
 /**
- * Normalize `value` into a dayjs `Duration` and render it, shared by the
- * `Duration` component, `svelteDuration` action, and `duration` attachment
- * so the formatting logic lives in exactly one place.
+ * Normalize `value` into a dayjs `Duration` and render it. Shared by the
+ * `Duration` component, `svelteDuration` action, and `duration` attachment.
  * @param {object} options
  * @param {number | string | object | import("./duration-format").DayjsDuration} [options.value]
  * @param {"milliseconds" | "seconds" | "minutes" | "hours" | "days" | "weeks" | "months" | "years"} [options.unit]

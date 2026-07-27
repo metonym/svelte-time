@@ -34,8 +34,8 @@ export const svelteTime = (node, options = {}) => {
       if (tz === undefined) return base.locale(locale);
       if (typeof base.tz !== "function") {
         throw new Error(
-          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-            "see https://github.com/metonym/svelte-time#custom-timezone",
+          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+            "See https://github.com/metonym/svelte-time#custom-timezone",
         );
       }
       return base.tz(tz).locale(locale);

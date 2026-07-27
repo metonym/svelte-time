@@ -14,7 +14,7 @@
     end,
 
     /**
-     * Format applied independently to `start` and `end`.
+     * Format applied to `start` and `end` independently.
      * @type {string}
      * @example "YYYY-MM-DD"
      */
@@ -33,18 +33,16 @@
     locale = "en",
 
     /**
-     * IANA timezone name (e.g. "America/New_York") applied to both
-     * `start` and `end`. Requires the dayjs `utc` and `timezone` plugins
-     * to be extended.
+     * IANA timezone (e.g. "America/New_York") applied to both endpoints.
+     * Requires the dayjs `utc` and `timezone` plugins.
      * @type {string | undefined}
      */
     tz = undefined,
 
     /**
-     * Snippet replacing the entire default output (both `time` elements
-     * and the separator). Receives a single object — destructure only
-     * the fields you need — with `formattedStart`, `formattedEnd`,
-     * `startDatetime`, and `endDatetime`.
+     * Replaces the entire default output (both `time` elements and the
+     * separator). Receives `{ formattedStart, formattedEnd, startDatetime,
+     * endDatetime }`; destructure what you need.
      * @type {import("svelte").Snippet<[{ formattedStart: string, formattedEnd: string, startDatetime: string, endDatetime: string }]> | undefined}
      */
     children,
@@ -58,8 +56,7 @@
   const effectiveLocale = $derived(resolveLocale(start, locale));
 
   /**
-   * Parse an instant with the timezone (if provided) and effective
-   * locale applied.
+   * Parse an instant with timezone (if set) and effective locale.
    * @param {import("dayjs").ConfigType} value
    * @returns {import("dayjs").Dayjs}
    */
@@ -68,8 +65,8 @@
     if (tz === undefined) return base.locale(effectiveLocale);
     if (typeof base.tz !== "function") {
       throw new Error(
-        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-          "see https://github.com/metonym/svelte-time#custom-timezone",
+        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+          "See https://github.com/metonym/svelte-time#custom-timezone",
       );
     }
     return base.tz(tz).locale(effectiveLocale);
@@ -84,10 +81,9 @@
   const startDatetime = $derived(toDatetime(start));
   const endDatetime = $derived(toDatetime(end));
 
-  // Combined into a single spread per <time> element (rather than
-  // `{...rest} datetime={...}`) so the formatter keeps each element on
-  // one line — a line break between the separator and the second
-  // <time> would otherwise be read as a literal space in the output.
+  // Single spread per <time> (not `{...rest} datetime={...}`) so the
+  // formatter keeps each element on one line. A line break between the
+  // separator and the second <time> would read as a literal space.
   const startAttrs = $derived({ ...rest, datetime: startDatetime });
   const endAttrs = $derived({ ...rest, datetime: endDatetime });
 </script>

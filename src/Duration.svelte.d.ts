@@ -8,10 +8,9 @@ type RestProps = Omit<SvelteHTMLElements["time"], "children">;
 
 export interface DurationProps extends RestProps {
   /**
-   * Duration value. Accepts anything dayjs's `duration()` accepts: a
-   * number (paired with `unit`), an ISO 8601 duration string (e.g.
-   * "PT1H30M"), a plain object of unit fields, or a dayjs `Duration`
-   * instance. Ignored when `since` is provided.
+   * Duration value: a number with `unit`, an ISO 8601 string like
+   * "PT1H30M", a plain object of unit fields, or a dayjs `Duration`.
+   * Ignored when `since` is set.
    * @default 0
    */
   value?: number | string | object | DayjsDuration;
@@ -23,31 +22,28 @@ export interface DurationProps extends RestProps {
   unit?: DurationUnit;
 
   /**
-   * Start instant to count elapsed time from (e.g. a stopwatch/timer).
-   * When provided, `value` and `unit` are ignored and the displayed
-   * duration is `now - since`.
+   * Start instant for elapsed time. When set, `value`/`unit` are
+   * ignored and the display is `now - since`.
    * @default undefined
    */
   since?: ConfigType;
 
   /**
-   * Format for display, using dayjs's duration `format()` tokens
-   * (e.g. "HH:mm:ss"). Ignored when `humanize` is `true`.
+   * Display format using dayjs duration tokens (e.g. "HH:mm:ss").
+   * Ignored when `humanize` is `true`.
    * @default "HH:mm:ss"
    */
   format?: string;
 
   /**
-   * Set to `true` to display the duration in a human-readable format
-   * (e.g. "an hour", "2 minutes") instead of `format`.
+   * Human-readable duration (e.g. "an hour") instead of `format`.
    * @default false
    */
   humanize?: boolean;
 
   /**
-   * Set to `true` to include a relative suffix in humanized output
-   * (e.g. "in an hour" / "an hour ago"). Only applies when `humanize`
-   * is `true`.
+   * Add a relative suffix to humanized output (e.g. "in an hour").
+   * Only applies when `humanize` is `true`.
    * @default false
    */
   withSuffix?: boolean;
@@ -59,16 +55,15 @@ export interface DurationProps extends RestProps {
   locale?: Locales;
 
   /**
-   * Set to `true` to update the elapsed duration at an adaptive
-   * interval. Pass a number (ms) to specify a fixed interval. Only
-   * applies when `since` is provided.
+   * Keep elapsed duration updating. `true` uses the adaptive schedule;
+   * a number sets a fixed interval in ms. Only applies with `since`.
    * @default false
    */
   live?: boolean | number;
 
   /**
-   * Snippet rendered inside the `time` element instead of the plain
-   * formatted string. Receives the formatted value as its argument.
+   * Custom markup inside the `time` element. Receives the formatted
+   * value as its argument.
    */
   children?: Snippet<[string]>;
 

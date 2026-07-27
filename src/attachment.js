@@ -10,7 +10,7 @@ const DEFAULT_INTERVAL = 60 * 1_000;
 /**
  * Attachment version of `svelteTime`. Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes, and live mode subscribes to the shared ticker.
+ * changes. Live mode subscribes to the shared ticker.
  *
  * @param {Partial<import("./svelte-time.svelte").SvelteTimeOptions>} [options]
  * @returns {(node: HTMLElement) => void}
@@ -31,8 +31,8 @@ export function time(options = {}) {
     const base = dayjs(timestamp);
     if (tz !== undefined && typeof base.tz !== "function") {
       throw new Error(
-        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-          "see https://github.com/metonym/svelte-time#custom-timezone",
+        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+          "See https://github.com/metonym/svelte-time#custom-timezone",
       );
     }
     const day = (tz === undefined ? base : base.tz(tz)).locale(locale);
@@ -41,8 +41,8 @@ export function time(options = {}) {
     if (relative && live !== false) {
       // Reading sharedNow subscribes this attachment to the shared
       // clock; each tick re-runs the whole attachment. Tier selection
-      // uses a fresh age each run so components migrate tiers
-      // naturally on re-run, with no state and no cycles.
+      // uses a fresh age each run, so components migrate tiers on
+      // re-run with no state and no cycles.
       const interval =
         typeof live === "number"
           ? Math.abs(live)
@@ -82,7 +82,7 @@ export function time(options = {}) {
 /**
  * Attachment version of `svelteDuration`. Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes, and `since` + `live` mode subscribes to the shared ticker.
+ * changes. `since` + `live` mode subscribes to the shared ticker.
  *
  * @param {Partial<import("./svelte-duration.svelte").SvelteDurationOptions>} [options]
  * @returns {(node: HTMLElement) => void}
@@ -139,10 +139,9 @@ export function duration(options = {}) {
 /**
  * Attachment version of `svelteCountdown`. Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes, and `live` mode subscribes to the shared ticker. Unlike
- * `duration`'s `since`/`live` (tuned for slowly-decaying "x minutes
- * ago" text), `live` here ticks every second by default, since a
- * countdown's final seconds matter most.
+ * changes. Live mode subscribes to the shared ticker. Default tick is
+ * every second; a countdown's last seconds matter more than the
+ * coarser adaptive schedule used for "x minutes ago" text.
  *
  * @param {Partial<import("./svelte-countdown.svelte").SvelteCountdownOptions>} [options]
  * @returns {(node: HTMLElement) => void}
@@ -190,15 +189,13 @@ export function countdown(options = {}) {
 
 /**
  * Per-node pause/resume bookkeeping for the `stopwatch` attachment,
- * keyed by the attached DOM node. Unlike `duration`/`countdown`
- * (whose `completed`-style closures live in the outer factory), the
- * `stopwatch` attachment's own outer factory is re-invoked fresh
- * whenever `running` changes (since `running` must be read to build
- * `options`, and that read makes the whole `{@attach}` expression —
- * including the outer factory call — re-evaluate). A plain outer
- * closure would therefore lose `pausedMs`/`pausedAt` on every toggle,
- * so this state is tracked per-node instead, which stays stable
- * across those re-invocations.
+ * keyed by the attached DOM node. Reading `running` to build `options`
+ * re-evaluates the whole `{@attach}` expression, including the outer
+ * factory, so a plain outer closure would lose `pausedMs`/`pausedAt`
+ * on every toggle. Track state per node instead; it stays stable
+ * across those re-invocations. `duration`/`countdown` can keep
+ * `completed`-style closures on the outer factory because those don't
+ * re-invoke the factory on every tick of a boolean like `running`.
  * @type {WeakMap<HTMLElement, { anchor: undefined | import("dayjs").Dayjs, pausedMs: number, pausedAt: undefined | import("dayjs").Dayjs, prevSince: import("dayjs").ConfigType, prevRunning: boolean }>}
  */
 const stopwatchStateByNode = new WeakMap();
@@ -206,7 +203,7 @@ const stopwatchStateByNode = new WeakMap();
 /**
  * Attachment version of `svelteStopwatch`. Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes, and `live` mode subscribes to the shared ticker.
+ * changes. Live mode subscribes to the shared ticker.
  *
  * @param {Partial<import("./svelte-stopwatch.svelte").SvelteStopwatchOptions>} [options]
  * @returns {(node: HTMLElement) => void}
@@ -238,14 +235,13 @@ export function stopwatch(options = {}) {
       state.anchor === undefined ||
       (since !== undefined && since !== state.prevSince)
     ) {
-      // Initial run, or `since` changed to a new instant: reset.
+      // Initial run, or `since` changed: reset.
       state.anchor =
         since === undefined ? (state.anchor ?? dayjs()) : dayjs(since);
       state.pausedMs = 0;
       state.pausedAt = running ? undefined : dayjs();
     } else if (running !== state.prevRunning) {
-      // `running` toggled: track the paused interval so resuming
-      // excludes it from the elapsed count.
+      // `running` toggled: track the paused gap so resume excludes it.
       if (running) {
         if (state.pausedAt !== undefined) {
           state.pausedMs += dayjs().diff(state.pausedAt);
@@ -291,9 +287,8 @@ export function stopwatch(options = {}) {
 /**
  * Attachment version of `svelteTimeRange`. Options are reactive: the
  * attachment re-runs when any reactive value used to build `options`
- * changes. Since the target node needs two `<time>` elements (a range
- * has two endpoints), each run rebuilds them from scratch and replaces
- * the node's children, rather than mutating a single node in place.
+ * changes. A range needs two `<time>` elements, so each run rebuilds
+ * them and replaces the node's children.
  *
  * @param {Partial<import("./svelte-time-range.svelte").SvelteTimeRangeOptions>} [options]
  * @returns {(node: HTMLElement) => void}
@@ -310,8 +305,8 @@ export function timeRange(options = {}) {
       const base = dayjs(value);
       if (tz !== undefined && typeof base.tz !== "function") {
         throw new Error(
-          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-            "see https://github.com/metonym/svelte-time#custom-timezone",
+          "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+            "See https://github.com/metonym/svelte-time#custom-timezone",
         );
       }
       return (tz === undefined ? base : base.tz(tz)).locale(locale);

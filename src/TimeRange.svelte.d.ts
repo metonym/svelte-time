@@ -16,7 +16,7 @@ export interface TimeRangeProps
   end: ConfigType;
 
   /**
-   * Format applied independently to `start` and `end`.
+   * Format applied to `start` and `end` independently.
    * @default "MMM DD, YYYY"
    */
   format?: string;
@@ -34,22 +34,19 @@ export interface TimeRangeProps
   locale?: Locales;
 
   /**
-   * IANA timezone name (e.g. "America/New_York") applied to both
-   * `start` and `end`. Requires the dayjs `utc` and `timezone` plugins
-   * to be extended by the consumer — throws at runtime otherwise.
+   * IANA timezone (e.g. "America/New_York") applied to both endpoints.
+   * Requires the dayjs `utc` and `timezone` plugins; throws at runtime
+   * if missing.
    * @default undefined
    */
   tz?: string;
 
   /**
-   * Snippet replacing the entire default output (both `time` elements
-   * and the separator) — unlike `Time`/`Duration`'s `children`, this
-   * doesn't just replace the inner text of a single element, since
-   * there are two elements and a separator to arrange. Receives a
-   * single object so callers can destructure only what they need
-   * (e.g. just `startDatetime`/`endDatetime` when re-formatting both
-   * sides independently) instead of naming every earlier positional
-   * argument.
+   * Replaces the entire default output (both `time` elements and the
+   * separator). On `Time`/`Duration`, `children` only swaps inner text;
+   * here the snippet owns both elements and the separator. Receives
+   * `{ formattedStart, formattedEnd, startDatetime, endDatetime }`;
+   * destructure what you need.
    */
   children?: Snippet<
     [

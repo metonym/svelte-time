@@ -5,7 +5,7 @@ import type { TimeInput } from "./format";
 type RestProps = Omit<SvelteHTMLElements["time"], "children">;
 
 export interface CountdownProps extends RestProps {
-  /** Target instant to count down to. Changing `to` restarts the countdown. */
+  /** Target instant. Changing `to` restarts the countdown. */
   to: TimeInput;
 
   /** @default "digital" */
@@ -17,13 +17,12 @@ export interface CountdownProps extends RestProps {
   /** @default true */
   live?: boolean | number;
 
-  /** Called once, when the countdown reaches `to`. */
+  /** Called once when the countdown reaches `to`. */
   oncomplete?: () => void;
 
   /**
-   * Snippet rendered inside the `time` element instead of the plain
-   * formatted string. Receives the formatted value and whether the
-   * countdown has completed.
+   * Custom markup inside the `time` element. Receives the formatted
+   * value and whether the countdown has completed.
    */
   children?: Snippet<[string, boolean]>;
 }

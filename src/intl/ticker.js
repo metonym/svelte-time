@@ -2,8 +2,8 @@ import { createSubscriber } from "svelte/reactivity";
 
 /**
  * One shared timer per distinct interval (ms), active only while
- * subscribed. Same pattern as `../ticker.js`, but backed by plain `Date`
- * instead of dayjs, to keep this subpackage dependency-free.
+ * subscribed. Same pattern as `../ticker.js`, but backed by plain
+ * `Date` so this subpackage stays dependency-free.
  */
 const tickers = new Map();
 
