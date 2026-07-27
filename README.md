@@ -2,7 +2,7 @@
 
 [![NPM][npm]][npm-url]
 
-**Note:** `svelte-time@2` requires Svelte 5, since its internals use runes. The consuming app does not need to enable runes mode itself, since runes are opt-in per component.
+**Note:** `svelte-time@2` requires Svelte 5; its internals use runes. The consuming app does not need runes mode enabled, because runes are opt-in per component.
 
 Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for Svelte 3, 4, and 5 (non-Runes mode).
 
@@ -10,9 +10,9 @@ Use [svelte-time@1.0.0](https://github.com/metonym/svelte-time/tree/v1.0.0) for 
 
 ## About
 
-`svelte-time` is a Svelte component and action library for formatting timestamps and durations, encoding the machine-parseable value in the semantic `time` element.
+`svelte-time` formats timestamps and durations as Svelte components and actions, and puts the machine-readable value on a semantic `time` element.
 
-Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight date-time library.
+It uses [day.js](https://github.com/iamkun/dayjs).
 
 ```svelte
 <!-- Input -->
@@ -26,15 +26,15 @@ Under the hood, it uses [day.js](https://github.com/iamkun/dayjs), a lightweight
 
 Try it in the [Svelte REPL](https://svelte.dev/playground/e2a27786f93d42878388de482de403c9).
 
-It offers three interchangeable primitives, all backed by the same shared timer logic.
+Three primitives share the same timer logic:
 
 | Primitive                      | Export       | Use it when...                                                                                                                            |
 | :----------------------------- | :----------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
-| [Component](#time-component)   | `Time`       | you want a declarative element with a `timestamp` prop, and full SSR support                                                              |
-| [Action](#sveltetime-action)   | `svelteTime` | you want `use:svelteTime` on a plain element, no extra markup, and don't need the shared adaptive timer                                   |
-| [Attachment](#time-attachment) | `time`       | you want the `@attach`-based alternative to the action, with reactive options and the same shared, adaptive timer as the `Time` component |
+| [Component](#time-component)   | `Time`       | you want a declarative element with a `timestamp` prop and full SSR support                                                               |
+| [Action](#sveltetime-action)   | `svelteTime` | you want `use:svelteTime` on a plain element, no extra markup, and don't need the shared adaptive timer                                    |
+| [Attachment](#time-attachment) | `time`       | you want `@attach` with reactive options and the same shared adaptive timer as the `Time` component                                       |
 
-The [`dayjs`](#dayjs-export) re-export is also available as a convenience utility, not a rendering primitive.
+The [`dayjs`](#dayjs-export) re-export is a convenience utility, not a rendering primitive.
 
 ### Compatibility
 
@@ -101,7 +101,7 @@ Use the `format` prop to format the timestamp. Refer to the [dayjs format docume
 
 ### Relative time
 
-Set `relative` to `true` to display the time relative to now (e.g. "4 days ago").
+Set `relative` to `true` to show time relative to now, like "4 days ago".
 
 <!-- render:RelativeTime -->
 
@@ -121,7 +121,7 @@ Use the `format` prop to customize the [format](https://day.js.org/docs/en/displ
 <Time relative format="dddd @ h:mm A · MMMM D, YYYY" />
 ```
 
-When using `relative`, the `time` element will set the formatted timestamp as the `title` attribute. Specify a custom `title` to override this.
+With `relative`, the formatted timestamp goes on the `title` attribute. Pass your own `title` to override it.
 
 <!-- render:RelativeTimeCustomTitle -->
 
@@ -139,7 +139,7 @@ Pass `title={undefined}` to omit the attribute.
 
 ### Custom markup
 
-Pass a `children` snippet to render custom markup instead of the plain formatted text. The snippet receives the formatted value as its argument, and the component still owns the `<time>` element, `title`, and `datetime` handling.
+Pass a `children` snippet to render custom markup. The snippet gets the formatted value; the component still owns `<time>`, `title`, and `datetime`.
 
 <!-- render:CustomMarkup -->
 
@@ -153,13 +153,13 @@ Pass a `children` snippet to render custom markup instead of the plain formatted
 
 ### Live updates
 
-Set `live` to `true` for a live updating relative timestamp. Updates follow an adaptive schedule based on the timestamp's age. See [Performance](#performance) for the full schedule and how the underlying timer works.
+Set `live` to `true` for a live relative timestamp. Updates follow an adaptive schedule based on age. See [Performance](#performance) for the schedule and how the timer works.
 
 ```svelte
 <Time live relative />
 ```
 
-To force a fixed interval instead, pass a value to `live` in milliseconds (ms).
+Pass a number to `live` for a fixed interval in milliseconds.
 
 ```svelte
 <!-- Update every 30 seconds -->
@@ -171,7 +171,7 @@ To force a fixed interval instead, pass a value to `live` in milliseconds (ms).
 
 ### Auto-switch to absolute format
 
-Set `relativeThreshold` (age in ms) to switch from `relative` to the absolute `format` once a timestamp gets old enough. Only takes effect while `relative` is `true`. Combined with `live`, the switch happens automatically as time passes; without `live`, `relativeThreshold` only affects the value computed at render time.
+Set `relativeThreshold` to an age in ms to switch from `relative` to absolute `format` once the timestamp is old enough. Only applies when `relative` is `true`. With `live`, the switch happens as time passes; without `live`, it only affects the value at render time.
 
 <!-- render:RelativeThreshold -->
 
@@ -182,26 +182,26 @@ Set `relativeThreshold` (age in ms) to switch from `relative` to the absolute `f
 
 ### Performance
 
-Designed to render thousands of live timestamps without measurable overhead.
+Built to keep lots of live timestamps cheap.
 
-- **One timer, not n timers.** All `Time` components and `time` attachments sharing a live-update interval subscribe to a single shared clock; a feed with 1,000 live timestamps on the same tier schedules one `setInterval`, not 1,000. Timers start when the first live consumer mounts and stop when the last unmounts, so an idle page runs zero timers.
-- **Adaptive refresh.** `live={true}` updates on a schedule keyed to the timestamp's age: every 10s while under a minute old, 30s while under an hour old, 5 minutes while under a day old, and hourly beyond that, migrating tiers as the timestamp ages. Fresh timestamps are at most ~10 seconds stale; day-old ones update 60× less often than fixed 60-second polling. Pass a numeric `live` to force a fixed interval instead.
-- **Background tabs.** Browsers throttle timers in hidden tabs; the shared clock refreshes immediately when the tab becomes visible again, so returning users never see stale text.
-- **Cheap updates.** Each component parses its timestamp once per update (the resulting `dayjs` instance is shared by the formatted text and the `title`), and the `svelteTime` action and `time` attachment write updates via `textContent`, avoiding layout-forcing DOM APIs on the tick path.
+- **One timer, not n.** All `Time` components and `time` attachments on the same live interval share one clock. A feed with 1,000 timestamps on the same tier runs one `setInterval`, not 1,000. Timers start with the first live consumer and stop when the last unmounts. An idle page runs none.
+- **Adaptive refresh.** `live={true}` ticks by age: every 10s under a minute, 30s under an hour, 5 minutes under a day, then hourly. Fresh stamps stay within about 10 seconds of truth; day-old ones update 60× less than fixed 60-second polling. Pass a number to `live` for a fixed interval.
+- **Background tabs.** Browsers throttle hidden-tab timers. The shared clock refreshes as soon as the tab is visible again.
+- **Cheap updates.** Each component parses its timestamp once per tick. The same `dayjs` instance feeds the text and the `title`. The `svelteTime` action and `time` attachment write via `textContent`, so the tick path avoids layout-forcing DOM APIs.
 
-The `svelteTime` action's `live` option is the exception: it's a simpler, per-node `setInterval` (fixed 60 seconds by default, or a custom interval in ms) that does not share a timer across nodes and does not use the adaptive schedule above. Prefer the `Time` component or the `time` attachment on pages with many live timestamps.
+The `svelteTime` action is the exception: each node gets its own `setInterval` (60 seconds by default, or a custom ms interval), with no shared timer and no adaptive schedule. Prefer `Time` or the `time` attachment when many timestamps are live.
 
 ### SSR and SvelteKit
 
-The `Time` component fully renders on the server: text, `title`, and `datetime` are all present in the HTML payload, and no timers are started during SSR (including with `live`).
+The `Time` component renders fully on the server: text, `title`, and `datetime` are in the HTML, and no timers start during SSR, even with `live`.
 
-The `svelteTime` action and the `time` attachment both render an empty `<time>` element until hydration, since neither actions nor attachments run on the server. Prefer the `Time` component over either one when SSR content matters (SEO, no-JS, avoiding a content flash).
+The `svelteTime` action and `time` attachment render an empty `<time>` until hydration, because neither runs on the server. Prefer `Time` when SSR content matters for SEO, no-JS, or avoiding a flash.
 
-Pass an explicit `timestamp` under SSR: the default (`new Date().toISOString()`) is re-evaluated on the client during hydration, so the server- and client-rendered values can differ, and relative text can cross a threshold (e.g. "a few seconds ago" → "a minute ago") between render and hydration.
+Pass an explicit `timestamp` under SSR. The default `new Date().toISOString()` is re-evaluated on the client during hydration, so server and client values can disagree, and relative text can cross a threshold between render and hydration, like "a few seconds ago" becoming "a minute ago".
 
 ### `svelteTime` action
 
-An alternative to the `Time` component is to use the `svelteTime` action to format a timestamp in a raw HTML element.
+Use the `svelteTime` action to format a timestamp on a raw HTML element.
 
 The API is the same as the `Time` component.
 
@@ -263,7 +263,7 @@ To customize or omit the `title` attribute, use the `title` prop.
 ></time>
 ```
 
-Similar to the `Time` component, the `live` prop only works with relative time.
+Like the `Time` component, `live` only works with relative time.
 
 ```svelte
 <time
@@ -300,7 +300,7 @@ Use `relativeThreshold` to switch to the absolute `format` once the timestamp's 
 
 ### `time` attachment
 
-[Attachments](https://svelte.dev/docs/svelte/@attach) (the `@attach` directive, Svelte 5.29+) are the successor to actions. The `time` attachment is an alternative to the `svelteTime` action with fully reactive options: it re-runs whenever any reactive value used to build its options changes, including options built inline in the template. In `live` mode, it shares the same global timer as the `Time` component instead of owning a `setInterval` per element.
+[Attachments](https://svelte.dev/docs/svelte/@attach) (`@attach`, Svelte 5.29+) succeed actions. The `time` attachment is like `svelteTime`, but options stay reactive: it re-runs when any reactive value used to build options changes, including inline template objects. In `live` mode it shares the `Time` component's global timer instead of a per-element `setInterval`.
 
 <!-- render:TimeAttachment -->
 
@@ -312,7 +312,7 @@ Use `relativeThreshold` to switch to the absolute `format` once the timestamp's 
 <time {@attach time({ timestamp: "2021-02-02", format: "YYYY-MM-DD" })}></time>
 ```
 
-Because options are reactive, an inline options object built from `$state` updates the element automatically, with no `update()` contract required:
+Because options are reactive, an inline object built from `$state` updates the element automatically. No `update()` contract:
 
 <!-- render:TimeAttachmentReactive -->
 
@@ -327,9 +327,9 @@ Because options are reactive, an inline options object built from `$state` updat
 <button onclick={() => (timestamp = "2021-02-03")}>Update</button>
 ```
 
-The `@attach` directive requires Svelte 5.29+ to use. The `svelteTime` action remains fully supported.
+`@attach` needs Svelte 5.29+. The `svelteTime` action still works.
 
-`relativeThreshold` works the same way as the `Time` component and `svelteTime` action:
+`relativeThreshold` works the same as on `Time` and `svelteTime`:
 
 ```svelte
 <time
@@ -344,7 +344,7 @@ The `@attach` directive requires Svelte 5.29+ to use. The `svelteTime` action re
 
 ### Remove "ago" suffix
 
-Set `withoutSuffix` to `true` to remove the "ago" suffix from relative time.
+Set `withoutSuffix` to `true` to drop the "ago" suffix from relative time.
 
 <!-- render:RelativeTimeWithSuffix -->
 
@@ -371,7 +371,7 @@ Set `withoutSuffix` to `true` to remove the "ago" suffix from relative time.
 <!-- Output: "2 days" -->
 ```
 
-This also works with the `svelteTime` action:
+Same options work on the `svelteTime` action:
 
 ```svelte
 <time
@@ -385,7 +385,7 @@ This also works with the `svelteTime` action:
 
 ### Compact relative time
 
-Set `relativeStyle` to `"micro"` to render relative time as a compact single unit (e.g. `"4d"`) instead of the humanized string (e.g. `"4 days ago"`), which is handy for dense UIs like comment lists and notification feeds. Only applies when `relative` is `true`. Output uses fixed English unit letters (`y`/`mo`/`d`/`h`/`m`/`s`) regardless of the `locale` prop, since dayjs's `relativeTime` locale tables have no single-letter forms to draw from.
+Set `relativeStyle` to `"micro"` for compact relative time like `"4d"` instead of `"4 days ago"`. Useful in dense UIs such as comment lists. Only applies when `relative` is `true`. Output always uses English unit letters (`y`/`mo`/`d`/`h`/`m`/`s`), even if `locale` is set, because dayjs's `relativeTime` locale tables have no single-letter forms.
 
 <!-- render:RelativeStyleMicro -->
 
@@ -397,7 +397,7 @@ Set `relativeStyle` to `"micro"` to render relative time as a compact single uni
 <!-- Output: "4d" instead of "4 days ago" -->
 ```
 
-This also works with the `svelteTime` action and the `time` attachment:
+Same options work on the `svelteTime` action and the `time` attachment:
 
 ```svelte
 <time
@@ -419,9 +419,9 @@ This also works with the `svelteTime` action and the `time` attachment:
 
 ### `dayjs` export
 
-The `dayjs` library is exported from this package for your convenience.
+This package re-exports `dayjs`.
 
-**Note**: the exported `dayjs` function already extends the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time) and the [duration plugin](https://day.js.org/docs/en/durations/durations).
+**Note:** the exported `dayjs` already has the [relativeTime plugin](https://day.js.org/docs/en/plugin/relative-time) and the [duration plugin](https://day.js.org/docs/en/durations/durations) applied.
 
 <!-- render:DayjsExport -->
 
@@ -439,7 +439,7 @@ The `dayjs` library is exported from this package for your convenience.
 
 ## Internationalization
 
-The default `dayjs` locale is English. No other locale is loaded by default for performance reasons: import each locale you need from `dayjs` once, then reference it by key. See the list of [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
+The default `dayjs` locale is English. Nothing else is loaded unless you import it: pull each locale from `dayjs` once, then pass its key. See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale).
 
 ### Component usage
 
@@ -462,8 +462,7 @@ Import the relevant language from `dayjs` and use the `locale` prop.
 <Time timestamp="2024-01-01" format="YYYY年M月D日(dddd)" locale="ja" />
 ```
 
-The `Locales` type is exported for TypeScript usage, along with `TimeProps`,
-`SvelteTimeOptions`, and `RelativeStyle` for typing component wrappers and action options.
+TypeScript also exports `Locales`, `TimeProps`, `SvelteTimeOptions`, and `RelativeStyle` for wrappers and action options.
 
 ```typescript
 import type {
@@ -480,7 +479,7 @@ let style: RelativeStyle = $state("default");
 
 ### Action usage
 
-Use the `locale` option to format timestamps in different languages with the `svelteTime` action.
+Pass `locale` to `svelteTime` to format in another language.
 
 <!-- render:ActionLocale -->
 
@@ -510,7 +509,7 @@ Use the `locale` option to format timestamps in different languages with the `sv
 
 ### Relative time and `withoutSuffix`
 
-The `locale` prop also works with relative time.
+`locale` also applies to relative time.
 
 <!-- render:RelativeTimeLocale -->
 
@@ -529,7 +528,7 @@ The `locale` prop also works with relative time.
 <Time relative timestamp="2024-01-01" locale="ja" />
 ```
 
-The `withoutSuffix` prop also works with locales:
+`withoutSuffix` works with locales too:
 
 <!-- render:RelativeTimeLocaleWithoutSuffix -->
 
@@ -553,7 +552,7 @@ The `withoutSuffix` prop also works with locales:
 
 ### Reactive locale
 
-The `locale` prop is reactive, so binding it to a `$state` variable updates all `<Time>` instances when the locale changes.
+`locale` is reactive. Bind it to `$state` and every `<Time>` updates when it changes.
 
 <!-- render:ReactiveLocale -->
 
@@ -578,7 +577,7 @@ The `locale` prop is reactive, so binding it to a `$state` variable updates all 
 
 ### Legacy locale (dayjs instance / global default)
 
-You can also use the [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale) method to set a custom locale as the default, or pass a dayjs instance with locale already applied.
+Or set a default with [`dayjs.locale`](https://day.js.org/docs/en/i18n/changing-locale), or pass a dayjs instance that already has a locale.
 
 <!-- render:CustomLocale -->
 
@@ -605,7 +604,7 @@ To set a global default locale:
 
 ### tz prop
 
-Pass a `tz` prop to render a timestamp in a given [IANA timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) without pre-building a `dayjs.tz(...)` value yourself. This requires the `utc` and `timezone` plugins from `dayjs` to be extended; if they're missing, `tz` throws a clear error instead of failing silently.
+Pass `tz` with an [IANA timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to render in that zone without building `dayjs.tz(...)` yourself. You must extend dayjs's `utc` and `timezone` plugins first; if they're missing, `tz` throws instead of failing silently.
 
 <!-- render:TzProp -->
 
@@ -666,10 +665,9 @@ Use the [`dayjs.tz.setDefault`](https://day.js.org/docs/en/timezone/default-time
 </script>
 ```
 
-> **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)`; it does
-> not change what `<Time>` renders by itself. Use the `tz` prop (above) for the common case, or
-> pass a `dayjs.tz(value)` result as the `timestamp` prop explicitly if you're relying on a
-> global default.
+> **Note:** `dayjs.tz.setDefault(...)` only affects values built with `dayjs.tz(...)`. It does
+> not change what `<Time>` renders on its own. Use the `tz` prop for the common case, or pass a
+> `dayjs.tz(value)` result as `timestamp` if you need the global default.
 
 ### User timezone
 
@@ -708,11 +706,11 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 
 ## Duration
 
-`svelte-time` also ships a `Duration` component (plus a `svelteDuration` action and a `duration` attachment) for formatting a span of time — e.g. a video length or a stopwatch — as opposed to `Time`, which formats a point in time. For counting up from an instant with built-in pause/resume, see the dedicated [`Stopwatch` component](#stopwatch-component); for counting down to a future instant, see the dedicated [`Countdown` component](#countdown-component). For a span between two fixed endpoints — e.g. an event's start/end — see the dedicated [`TimeRange` component](#timerange-component).
+`Duration` formats a span of time, like a video length. `Time` formats a point in time. For pause/resume count-up, use [`Stopwatch`](#stopwatch-component). For a countdown to a future instant, use [`Countdown`](#countdown-component). For a span between two fixed endpoints, like an event start/end, use [`TimeRange`](#timerange-component). There is also a `svelteDuration` action and a `duration` attachment.
 
 ### `Duration` component
 
-`value` accepts a plain number (paired with `unit`), an ISO 8601 duration string (e.g. `"PT1H30M"`), a plain object of unit fields, or a dayjs `Duration` instance. The default `format` is `"HH:mm:ss"`.
+`value` accepts a number with `unit`, an ISO 8601 duration string like `"PT1H30M"`, a plain object of unit fields, or a dayjs `Duration` instance. Default `format` is `"HH:mm:ss"`.
 
 <!-- render:DurationBasic -->
 
@@ -730,7 +728,7 @@ dayjs().local().format("zzz"); // Eastern Standard Time
 <!-- Output: "01:30" -->
 ```
 
-Unlike dayjs's own `duration.format()`, which drops any magnitude above the units present in the template, `format` rolls that magnitude into the largest unit that _is_ present — handy for players/timers that hide hours until they're needed:
+dayjs's own `duration.format()` drops magnitude above the units in the template. Ours rolls that magnitude into the largest unit that is present, which is useful for players that hide hours until needed:
 
 ```svelte
 <Duration value={5400000} format="mm:ss" />
@@ -739,7 +737,7 @@ Unlike dayjs's own `duration.format()`, which drops any magnitude above the unit
 
 ### Humanize
 
-Set `humanize` to `true` to render the duration as a natural-language string (using dayjs's `duration.humanize()`) instead of `format`. Set `withSuffix` to `true` to include a relative suffix (e.g. "in an hour" / "an hour ago") — off by default, since a plain span (a video length, a meeting duration) isn't inherently relative to now.
+Set `humanize` to `true` for a natural-language string via dayjs's `duration.humanize()`, instead of `format`. Set `withSuffix` to `true` for a relative suffix like "in an hour" or "an hour ago". Suffixes are off by default; a video length isn't relative to now.
 
 <!-- render:DurationHumanize -->
 
@@ -757,7 +755,7 @@ Set `humanize` to `true` to render the duration as a natural-language string (us
 
 ### Locale
 
-Use the `locale` prop to format durations in different languages. Make sure to import the locale from `dayjs` first.
+Use `locale` for other languages. Import the locale from `dayjs` first.
 
 <!-- render:DurationLocale -->
 
@@ -773,7 +771,7 @@ Use the `locale` prop to format durations in different languages. Make sure to i
 
 ### Live elapsed duration (stopwatch)
 
-Pass a `since` timestamp instead of `value` to display the elapsed time since that instant — `since` and `live` turn `Duration` into a stopwatch, ticking at an adaptive interval (the same shared clock the `Time` component's `relative live` mode uses). `value`/`unit` are ignored when `since` is set.
+Pass `since` instead of `value` to show elapsed time since that instant. With `live`, `Duration` ticks on the same adaptive shared clock as `Time`'s `relative live` mode. `value` and `unit` are ignored when `since` is set.
 
 <!-- render:DurationSince -->
 
@@ -787,17 +785,17 @@ Pass a `since` timestamp instead of `value` to display the elapsed time since th
 <Duration {since} live format="HH:mm:ss" />
 ```
 
-Pass a number to `live` for a fixed interval instead of the adaptive default:
+Pass a number to `live` for a fixed interval:
 
 ```svelte
 <Duration since={startedAt} live={1000} format="HH:mm:ss" />
 ```
 
-This mode is a passive readout of `now - since`: pausing requires manually recomputing `since` on every resume to exclude the paused interval. For a stopwatch with built-in pause/resume bookkeeping, see the dedicated [`Stopwatch` component](#stopwatch-component).
+This mode is a passive `now - since` readout. Pausing means recomputing `since` on every resume so the paused gap is excluded. For built-in pause/resume, use [`Stopwatch`](#stopwatch-component).
 
 ### `svelteDuration` action
 
-An alternative to the `Duration` component is the `svelteDuration` action, for formatting a duration on a raw HTML element. The API is the same as the `Duration` component.
+The `svelteDuration` action formats a duration on a raw HTML element. Same API as the `Duration` component.
 
 <!-- render:SvelteDurationAction -->
 
@@ -811,7 +809,7 @@ An alternative to the `Duration` component is the `svelteDuration` action, for f
 
 ### `duration` attachment
 
-The `duration` attachment is the [attachment](#time-attachment) equivalent of `svelteDuration`, with the same fully-reactive behavior as the `time` attachment.
+The `duration` attachment is the [attachment](#time-attachment) form of `svelteDuration`, with the same reactive options as `time`.
 
 <!-- render:DurationAttachmentExample -->
 
@@ -825,7 +823,7 @@ The `duration` attachment is the [attachment](#time-attachment) equivalent of `s
 
 ### `Stopwatch` component
 
-`Stopwatch` counts up from a `since` instant, with a `running` prop for built-in pause/resume — unlike `Duration`'s `since`/`live` mode, which is a passive readout of `now - since` and requires the caller to manually recompute `since` on every resume to exclude the paused interval, `Stopwatch` owns that bookkeeping internally: pausing freezes the displayed value, and resuming excludes the paused interval from the elapsed count. `since` defaults to the instant the component mounts; changing it later resets the stopwatch to zero and restarts it from the new anchor.
+`Stopwatch` counts up from `since`, with a `running` prop for pause/resume. Unlike `Duration`'s `since`/`live` mode, it owns the pause bookkeeping: pause freezes the display, resume excludes the paused gap. `since` defaults to mount time; changing it later resets to zero from the new anchor.
 
 <!-- render:StopwatchBasic -->
 
@@ -843,7 +841,7 @@ The `duration` attachment is the [attachment](#time-attachment) equivalent of `s
 <button onclick={() => (since = new Date())}>Restart</button>
 ```
 
-Pause and resume with the `running` prop; the `children` snippet receives the current `running` state alongside the formatted value:
+Pause and resume with `running`. The `children` snippet gets the formatted value and the current `running` state:
 
 <!-- render:StopwatchPause -->
 
@@ -869,7 +867,7 @@ Pause and resume with the `running` prop; the `children` snippet receives the cu
 
 ### `svelteStopwatch` action
 
-An alternative to the `Stopwatch` component is the `svelteStopwatch` action, for counting up on a raw HTML element. The API is the same as the `Stopwatch` component.
+The `svelteStopwatch` action counts up on a raw HTML element. Same API as `Stopwatch`.
 
 ```svelte
 <script>
@@ -883,7 +881,7 @@ An alternative to the `Stopwatch` component is the `svelteStopwatch` action, for
 
 ### `stopwatch` attachment
 
-The `stopwatch` attachment is the [attachment](#time-attachment) equivalent of `svelteStopwatch`, with the same fully-reactive behavior as the `time`, `duration`, and `countdown` attachments.
+The `stopwatch` attachment is the [attachment](#time-attachment) form of `svelteStopwatch`, with the same reactive options as `time`, `duration`, and `countdown`.
 
 ```svelte
 <script>
@@ -897,7 +895,7 @@ The `stopwatch` attachment is the [attachment](#time-attachment) equivalent of `
 
 ### `Countdown` component
 
-`Countdown` counts down to a future instant — the mirror image of `Stopwatch`'s pausable count-up. Pass a `to` timestamp (a point in time that hasn't happened yet — a `Date`, ISO string, or anything dayjs accepts); the displayed value is `to - now`, clamped at zero. Unlike `Duration`, `live` defaults to `true` and ticks every second (rather than the coarser adaptive schedule used for slowly-decaying "x minutes ago" text), since a countdown's final seconds are the ones that matter most. Changing `to` to a new instant restarts the countdown.
+`Countdown` counts down to a future `to` timestamp: a `Date`, ISO string, or anything dayjs accepts. The display is `to - now`, clamped at zero. Unlike `Duration`, `live` defaults to `true` and ticks every second, because the last seconds of a countdown matter more than the adaptive "x minutes ago" schedule. Changing `to` restarts it.
 
 <!-- render:CountdownBasic -->
 
@@ -920,7 +918,7 @@ The `stopwatch` attachment is the [attachment](#time-attachment) equivalent of `
 
 ### `oncomplete` and the `done` flag
 
-`oncomplete` fires once, when the countdown reaches `to` (immediately, if `to` is already in the past; again, if `to` is later changed to another already-elapsed instant). The `children` snippet receives a `done` boolean alongside the formatted value, so you can swap in different markup once the countdown finishes without a separate `$effect`.
+`oncomplete` fires once when the countdown reaches `to`. If `to` is already past, it fires immediately. If you later change `to` to another already-elapsed instant, it fires again. The `children` snippet gets a `done` flag with the formatted value, so you can swap markup when it finishes without a separate `$effect`.
 
 <!-- render:CountdownOnComplete -->
 
@@ -940,7 +938,7 @@ The `stopwatch` attachment is the [attachment](#time-attachment) equivalent of `
 
 ### `svelteCountdown` action
 
-An alternative to the `Countdown` component is the `svelteCountdown` action, for counting down on a raw HTML element. The API is the same as the `Countdown` component.
+The `svelteCountdown` action counts down on a raw HTML element. Same API as `Countdown`.
 
 ```svelte
 <script>
@@ -954,7 +952,7 @@ An alternative to the `Countdown` component is the `svelteCountdown` action, for
 
 ### `countdown` attachment
 
-The `countdown` attachment is the [attachment](#time-attachment) equivalent of `svelteCountdown`, with the same fully-reactive behavior as the `time` and `duration` attachments.
+The `countdown` attachment is the [attachment](#time-attachment) form of `svelteCountdown`, with the same reactive options as `time` and `duration`.
 
 ```svelte
 <script>
@@ -968,11 +966,11 @@ The `countdown` attachment is the [attachment](#time-attachment) equivalent of `
 
 ## Time Range
 
-`TimeRange` formats a span between two fixed instants — an event's start/end, a meeting window — as opposed to `Duration`, whose endpoints are open-ended. HTML's `datetime` attribute can only hold a single machine-readable value, so it can't represent a range: `TimeRange` renders **two** `<time>` elements, one per endpoint, each with its own correct `datetime`, joined by a separator.
+`TimeRange` formats a span between two fixed instants, like an event start/end. `Duration` endpoints are open-ended. HTML `datetime` holds one value, so a range needs two: `TimeRange` renders two `<time>` elements, each with its own `datetime`, joined by a separator.
 
 ### `TimeRange` component
 
-`format` (dayjs `.format()` tokens, same default as `Time`) applies independently to `start` and `end` — this is a v1 simplification, not a "smart" range formatter that dedupes a shared year/month (see [API](#api) for the full props list).
+`format` uses dayjs `.format()` tokens, same default as `Time`, and applies independently to `start` and `end`. v1 does not dedupe a shared year or month. See [API](#api) for the full props list.
 
 <!-- render:TimeRangeBasic -->
 
@@ -989,7 +987,7 @@ The `countdown` attachment is the [attachment](#time-attachment) equivalent of `
 <!-- Output: "Jun 05, 2024 – Jun 10, 2024" -->
 ```
 
-For a "live"/relative range (e.g. "3 days" as the humanized span between the endpoints), compose `Duration` instead:
+For a humanized span between endpoints like "3 days", compose `Duration`:
 
 ```svelte
 <Duration value={dayjs(end).diff(start)} humanize />
@@ -997,7 +995,7 @@ For a "live"/relative range (e.g. "3 days" as the humanized span between the end
 
 ### Meeting window
 
-`format` isn't limited to dates — pass a time-only format (and a custom `separator`) for a same-day window.
+`format` isn't limited to dates. Pass a time-only format, and optionally a custom `separator`, for a same-day window.
 
 <!-- render:TimeRangeMeeting -->
 
@@ -1017,7 +1015,7 @@ For a "live"/relative range (e.g. "3 days" as the humanized span between the end
 
 ### Locale
 
-Use the `locale` prop to format both endpoints in different languages. Make sure to import the locale from `dayjs` first.
+Use `locale` to format both endpoints. Import the locale from `dayjs` first.
 
 <!-- render:TimeRangeLocale -->
 
@@ -1038,7 +1036,7 @@ Use the `locale` prop to format both endpoints in different languages. Make sure
 
 ### Custom markup
 
-Pass a `children` snippet to fully replace the default output — unlike `Time`/`Duration`'s `children`, which only swaps the inner text of a single element, `TimeRange`'s snippet owns both `<time>` elements and the separator, since `format` alone can't express a "condensed" range (e.g. a shared date shown once, with only the time repeated on each side). Format each side independently with `dayjs` inside the snippet to get that.
+Pass a `children` snippet to replace the default output entirely. On `Time`/`Duration`, `children` only swaps inner text. On `TimeRange`, the snippet owns both `<time>` elements and the separator, because `format` alone can't condense a range (shared date once, times on each side). Format each side with `dayjs` inside the snippet.
 
 <!-- render:TimeRangeCustomMarkup -->
 
@@ -1063,7 +1061,7 @@ Pass a `children` snippet to fully replace the default output — unlike `Time`/
 
 ### `svelteTimeRange` action
 
-An alternative to the `TimeRange` component is the `svelteTimeRange` action. Since an action attaches to a single DOM node but a range needs two `<time>` elements, `svelteTimeRange` is used on a wrapper element, which it populates with the two `<time>` children and the separator.
+The `svelteTimeRange` action attaches to a wrapper element and fills it with two `<time>` children and the separator. An action can only bind one node, and a range needs two.
 
 ```svelte
 <script>
@@ -1075,7 +1073,7 @@ An alternative to the `TimeRange` component is the `svelteTimeRange` action. Sin
 
 ### `timeRange` attachment
 
-The `timeRange` attachment is the [attachment](#time-attachment) equivalent of `svelteTimeRange`, with the same reactive options, used on a wrapper element in the same way.
+The `timeRange` attachment is the [attachment](#time-attachment) form of `svelteTimeRange`, same reactive options, same wrapper usage.
 
 ```svelte
 <script>
@@ -1087,13 +1085,13 @@ The `timeRange` attachment is the [attachment](#time-attachment) equivalent of `
 
 ## Utilities
 
-The formatting logic and shared clock behind `<Time>` and `svelteTime` are also available as standalone primitives, for use outside a `<time>` element — an `aria-label`, `document.title`, a toast, server code.
+The formatting logic and shared clock behind `<Time>` and `svelteTime` are also available as standalone helpers, for an `aria-label`, `document.title`, a toast, or server code.
 
 ```svelte
 <script>
   import { now, relativeTime } from "svelte-time";
 
-  // Re-derives every 30s from the shared timer — no timer of its own.
+  // Re-derives every 30s from the shared timer. No timer of its own.
   const label = $derived(relativeTime(post.createdAt, { from: now(30_000) }));
 </script>
 
@@ -1102,30 +1100,30 @@ The formatting logic and shared clock behind `<Time>` and `svelteTime` are also 
 
 ### `now(intervalMs?)`
 
-Reactive current time backed by the shared ticker. When read inside an effect or derived, the caller re-runs every `intervalMs` (default `60_000`); all readers of the same interval share one timer. Returns a fresh, non-reactive value on the server.
+Reactive current time from the shared ticker. Read inside an effect or derived and the caller re-runs every `intervalMs` (default `60_000`). All readers of the same interval share one timer. On the server, returns a fresh non-reactive value.
 
 ### `formatTime(timestamp, options?)`
 
-Formats a timestamp as a string with byte-identical output to the `<Time>` component's `format` prop — same defaults, same locale fallback.
+Formats a timestamp as a string with the same output as `<Time>`'s `format` prop: same defaults, same locale fallback.
 
 ### `relativeTime(timestamp, options?)`
 
-Formats a relative time string with byte-identical output to the `<Time>` component's `relative` prop. Pass `from` to set the reference point — use `now(...)` for a result that stays live.
+Formats a relative time string with the same output as `<Time relative />`. Pass `from` for the reference point; use `now(...)` to keep it live.
 
 ## `svelte-time/intl` (zero-dependency alternative)
 
-A zero-dependency alternative built on the browser/runtime's native `Intl` APIs instead of dayjs — no external package, no locale files to import, no plugins. It ships alongside (not instead of) the dayjs-based `Time`/`Duration`/`Countdown` primitives above.
+A zero-dependency alternative on the runtime's native `Intl` APIs. No dayjs, no locale files, no plugins. It ships next to the dayjs-based primitives above; it does not replace them.
 
-> **Trade-off:** this is a formatting-only layer, not a drop-in dayjs replacement. It cannot parse arbitrary date strings, cannot do date arithmetic (`add`/`diff`/`startOf`, etc.), and has no custom token format strings (`"MMM DD, YYYY"`) — it only formats a `Date`/timestamp you already have, using `Intl.DateTimeFormatOptions` fields or `dateStyle`/`timeStyle` presets instead. It also depends on `Intl.DurationFormat`, the newest of the three `Intl` APIs it uses (Baseline since March 2025 — meaningfully less battle-tested than `DateTimeFormat`/`RelativeTimeFormat`, which have been widely available since 2020). See the [full comparison](#svelte-time-vs-svelte-timeintl) below before reaching for this over the dayjs-based package.
+> **Trade-off:** formatting only, not a dayjs stand-in. It will not parse arbitrary date strings, will not do arithmetic (`add`/`diff`/`startOf`, etc.), and has no token format strings like `"MMM DD, YYYY"`. You hand it a `Date` or timestamp you already have, and it formats with `Intl.DateTimeFormatOptions` or `dateStyle`/`timeStyle` presets. It also uses `Intl.DurationFormat`, the newest of the three `Intl` APIs here (Baseline since March 2025, less proven than `DateTimeFormat`/`RelativeTimeFormat`, which have been widely available since 2020). See the [full comparison](#svelte-time-vs-svelte-timeintl) before picking this over the dayjs package.
 
-`Intl.DateTimeFormat`, `Intl.RelativeTimeFormat`, and `Intl.DurationFormat` are all Baseline widely available in modern browsers, Node, Bun, and Deno — so this subpackage adds zero bytes to your bundle beyond what the platform already ships. Import it from `svelte-time/intl` instead of `svelte-time`.
+`Intl.DateTimeFormat`, `Intl.RelativeTimeFormat`, and `Intl.DurationFormat` are Baseline in modern browsers, Node, Bun, and Deno, so this subpackage adds no bundle bytes beyond the platform. Import from `svelte-time/intl` instead of `svelte-time`.
 
 ```bash
-# Same install as above — svelte-time/intl is a subpath of the same package
+# Same install as above. svelte-time/intl is a subpath of the same package
 npm i svelte-time
 ```
 
-It mirrors the same primitives as the main package (component, action, attachment) for `Time`, `TimeRange`, `Stopwatch`, and `Countdown` — there's no intl counterpart to `Duration` since `formatDuration` (below) already covers fixed-span formatting without a component wrapper.
+Same component / action / attachment shape as the main package for `Time`, `TimeRange`, `Stopwatch`, and `Countdown`. No intl `Duration` component; `formatDuration` below already covers fixed spans.
 
 | Primitive  | Export            | Notes                                                          |
 | :--------- | :---------------- | :---------------------------------------------------------------- |
@@ -1144,7 +1142,7 @@ It mirrors the same primitives as the main package (component, action, attachmen
 
 ### `Time` component
 
-`options` is a plain [`Intl.DateTimeFormatOptions`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#options) object instead of a dayjs token string. The default is `dateStyle: "medium"`.
+`options` is an [`Intl.DateTimeFormatOptions`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#options) object, not a dayjs token string. Default is `dateStyle: "medium"`.
 
 <!-- render:IntlBasic -->
 
@@ -1169,7 +1167,7 @@ It mirrors the same primitives as the main package (component, action, attachmen
 
 ### `dateStyle` / `timeStyle` presets
 
-`Intl.DateTimeFormat`'s built-in style presets (`"short"`, `"medium"`, `"long"`, `"full"`) are a locale-aware alternative to hand-writing a token string.
+`Intl.DateTimeFormat` style presets (`"short"`, `"medium"`, `"long"`, `"full"`) are a locale-aware alternative to writing a token string by hand.
 
 <!-- render:IntlDateStyle -->
 
@@ -1181,7 +1179,7 @@ It mirrors the same primitives as the main package (component, action, attachmen
 
 ### Relative time
 
-Set `relative` to `true`, same as the main package. `numeric` maps directly to [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat)'s option: `"auto"` (default) prefers words like "yesterday"/"tomorrow" where the locale has one; `"always"` forces the numeric form ("1 day ago").
+Set `relative` to `true`, same as the main package. `numeric` maps to [`Intl.RelativeTimeFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat): `"auto"` (default) prefers words like "yesterday" when the locale has them; `"always"` forces "1 day ago".
 
 <!-- render:IntlRelative -->
 
@@ -1202,7 +1200,7 @@ Set `relative` to `true`, same as the main package. `numeric` maps directly to [
 
 ### Live updates
 
-Same `live` prop as the main package's `Time` component — `true` for the adaptive shared-clock schedule, or a number for a fixed interval in ms.
+Same `live` prop as the main `Time` component: `true` for the adaptive shared-clock schedule, or a number for a fixed interval in ms.
 
 <!-- render:IntlLive -->
 
@@ -1212,7 +1210,7 @@ Same `live` prop as the main package's `Time` component — `true` for the adapt
 
 ### Locale
 
-Pass any [BCP-47 locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation) tag directly — no separate locale files to import, unlike dayjs. The runtime's built-in ICU data covers every locale it supports.
+Pass any [BCP-47 locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locale_identification_and_negotiation) tag directly. No separate locale files, unlike dayjs. The runtime's ICU data covers what it supports.
 
 <!-- render:IntlLocale -->
 
@@ -1225,7 +1223,7 @@ Pass any [BCP-47 locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 ### Alternate calendars and numbering systems
 
-`calendar` and `numberingSystem` are supported natively, with no plugins — something dayjs can't do without significant extra code.
+`calendar` and `numberingSystem` work natively, with no plugins. dayjs needs extra code for that.
 
 <!-- render:IntlCalendar -->
 
@@ -1238,7 +1236,7 @@ Pass any [BCP-47 locale](https://developer.mozilla.org/en-US/docs/Web/JavaScript
 
 ### `TimeRange` component
 
-Formats a span between two dates via [`Intl.DateTimeFormat.prototype.formatRange`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange), which condenses the shared parts of the range (e.g. "Jan 10 – 15, 2026" instead of spelling out both full dates). Unlike the main package's `TimeRange` (which renders **two** `<time>` elements, one per endpoint, joined by a separator — necessary since a single `datetime` attribute can't hold a range), this renders **one** `<time>` element using the native condensed text, with an [ISO 8601 interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) (`start/end`) as its `datetime`.
+Formats a span via [`Intl.DateTimeFormat.prototype.formatRange`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange), which condenses shared parts, e.g. "Jan 10 – 15, 2026". The main package's `TimeRange` renders two `<time>` elements because one `datetime` can't hold a range. This renders one `<time>` with the native condensed text and an [ISO 8601 interval](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) (`start/end`) as `datetime`.
 
 <!-- render:IntlTimeRange -->
 
@@ -1258,7 +1256,7 @@ Formats a span between two dates via [`Intl.DateTimeFormat.prototype.formatRange
 
 ### `svelteTime` action
 
-Same shape as the main package's `svelteTime` action.
+Same shape as the main package `svelteTime` action.
 
 <!-- render:IntlSvelteTimeAction -->
 
@@ -1315,7 +1313,7 @@ Same shape as the main package's `svelteTime` action.
 
 ### `Stopwatch` component
 
-Same shape as the main package's `Stopwatch` — counts up from a `since` instant, with a `running` prop for built-in pause/resume. `style` replaces `format`/`humanize`/`withSuffix`: `"digital"` (default) gives `"HH:mm:ss"`-style output; `"long"`/`"short"`/`"narrow"` give a humanized readout via `Intl.DurationFormat`.
+Same shape as the main `Stopwatch`: counts up from `since`, with `running` for pause/resume. `style` replaces `format`/`humanize`/`withSuffix`. `"digital"` (default) is `"HH:mm:ss"`-style; `"long"`/`"short"`/`"narrow"` use `Intl.DurationFormat`.
 
 <!-- render:IntlStopwatchBasic -->
 
@@ -1333,7 +1331,7 @@ Same shape as the main package's `Stopwatch` — counts up from a `since` instan
 <button onclick={() => (since = new Date())}>Restart</button>
 ```
 
-Pause and resume with the `running` prop; the `children` snippet receives the current `running` state alongside the formatted value:
+Pause and resume with `running`. The `children` snippet gets the formatted value and the current `running` state:
 
 <!-- render:IntlStopwatchPause -->
 
@@ -1383,7 +1381,7 @@ Pause and resume with the `running` prop; the `children` snippet receives the cu
 
 ### `Countdown` component
 
-Same shape as the main package's `Countdown` — counts down to a future `to` instant, clamped at zero, ticking every second by default.
+Same shape as the main `Countdown`: counts down to a future `to`, clamped at zero, ticking every second by default.
 
 <!-- render:IntlCountdownBasic -->
 
@@ -1404,7 +1402,7 @@ Same shape as the main package's `Countdown` — counts down to a future `to` in
 <button onclick={() => (to = new Date(Date.now() + 20_000))}>Reset</button>
 ```
 
-`oncomplete` fires once, when the countdown reaches `to`. The `children` snippet receives a `done` boolean alongside the formatted value.
+`oncomplete` fires once when the countdown reaches `to`. The `children` snippet gets a `done` flag with the formatted value.
 
 <!-- render:IntlCountdownOnComplete -->
 
@@ -1446,7 +1444,7 @@ Same shape as the main package's `Countdown` — counts down to a future `to` in
 
 ### `formatDuration(ms, options?)`
 
-Backed by [`Intl.DurationFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat) — `style` accepts `"digital"` (default, e.g. `"1:30:25"`), `"long"`, `"short"`, or `"narrow"`.
+Uses [`Intl.DurationFormat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat). `style` accepts `"digital"` (default, e.g. `"1:30:25"`), `"long"`, `"short"`, or `"narrow"`.
 
 <!-- render:IntlDuration -->
 
@@ -1465,7 +1463,7 @@ Backed by [`Intl.DurationFormat`](https://developer.mozilla.org/en-US/docs/Web/J
 
 ### Utility functions
 
-`formatTime`, `relativeTime`, and `formatRange` are also available standalone, for use outside a `<time>` element.
+`formatTime`, `relativeTime`, and `formatRange` are also available standalone, outside a `<time>` element.
 
 <!-- render:IntlUtilities -->
 
@@ -1485,17 +1483,17 @@ Backed by [`Intl.DurationFormat`](https://developer.mozilla.org/en-US/docs/Web/J
 
 ### `svelte-time` vs. `svelte-time/intl`
 
-`svelte-time/intl` trades away dayjs's parsing, arithmetic, and format-string flexibility for a zero-dependency footprint. If your app already depends on dayjs elsewhere, or needs any of the "no" rows below, use the dayjs-based package instead.
+`svelte-time/intl` drops dayjs parsing, arithmetic, and format strings for a zero-dependency footprint. If the app already uses dayjs, or needs any of the "no" rows below, stick with the dayjs package.
 
 | Aspect                    | `svelte-time` (dayjs)                                          | `svelte-time/intl`                                                       |
 | :------------------------ | :--------------------------------------------------------------- | :------------------------------------------------------------------------- |
-| Runtime dependency        | dayjs + `relativeTime`/`duration` plugins                        | none — built on platform `Intl` APIs                                       |
+| Runtime dependency        | dayjs + `relativeTime`/`duration` plugins                        | none, built on platform `Intl` APIs                                        |
 | Format style              | token strings, e.g. `"MMM DD, YYYY"`                              | `Intl.DateTimeFormatOptions` fields, or `dateStyle`/`timeStyle` presets     |
-| Parsing arbitrary formats | yes, via dayjs                                                    | no — formats a `Date`/timestamp you already have                           |
+| Parsing arbitrary formats | yes, via dayjs                                                    | no, formats a `Date`/timestamp you already have                            |
 | Date arithmetic           | yes (`add`/`diff`/`startOf`, etc.)                                | no                                                                          |
-| Date ranges                | yes — `TimeRange` renders two `<time>` elements + separator      | yes — `TimeRange`/`formatRange` render one condensed native string        |
+| Date ranges                | yes, `TimeRange` renders two `<time>` elements + separator       | yes, `TimeRange`/`formatRange` render one condensed native string         |
 | Alternate calendars/numbering systems | requires extra dayjs plugins                          | built in (`calendar`/`numberingSystem` options)                            |
-| Locale loading            | import each locale from `dayjs/locale/*`                         | none — covered by the runtime's built-in ICU data                          |
+| Locale loading            | import each locale from `dayjs/locale/*`                         | none, covered by the runtime's built-in ICU data                           |
 | Browser baseline support  | n/a (bundled library)                                             | `DateTimeFormat`/`RelativeTimeFormat`/`formatRange`: widely available since 2020; `DurationFormat`: newer (Baseline since March 2025) |
 
 ## API
@@ -1523,11 +1521,11 @@ Both the `svelteTime` action and the `time` attachment accept the same options a
 | :---- | :-------------------------- | :---------------------------------------------- | :-------------------------------------------------------------------- |
 | title | `string` &#124; `undefined` | formatted timestamp (when `relative` is `true`) | Override the `title` attribute; pass `undefined` to omit it entirely. |
 
-`live` accepts the same `boolean | number` values on both, but their timers differ: the `svelteTime` action owns a simpler, per-node fixed interval (60 seconds by default when `true`, or a custom interval in ms), while the `time` attachment shares the same adaptive, global timer as the `Time` component. Neither the action's fixed interval nor the component/attachment's adaptive schedule apply to each other. See [Performance](#performance).
+`live` accepts the same `boolean | number` on both, but the timers differ. The `svelteTime` action uses a per-node fixed interval (60 seconds by default when `true`, or a custom ms value). The `time` attachment shares the adaptive global timer with the `Time` component. Those schedules are separate. See [Performance](#performance).
 
 ### Accessibility
 
-The machine-readable `datetime` attribute is the accessible, parseable channel; the `title` tooltip isn't reachable via touch or keyboard, so don't rely on it to convey essential information: show the absolute date in text when it matters. Live text updates are deliberately not announced (`aria-live` is intentionally omitted): minute-by-minute announcements would be hostile to screen-reader users.
+The machine-readable `datetime` attribute is the accessible, parseable channel. The `title` tooltip isn't reachable via touch or keyboard, so don't put essential info only there; show the absolute date in text when it matters. Live text updates are not announced (`aria-live` is omitted on purpose). Minute-by-minute announcements would be hostile to screen-reader users.
 
 ### `Duration` component props
 
@@ -1579,9 +1577,9 @@ The machine-readable `datetime` attribute is the accessible, parseable channel; 
 | separator | `string`                                                 | `" – "`                                                                                                                                                |
 | locale    | `Locales` (TypeScript) &#124; `string`                  | `"en"` (See [supported locales](https://github.com/iamkun/dayjs/tree/dev/src/locale))                                                                 |
 | tz        | `string`                                                 | `undefined` (applied to both `start` and `end`; requires the dayjs `utc`/`timezone` plugins. See [tz prop](#tz-prop))                                 |
-| children  | `Snippet<[object]>`                                      | `undefined`; receives a single object with `formattedStart`, `formattedEnd`, `startDatetime`, and `endDatetime` fields — destructure only what you need — and replaces the entire default output, not just the inner text   |
+| children  | `Snippet<[object]>`                                      | `undefined`; receives a single object with `formattedStart`, `formattedEnd`, `startDatetime`, and `endDatetime` fields. Destructure what you need. Replaces the entire default output, not just the inner text |
 
-The `...rest` props (`SvelteHTMLElements["time"]` minus `children`) are spread onto **both** `<time>` elements — there's no per-side rest-prop split in v1.
+The `...rest` props (`SvelteHTMLElements["time"]` minus `children`) are spread onto both `<time>` elements. There is no per-side rest-prop split in v1.
 
 ## Examples
 
