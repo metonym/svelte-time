@@ -2,30 +2,28 @@
   /** @type {import("./Countdown.svelte.d.ts").CountdownProps} */
   const {
     /**
-     * Target instant to count down to. Changing `to` restarts the
-     * countdown (and resets `oncomplete` to fire again once the new
-     * target is reached).
+     * Target instant. Changing `to` restarts the countdown and lets
+     * `oncomplete` fire again when the new target is reached.
      * @type {import("dayjs").ConfigType}
      */
     to,
 
     /**
-     * Format for display, using dayjs's duration `format()` tokens
-     * (e.g. "HH:mm:ss"). Ignored when `humanize` is `true`.
+     * Display format using dayjs duration tokens (e.g. "HH:mm:ss").
+     * Ignored when `humanize` is `true`.
      * @type {string}
      */
     format = "HH:mm:ss",
 
     /**
-     * Set to `true` to display the remaining time in a human-readable
-     * format (e.g. "an hour") instead of `format`.
+     * Human-readable remaining time (e.g. "an hour") instead of `format`.
      * @type {boolean}
      */
     humanize = false,
 
     /**
-     * Set to `true` to include a relative suffix in humanized output
-     * (e.g. "in an hour"). Only applies when `humanize` is `true`.
+     * Add a relative suffix to humanized output (e.g. "in an hour").
+     * Only applies when `humanize` is `true`.
      * @type {boolean}
      */
     withSuffix = false,
@@ -37,11 +35,9 @@
     locale = "en",
 
     /**
-     * Set to `true` to tick every second. Pass a number (ms) to use a
-     * custom fixed interval instead. Unlike `Duration`'s `since`/`live`
-     * (tuned for slowly-decaying "x minutes ago" text), a countdown's
-     * final seconds matter most, so this is a flat interval rather than
-     * one that coarsens over time.
+     * Tick every second when `true`, or at a fixed ms interval when a
+     * number. Flat interval on purpose: a countdown's last seconds
+     * matter more than the coarser adaptive "x minutes ago" schedule.
      * @type {boolean | number}
      */
     live = true,
@@ -53,9 +49,8 @@
     oncomplete,
 
     /**
-     * Snippet rendered inside the `time` element instead of the plain
-     * formatted string. Receives the formatted value and whether the
-     * countdown has completed.
+     * Custom markup inside the `time` element. Receives the formatted
+     * value and whether the countdown has completed.
      * @type {import("svelte").Snippet<[string, boolean]> | undefined}
      */
     children,
@@ -68,13 +63,11 @@
 
   const canTick = typeof document !== "undefined";
 
-  // Once the countdown completes, `now` stops depending on the shared
-  // ticker (see below), which freezes `remainingMs` at 0 and lets the
-  // timer subscription tear down instead of ticking forever.
+  // Once complete, `now` stops depending on the shared ticker, which
+  // freezes `remainingMs` at 0 and lets the timer subscription tear down.
   let completed = $state(false);
 
-  // Reset completion when `to` moves to a new instant, so a caller can
-  // restart the countdown by simply changing `to`.
+  // Reset completion when `to` changes so the countdown can restart.
   $effect(() => {
     to;
     completed = false;

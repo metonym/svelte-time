@@ -2,39 +2,35 @@
   /** @type {import("./Stopwatch.svelte.d.ts").StopwatchProps} */
   const {
     /**
-     * Start instant to count elapsed time from. Captured once at mount
-     * as "now" when omitted. Changing `since` resets the stopwatch to
-     * zero from the new anchor (mirrors `Countdown`'s "changing `to`
-     * restarts it").
+     * Start instant. Captured as "now" at mount when omitted. Changing
+     * `since` resets to zero from the new anchor.
      * @type {import("dayjs").ConfigType}
      */
     since = undefined,
 
     /**
-     * Set to `false` to pause the stopwatch (freezes the displayed
-     * elapsed value). Set back to `true` to resume — the paused
-     * interval is excluded from the elapsed count.
+     * Set to `false` to pause (freezes the display). Set back to `true`
+     * to resume; the paused gap is excluded from the elapsed count.
      * @type {boolean}
      */
     running = true,
 
     /**
-     * Format for display, using dayjs's duration `format()` tokens
-     * (e.g. "HH:mm:ss"). Ignored when `humanize` is `true`.
+     * Display format using dayjs duration tokens (e.g. "HH:mm:ss").
+     * Ignored when `humanize` is `true`.
      * @type {string}
      */
     format = "HH:mm:ss",
 
     /**
-     * Set to `true` to display the elapsed time in a human-readable
-     * format (e.g. "an hour", "2 minutes") instead of `format`.
+     * Human-readable elapsed time (e.g. "an hour") instead of `format`.
      * @type {boolean}
      */
     humanize = false,
 
     /**
-     * Set to `true` to include a relative suffix in humanized output
-     * (e.g. "an hour ago"). Only applies when `humanize` is `true`.
+     * Add a relative suffix to humanized output (e.g. "an hour ago").
+     * Only applies when `humanize` is `true`.
      * @type {boolean}
      */
     withSuffix = false,
@@ -46,20 +42,16 @@
     locale = "en",
 
     /**
-     * Set to `true` to tick every second. Pass a number (ms) to use a
-     * custom fixed interval instead. Unlike `Duration`'s adaptive
-     * coarsening (tuned for slowly-decaying "x minutes ago" text), an
-     * actively-running stopwatch always needs its seconds ticking, so
-     * this follows `Countdown`'s flat-interval reasoning. Only applies
-     * while `running` is `true`.
+     * Tick every second when `true`, or at a fixed ms interval when a
+     * number. Flat interval like `Countdown`: a running stopwatch needs
+     * its seconds. Only applies while `running` is `true`.
      * @type {boolean | number}
      */
     live = true,
 
     /**
-     * Snippet rendered inside the `time` element instead of the plain
-     * formatted string. Receives the formatted value and the current
-     * `running` state.
+     * Custom markup inside the `time` element. Receives the formatted
+     * value and the current `running` state.
      * @type {import("svelte").Snippet<[string, boolean]> | undefined}
      */
     children,
@@ -73,24 +65,21 @@
 
   const canTick = typeof document !== "undefined";
 
-  // Anchor instant the stopwatch counts up from. Captured once at
-  // mount when `since` is omitted; updated (and reset) when a caller
-  // later passes or changes `since`.
+  // Anchor the stopwatch counts up from. Captured at mount when
+  // `since` is omitted; reset when `since` is later set or changed.
   let anchor = $state(
     untrack(() => (since === undefined ? dayjs() : dayjs(since))),
   );
 
-  // Total milliseconds spent paused so far, and the instant the
-  // current pause began (or `undefined` while running). `elapsedMs`
-  // below subtracts both so resuming never jumps the display forward
-  // by the paused duration.
+  // Total ms paused so far, and when the current pause began
+  // (`undefined` while running). `elapsedMs` subtracts both so resume
+  // never jumps forward by the paused duration.
   let pausedMs = $state(0);
   /** @type {import("dayjs").Dayjs | undefined} */
   let pausedAt = $state(undefined);
 
-  // Changing `since` restarts the stopwatch from the new anchor. Reads
-  // `running` untracked so toggling pause/resume doesn't itself
-  // re-trigger this reset.
+  // Changing `since` restarts from the new anchor. Reads `running`
+  // untracked so pause/resume does not re-trigger this reset.
   $effect(() => {
     if (since !== undefined) {
       anchor = dayjs(since);
@@ -99,8 +88,7 @@
     }
   });
 
-  // Track paused time whenever `running` toggles, excluding it from
-  // the elapsed count on resume.
+  // Track paused time when `running` toggles; exclude it on resume.
   $effect(() => {
     if (running) {
       if (pausedAt !== undefined) {

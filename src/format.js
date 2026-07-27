@@ -1,9 +1,9 @@
 import { dayjs } from "./dayjs";
 
 /**
- * Resolve the effective locale: an explicit non-default `locale` wins;
- * otherwise a `$L` locale carried by a dayjs-instance `timestamp` is
- * preserved for backward compatibility; otherwise falls back to `locale`.
+ * Pick the effective locale. An explicit non-default `locale` wins.
+ * Otherwise keep a `$L` locale on a dayjs-instance `timestamp` for
+ * backward compatibility. Otherwise use `locale`.
  * @param {import("dayjs").ConfigType} timestamp
  * @param {import("./locales").Locales} [locale]
  * @returns {import("./locales").Locales}
@@ -20,7 +20,7 @@ export function resolveLocale(timestamp, locale = "en") {
 }
 
 /**
- * Format a timestamp as a string — same output as <Time format={...} />.
+ * Format a timestamp as a string. Same output as <Time format={...} />.
  * @param {import("dayjs").ConfigType} timestamp
  * @param {{ format?: string, locale?: import("./locales").Locales }} [options]
  * @returns {string}
@@ -32,7 +32,7 @@ export function formatTime(timestamp, options = {}) {
 }
 
 /**
- * Relative time string — same output as <Time relative />.
+ * Relative time string. Same output as <Time relative />.
  * `from` sets the reference point (pass `now(...)` for a reactive result).
  * @param {import("dayjs").ConfigType} timestamp
  * @param {{ locale?: import("./locales").Locales, withoutSuffix?: boolean, from?: import("dayjs").ConfigType }} [options]

@@ -9,37 +9,36 @@
 
     /**
      * Timestamp format for display.
-     * It's also used as a title in the `relative` mode
+     * Also used as the `title` in `relative` mode.
      * @type {string}
      * @example "YYYY-MM-DD"
      */
     format = "MMM DD, YYYY",
 
     /**
-     * Set to `true` to display the relative time from the provided `timestamp`.
-     * The value is displayed in a human-readable, relative format (e.g., "4 days ago", "Last week")
+     * Set to `true` for relative time from `timestamp`
+     * (e.g. "4 days ago", "Last week").
      * @type {boolean}
      */
     relative = false,
 
     /**
-     * Set to `true` to remove the "ago" suffix from relative time (e.g., "2 hours" instead of "2 hours ago").
+     * Drop the "ago" suffix from relative time (e.g. "2 hours" not "2 hours ago").
      * Only applies when `relative` is `true`.
      * @type {boolean}
      */
     withoutSuffix = false,
 
     /**
-     * Presentation style for `relative` output. `"micro"` renders a
-     * compact single unit (e.g. "4d") instead of the humanized string
-     * (e.g. "4 days ago"). Only applies when `relative` is `true`.
+     * Style for `relative` output. `"micro"` is a compact unit like "4d"
+     * instead of "4 days ago". Only applies when `relative` is `true`.
      * @type {import("./Time.svelte").RelativeStyle}
      */
     relativeStyle = "default",
 
     /**
-     * Set to `true` to update the relative time at 60 second interval.
-     * Pass in a number (ms) to specify the interval length
+     * Keep relative time updating. `true` uses the adaptive schedule;
+     * a number sets a fixed interval in ms.
      * @type {boolean | number}
      */
     live = false,
@@ -51,22 +50,22 @@
     locale = "en",
 
     /**
-     * IANA timezone name (e.g. "America/New_York") to render the timestamp
-     * in. Requires the dayjs `utc` and `timezone` plugins to be extended.
+     * IANA timezone (e.g. "America/New_York"). Requires the dayjs `utc`
+     * and `timezone` plugins.
      * @type {string | undefined}
      */
     tz = undefined,
 
     /**
-     * When `relative` is `true`, switch to displaying `format` once the
-     * timestamp's age (in ms) meets or exceeds this value.
+     * When `relative` is `true`, switch to `format` once the timestamp's
+     * age in ms meets or exceeds this value.
      * @type {number | undefined}
      */
     relativeThreshold = undefined,
 
     /**
-     * Snippet rendered inside the `time` element instead of the plain
-     * formatted string. Receives the formatted value as its argument.
+     * Custom markup inside the `time` element. Receives the formatted
+     * value as its argument.
      * @type {import("svelte").Snippet<[string]> | undefined}
      */
     children,
@@ -83,15 +82,13 @@
   const canTick = typeof document !== "undefined";
 
   /**
-   * Get the effective locale to use.
-   * If locale prop is default "en" and timestamp is a dayjs instance with a locale set,
-   * preserve the timestamp's locale for backward compatibility.
+   * Effective locale. If `locale` is default "en" and `timestamp` is a
+   * dayjs instance with its own locale, keep that for compatibility.
    */
   const effectiveLocale = $derived(resolveLocale(timestamp, locale));
 
   /**
-   * Parsed timestamp with the timezone (if provided) and effective locale
-   * applied.
+   * Parsed timestamp with timezone (if set) and effective locale applied.
    * @type {import("dayjs").Dayjs}
    */
   const day = $derived.by(() => {
@@ -99,19 +96,18 @@
     if (tz === undefined) return base.locale(effectiveLocale);
     if (typeof base.tz !== "function") {
       throw new Error(
-        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins — " +
-          "see https://github.com/metonym/svelte-time#custom-timezone",
+        "svelte-time: the `tz` prop requires the dayjs `utc` and `timezone` plugins. " +
+          "See https://github.com/metonym/svelte-time#custom-timezone",
       );
     }
     return base.tz(tz).locale(effectiveLocale);
   });
 
-  // Tier for adaptive `live === true` scheduling. Written from an effect
-  // (rather than derived directly from `now`) to avoid a `$derived` cycle:
-  // `now` is selected by this interval, so deriving the interval from `now`
-  // directly would make `now` depend on itself. Seeded once from the raw
-  // props (not the reactive `day`) since this is only an initial guess —
-  // the effect below corrects it as soon as it runs.
+  // Tier for adaptive `live === true` scheduling. Written from an effect,
+  // not derived from `now`, to avoid a `$derived` cycle: `now` is selected
+  // by this interval, so deriving the interval from `now` would make `now`
+  // depend on itself. Seeded once from the raw props (not the reactive
+  // `day`) as an initial guess; the effect below corrects it.
   let interval = $state(
     untrack(() => liveInterval(dayjs(timestamp).diff(dayjs()))),
   );
@@ -134,8 +130,8 @@
   );
 
   /**
-   * Whether the timestamp's age has met or exceeded `relativeThreshold`,
-   * in which case `relative` display gives way to `format`.
+   * True when age has met `relativeThreshold` and display should use
+   * `format` instead of relative text.
    * @type {boolean}
    */
   const isPastThreshold = $derived(
@@ -144,8 +140,7 @@
   );
 
   /**
-   * Formatted timestamp.
-   * Result of invoking `dayjs().format()` or `dayjs().from()`
+   * Formatted timestamp from `dayjs().format()` or `dayjs().from()`.
    * @type {string}
    */
   let formatted = $derived(
@@ -157,8 +152,7 @@
   );
 
   /**
-   * Title timestamp.
-   * Result of invoking `dayjs().format()`
+   * Title from `dayjs().format()`, when relative.
    * @type {string | undefined}
    */
   const title = $derived(

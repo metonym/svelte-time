@@ -1,5 +1,5 @@
-// Zero-dependency by design — do not import dayjs (or anything else) here.
-// This is what makes `svelte-time/intl` a separate, dep-free entry point.
+// Zero-dependency on purpose. Do not import dayjs (or anything else)
+// here. That is what keeps `svelte-time/intl` a separate entry point.
 
 /** @typedef {Date | number | string} TimeInput */
 
@@ -67,9 +67,9 @@ export function relativeTime(timestamp, options = {}) {
 }
 
 /**
- * Format a millisecond duration via `Intl.DurationFormat` (hours/minutes/
- * seconds only — good enough for stopwatch/countdown display; pass
- * `style: "long"` etc. for humanized output).
+ * Format a millisecond duration via `Intl.DurationFormat`
+ * (hours/minutes/seconds only; enough for stopwatch/countdown). Pass
+ * `style: "long"` etc. for humanized output.
  * @param {number} ms
  * @param {{ locale?: string, style?: "long" | "short" | "narrow" | "digital" }} [options]
  * @returns {string}

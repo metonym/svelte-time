@@ -23,9 +23,9 @@
 
   const formatted = $derived(formatRange(start, end, { locale, ...options }));
 
-  // ISO 8601 interval notation (RFC — start/end), since a single instant
-  // can't represent a range; unlike the main package's two-<time>-element
-  // `TimeRange`, this renders one element with the native condensed text.
+  // ISO 8601 interval (start/end). A single instant can't represent a
+  // range. The main package's `TimeRange` uses two <time> elements; this
+  // one uses a single element with the native condensed text.
   const datetime = $derived.by(() => {
     const startDate = new Date(start);
     const endDate = new Date(end);

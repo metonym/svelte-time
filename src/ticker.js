@@ -3,8 +3,7 @@ import { dayjs } from "./dayjs";
 
 /**
  * One shared timer per distinct interval (ms), active only while
- * subscribed. The map is bounded by the number of distinct interval
- * values in the app.
+ * subscribed. Size equals how many distinct intervals the app uses.
  */
 const tickers = new Map();
 
@@ -32,7 +31,7 @@ export function sharedNow(intervalMs) {
   if (!read) {
     let now = dayjs();
     const subscribe = createSubscriber((update) => {
-      now = dayjs(); // refresh on (re)activation — the module may be old
+      now = dayjs(); // refresh on (re)activation; the module may be stale
       const id = setInterval(() => {
         now = dayjs();
         update();
@@ -67,10 +66,10 @@ export function sharedNow(intervalMs) {
 }
 
 /**
- * Reactive current time backed by the shared ticker. When read inside
- * an effect or derived, the caller re-runs every `intervalMs`
- * (default 60s). All readers of the same interval share one timer.
- * On the server, returns a fresh non-reactive instance.
+ * Reactive current time from the shared ticker. Read inside an effect
+ * or derived and the caller re-runs every `intervalMs` (default 60s).
+ * All readers of the same interval share one timer. On the server,
+ * returns a fresh non-reactive instance.
  * @param {number} [intervalMs]
  * @returns {import("dayjs").Dayjs}
  */

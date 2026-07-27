@@ -2,10 +2,9 @@
   /** @type {import("./Duration.svelte.d.ts").DurationProps} */
   const {
     /**
-     * Duration value. Accepts anything dayjs's `duration()` accepts: a
-     * number (paired with `unit`), an ISO 8601 duration string (e.g.
-     * "PT1H30M"), a plain object of unit fields, or a dayjs `Duration`
-     * instance. Ignored when `since` is provided.
+     * Duration value: a number with `unit`, an ISO 8601 string like
+     * "PT1H30M", a plain object of unit fields, or a dayjs `Duration`.
+     * Ignored when `since` is set.
      * @type {number | string | object | import("./duration-format").DayjsDuration}
      */
     value = 0,
@@ -17,31 +16,28 @@
     unit = "milliseconds",
 
     /**
-     * Start instant to count elapsed time from (e.g. a stopwatch/timer).
-     * When provided, `value` and `unit` are ignored and the displayed
-     * duration is `now - since`.
+     * Start instant for elapsed time. When set, `value`/`unit` are
+     * ignored and the display is `now - since`.
      * @type {import("dayjs").ConfigType}
      */
     since = undefined,
 
     /**
-     * Format for display, using dayjs's duration `format()` tokens
-     * (e.g. "HH:mm:ss"). Ignored when `humanize` is `true`.
+     * Display format using dayjs duration tokens (e.g. "HH:mm:ss").
+     * Ignored when `humanize` is `true`.
      * @type {string}
      */
     format = "HH:mm:ss",
 
     /**
-     * Set to `true` to display the duration in a human-readable format
-     * (e.g. "an hour", "2 minutes") instead of `format`.
+     * Human-readable duration (e.g. "an hour") instead of `format`.
      * @type {boolean}
      */
     humanize = false,
 
     /**
-     * Set to `true` to include a relative suffix in humanized output
-     * (e.g. "in an hour" / "an hour ago"). Only applies when `humanize`
-     * is `true`.
+     * Add a relative suffix to humanized output (e.g. "in an hour").
+     * Only applies when `humanize` is `true`.
      * @type {boolean}
      */
     withSuffix = false,
@@ -53,16 +49,15 @@
     locale = "en",
 
     /**
-     * Set to `true` to update the elapsed duration at an adaptive
-     * interval. Pass a number (ms) to specify a fixed interval. Only
-     * applies when `since` is provided.
+     * Keep elapsed duration updating. `true` uses the adaptive schedule;
+     * a number sets a fixed interval in ms. Only applies with `since`.
      * @type {boolean | number}
      */
     live = false,
 
     /**
-     * Snippet rendered inside the `time` element instead of the plain
-     * formatted string. Receives the formatted value as its argument.
+     * Custom markup inside the `time` element. Receives the formatted
+     * value as its argument.
      * @type {import("svelte").Snippet<[string]> | undefined}
      */
     children,
@@ -77,8 +72,8 @@
   const canTick = typeof document !== "undefined";
 
   // Tier for adaptive `live === true` scheduling. See Time.svelte for
-  // why this is seeded via `$state` + an effect rather than derived
-  // directly from `now` (avoiding a `now` -> interval -> `now` cycle).
+  // why this is seeded via `$state` + an effect, not derived from `now`
+  // (avoids a `now` -> interval -> `now` cycle).
   let interval = $state(
     untrack(() =>
       liveInterval(since === undefined ? 0 : dayjs(since).diff(dayjs())),

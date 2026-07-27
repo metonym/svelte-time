@@ -1,7 +1,6 @@
 <script>
   const {
-    /** Target instant to count down to. Changing `to` restarts the
-     * countdown.
+    /** Target instant. Changing `to` restarts the countdown.
      * @type {import("./format").TimeInput} */
     to,
 
