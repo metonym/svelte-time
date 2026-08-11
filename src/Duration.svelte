@@ -82,7 +82,12 @@
 
   $effect(() => {
     if (since !== undefined && live === true) {
-      const next = liveInterval(dayjs(since).diff(now));
+      // Track `now` only to re-run on each tick of the shared clock; the
+      // tier decision itself uses a fresh, non-cached current time so it
+      // can't disagree with itself as `interval` switches which shared
+      // clock `now` reads from.
+      void now;
+      const next = liveInterval(dayjs(since).diff(dayjs()));
       if (next !== interval) interval = next;
     }
   });
