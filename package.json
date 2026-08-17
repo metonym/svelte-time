@@ -19,7 +19,7 @@
     "generate-locales": "bun scripts/generate-locales.ts"
   },
   "dependencies": {
-    "dayjs": "^1.11.21"
+    "dayjs": "^1.11.23"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.5",
