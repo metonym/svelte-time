@@ -1,13 +1,9 @@
 <script lang="ts">
-  // biome-ignore lint/correctness/noUnusedImports: `stopwatch` is used in the {@attach} directives below
   import { stopwatch } from "svelte-time";
 
-  // biome-ignore lint/correctness/noUnusedVariables: used in the {@attach} directives below
   const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-  // biome-ignore lint/correctness/noUnusedVariables: used in the {@attach} directive below
   const oneHourAgo = new Date(Date.now() - 3600000);
 
-  // biome-ignore lint/correctness/noUnusedVariables: used in the {@attach} directive below
   let pauseSince = $state(new Date());
   let running = $state(true);
 

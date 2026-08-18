@@ -1,13 +1,10 @@
 <script lang="ts">
-  // biome-ignore lint/correctness/noUnusedImports: `timeRange` is used in the {@attach} directives below
   import { timeRange } from "svelte-time";
 
   const START = "2024-01-05";
   const END = "2024-01-10T00:00:00.000Z";
 
-  // biome-ignore lint/correctness/noUnusedVariables: used in the {@attach} directive below
   let start = $state(START);
-  // biome-ignore lint/correctness/noUnusedVariables: used in the {@attach} directive below
   let end = $state(END);
 </script>
 

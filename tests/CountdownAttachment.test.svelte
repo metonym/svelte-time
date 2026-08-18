@@ -1,8 +1,6 @@
 <script lang="ts">
-  // biome-ignore lint/correctness/noUnusedImports: `countdown` is used in the {@attach} directives below
   import { countdown } from "svelte-time";
 
-  // biome-ignore lint/correctness/noUnusedVariables: `oncomplete` is used in the {@attach} directive below
   const { oncomplete }: { oncomplete?: () => void } = $props();
 </script>
 
