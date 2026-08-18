@@ -1,5 +1,4 @@
 <script lang="ts">
-  // biome-ignore lint/correctness/noUnusedImports: `duration` is used in the {@attach} directives below
   import { duration } from "svelte-time";
 </script>
 
