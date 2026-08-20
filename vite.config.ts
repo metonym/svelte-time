@@ -3,12 +3,7 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { defineConfig } from "vite";
 import pkg from "./package.json";
 import { pluginReadme } from "./plugin-readme";
-
-declare module "vite" {
-  interface UserConfig {
-    test?: import("vitest/config").TestUserConfig;
-  }
-}
+import "vitest/config";
 
 export default defineConfig({
   base: `/${pkg.name}`,
