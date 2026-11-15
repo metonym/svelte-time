@@ -2,7 +2,7 @@
   import { svelteTime } from "svelte-time";
 
   let timestamp = $state("2021-02-02");
-  let format = $state("dddd @ h:mm A · MMMM D, YYYY");
+  const format = $state("dddd @ h:mm A · MMMM D, YYYY");
 
   function updateTimestamp() {
     const date = new Date(timestamp);

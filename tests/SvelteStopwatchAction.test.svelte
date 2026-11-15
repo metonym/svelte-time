@@ -4,7 +4,7 @@
   const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
   const oneHourAgo = new Date(Date.now() - 3600000);
 
-  let pauseSince = $state(new Date());
+  const pauseSince = $state(new Date());
   let running = $state(true);
 
   function togglePause() {
