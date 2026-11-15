@@ -6,10 +6,7 @@
 </script>
 
 <!-- Condensed: date once, time on each side -->
-<TimeRange
-  {start}
-  {end}
->
+<TimeRange {start} {end}>
   {#snippet children({ startDatetime, endDatetime })}
     <time datetime={startDatetime}>{dayjs(start).format("MMM D, h:mm A")}</time>
     –

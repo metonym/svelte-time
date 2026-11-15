@@ -28,9 +28,7 @@
   })}
 ></time>
 
-<time
-  data-test="live"
-  {@attach countdown({ to: new Date(Date.now() + 2000) })}
+<time data-test="live" {@attach countdown({ to: new Date(Date.now() + 2000) })}
 ></time>
 
 <time

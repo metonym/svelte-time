@@ -17,11 +17,7 @@
 </script>
 
 <!-- Basic: counts down to a future instant -->
-<Countdown
-  data-test="basic"
-  to={fiveMinutesFromNow}
-  live={false}
-/>
+<Countdown data-test="basic" to={fiveMinutesFromNow} live={false} />
 
 <!-- Fixed format -->
 <Countdown
@@ -56,30 +52,16 @@
 />
 
 <!-- Live ticking (default: every second) -->
-<Countdown
-  data-test="live"
-  to={twoSecondsFromNow}
-/>
+<Countdown data-test="live" to={twoSecondsFromNow} />
 
 <!-- oncomplete fires once the countdown reaches zero -->
-<Countdown
-  data-test="on-complete"
-  to={twoSecondsFromNow}
-  {oncomplete}
-/>
+<Countdown data-test="on-complete" to={twoSecondsFromNow} {oncomplete} />
 
 <!-- Already-past target completes immediately -->
-<Countdown
-  data-test="already-past"
-  to={inThePast}
-  live={false}
-/>
+<Countdown data-test="already-past" to={inThePast} live={false} />
 
 <!-- children snippet receives the formatted value and the `done` flag -->
-<Countdown
-  data-test="children"
-  to={twoSecondsFromNow}
->
+<Countdown data-test="children" to={twoSecondsFromNow}>
   {#snippet children(formatted, done)}
     <span data-test="children-value">{formatted}</span>
     <span data-test="children-done">{done}</span>
@@ -93,10 +75,6 @@
   oncomplete={() => resetOncompleteCalls++}
 />
 <span data-test="reset-oncomplete-calls">{resetOncompleteCalls}</span>
-<button
-  type="button"
-  data-test="btn-restart"
-  onclick={restart}
->
+<button type="button" data-test="btn-restart" onclick={restart}>
   Restart
 </button>

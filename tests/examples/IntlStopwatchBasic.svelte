@@ -8,9 +8,4 @@
 <Stopwatch {since} />
 
 <!-- Changing `since` restarts the stopwatch -->
-<button
-  type="button"
-  onclick={() => (since = new Date())}
->
-  Restart
-</button>
+<button type="button" onclick={() => (since = new Date())}> Restart </button>

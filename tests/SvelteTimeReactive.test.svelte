@@ -23,28 +23,13 @@
   }
 </script>
 
-<Time
-  data-test="reactive-timestamp"
-  {timestamp}
-/>
-<button
-  type="button"
-  data-test="btn-timestamp"
-  onclick={updateTimestamp}
->
+<Time data-test="reactive-timestamp" {timestamp} />
+<button type="button" data-test="btn-timestamp" onclick={updateTimestamp}>
   Update timestamp
 </button>
 
-<Time
-  data-test="reactive-format"
-  timestamp="2020-02-01"
-  {format}
-/>
-<button
-  type="button"
-  data-test="btn-format"
-  onclick={updateFormat}
->
+<Time data-test="reactive-format" timestamp="2020-02-01" {format} />
+<button type="button" data-test="btn-format" onclick={updateFormat}>
   Update format
 </button>
 
@@ -54,19 +39,11 @@
   format="MMM DD, YYYY"
   {relative}
 />
-<button
-  type="button"
-  data-test="btn-relative"
-  onclick={toggleRelative}
->
+<button type="button" data-test="btn-relative" onclick={toggleRelative}>
   Toggle relative
 </button>
 
-<Time
-  data-test="reactive-relative-timestamp"
-  {timestamp}
-  {relative}
-/>
+<Time data-test="reactive-relative-timestamp" {timestamp} {relative} />
 
 <Time
   data-test="reactive-live"
@@ -74,11 +51,7 @@
   {relative}
   {live}
 />
-<button
-  type="button"
-  data-test="btn-live"
-  onclick={toggleLive}
->
+<button type="button" data-test="btn-live" onclick={toggleLive}>
   Toggle live
 </button>
 

@@ -108,9 +108,8 @@ describe("svelteTimeRange tz option without utc/timezone plugins extended", () =
     const { dayjs } = await import("../src/dayjs.js");
     expect(typeof (dayjs() as any).tz).not.toEqual("function");
 
-    const { svelteTimeRange } = await import(
-      "../src/svelte-time-range.svelte.js"
-    );
+    const { svelteTimeRange } =
+      await import("../src/svelte-time-range.svelte.js");
 
     const node = document.createElement("span");
     document.body.appendChild(node);

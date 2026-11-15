@@ -36,19 +36,10 @@
   })}
 ></time>
 
-<time
-  data-test="live"
-  {@attach stopwatch({ since: new Date() })}
-></time>
+<time data-test="live" {@attach stopwatch({ since: new Date() })}></time>
 
-<time
-  data-test="pause"
-  {@attach stopwatch({ since: pauseSince, running })}
+<time data-test="pause" {@attach stopwatch({ since: pauseSince, running })}
 ></time>
-<button
-  type="button"
-  data-test="btn-toggle-pause"
-  onclick={togglePause}
->
+<button type="button" data-test="btn-toggle-pause" onclick={togglePause}>
   Toggle
 </button>

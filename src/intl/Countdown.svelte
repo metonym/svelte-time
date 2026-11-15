@@ -67,17 +67,11 @@
 </script>
 
 {#if children}
-  <time
-    {datetime}
-    {...rest}
-  >
+  <time {datetime} {...rest}>
     {@render children(formatted, completed)}
   </time>
 {:else}
-  <time
-    {datetime}
-    {...rest}
-  >
+  <time {datetime} {...rest}>
     {formatted}
   </time>
 {/if}

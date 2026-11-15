@@ -129,17 +129,11 @@
 </script>
 
 {#if children}
-  <time
-    datetime={result.datetime}
-    {...rest}
-  >
+  <time datetime={result.datetime} {...rest}>
     {@render children(result.formatted)}
   </time>
 {:else}
-  <time
-    datetime={result.datetime}
-    {...rest}
-  >
+  <time datetime={result.datetime} {...rest}>
     {result.formatted}
   </time>
 {/if}

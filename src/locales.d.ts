@@ -3,8 +3,8 @@ export type Locales =
   | "en" /* English */
   | "af" /* Afrikaans */
   | "am" /* Amharic */
-  | "ar-dz" /* Arabic (Algeria) */
   | "ar-iq" /*  Arabic (Iraq) */
+  | "ar-dz" /* Arabic (Algeria) */
   | "ar-kw" /* Arabic (Kuwait) */
   | "ar-ly" /* Arabic (Lybia) */
   | "ar-ma" /* Arabic (Morocco) */
@@ -27,12 +27,11 @@ export type Locales =
   | "cy" /* Welsh */
   | "da" /* Danish */
   | "de-at" /* German (Austria) */
-  | "de" /* German */
   | "de-ch" /* German (Switzerland) */
+  | "de" /* German */
   | "dv" /* Maldivian */
   | "en-au" /* English (Australia) */
   | "el" /* Greek */
-  | "en-ca" /* English (Canada) */
   | "en-gb" /* English (United Kingdom) */
   | "en-ie" /* English (Ireland) */
   | "en-il" /* English (Israel) */
@@ -40,25 +39,25 @@ export type Locales =
   | "en-nz" /* English (New Zealand) */
   | "en-sg" /* English (Singapore) */
   | "en-tt" /* English (Trinidad & Tobago) */
+  | "en-ca" /* English (Canada) */
   | "eo" /* Esperanto */
-  | "es-do" /* Spanish (Dominican Republic) */
   | "es-mx" /* Spanish (Mexico) */
   | "es-pr" /* Spanish (Puerto Rico) */
   | "es-us" /* Spanish (United States) */
-  | "es" /* Spanish */
+  | "es-do" /* Spanish (Dominican Republic) */
   | "et" /* Estonian */
   | "eu" /* Basque */
   | "fa" /* Persian */
   | "fi" /* Finnish */
-  | "fo" /* Faroese */
   | "fr-ca" /* French (Canada) */
   | "fr-ch" /* French (Switzerland) */
   | "fr" /* French */
+  | "fo" /* Faroese */
   | "fy" /* Frisian */
   | "ga" /* Irish or Irish Gaelic */
+  | "gd" /* Scottish Gaelic */
   | "gl" /* Galician */
   | "gom-latn" /* Konkani Latin script */
-  | "gd" /* Scottish Gaelic */
   | "gu" /* Gujarati */
   | "he" /* Hebrew */
   | "hi" /* Hindi */
@@ -70,17 +69,16 @@ export type Locales =
   | "is" /* Icelandic */
   | "it-ch" /* Italian (Switzerland) */
   | "it" /* Italian */
-  | "ja" /* Japanese */
   | "jv" /* Javanese */
   | "ka" /* Georgian */
   | "kk" /* Kazakh */
   | "km" /* Cambodian */
-  | "kn" /* Kannada */
   | "ko" /* Korean */
   | "ku" /* Kurdish */
   | "ky" /* Kyrgyz */
+  | "kn" /* Kannada */
   | "lb" /* Luxembourgish */
-  | "lo" /* Lao */
+  | "ja" /* Japanese */
   | "lt" /* Lithuanian */
   | "lv" /* Latvian */
   | "me" /* Montenegrin */
@@ -92,19 +90,20 @@ export type Locales =
   | "ms-my" /* Malay */
   | "ms" /* Malay */
   | "mt" /* Maltese (Malta) */
+  | "lo" /* Lao */
   | "my" /* Burmese */
   | "nb" /* Norwegian Bokmål */
   | "ne" /* Nepalese */
-  | "nl-be" /* Dutch (Belgium) */
   | "nl" /* Dutch */
+  | "nl-be" /* Dutch (Belgium) */
   | "nn" /* Nynorsk */
-  | "oc-lnc" /* Occitan, lengadocian dialecte */
   | "pa-in" /* Punjabi (India) */
   | "pl" /* Polish */
   | "pt-br" /* Portuguese (Brazil) */
   | "pt" /* Portuguese */
   | "rn" /* Kirundi */
   | "ro" /* Romanian */
+  | "es" /* Spanish */
   | "ru" /* Russian */
   | "rw" /* Kinyarwanda (Rwanda) */
   | "sd" /* Sindhi */
@@ -112,6 +111,7 @@ export type Locales =
   | "si" /* Sinhalese */
   | "sk" /* Slovak */
   | "sl" /* Slovenian */
+  | "oc-lnc" /* Occitan, lengadocian dialecte */
   | "sq" /* Albanian */
   | "sr-cyrl" /* Serbian Cyrillic */
   | "sr" /* Serbian */
@@ -123,23 +123,23 @@ export type Locales =
   | "te" /* Telugu */
   | "tet" /* Tetun Dili (East Timor) */
   | "tg" /* Tajik */
-  | "tk" /* Turkmen */
   | "th" /* Thai */
   | "tl-ph" /* Tagalog (Philippines) */
-  | "tr" /* Turkish */
   | "tlh" /* Klingon */
-  | "tzm-latn" /* Central Atlas Tamazight Latin */
-  | "tzm" /* Central Atlas Tamazight */
+  | "tr" /* Turkish */
   | "tzl" /* Talossan */
+  | "tzm" /* Central Atlas Tamazight */
   | "ug-cn" /* Uyghur (China) */
   | "uk" /* Ukrainian */
+  | "tk" /* Turkmen */
   | "ur" /* Urdu */
   | "uz-latn" /* Uzbek Latin */
   | "uz" /* Uzbek */
   | "vi" /* Vietnamese */
   | "x-pseudo" /* Pseudo */
+  | "tzm-latn" /* Central Atlas Tamazight Latin */
   | "yo" /* Yoruba Nigeria */
   | "zh-cn" /* Chinese (China) */
   | "zh-hk" /* Chinese (Hong Kong) */
   | "zh-tw" /* Chinese (Taiwan) */
-  | "zh" /* Chinese */;
+  | "zh"; /* Chinese */

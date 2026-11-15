@@ -95,26 +95,11 @@
 />
 
 <!-- Relative Time in Different Locales -->
-<Time
-  data-test="german-relative"
-  timestamp={fixedDate}
-  relative
-  locale="de"
-/>
+<Time data-test="german-relative" timestamp={fixedDate} relative locale="de" />
 
-<Time
-  data-test="spanish-relative"
-  timestamp={fixedDate}
-  relative
-  locale="es"
-/>
+<Time data-test="spanish-relative" timestamp={fixedDate} relative locale="es" />
 
-<Time
-  data-test="french-relative"
-  timestamp={fixedDate}
-  relative
-  locale="fr"
-/>
+<Time data-test="french-relative" timestamp={fixedDate} relative locale="fr" />
 
 <Time
   data-test="japanese-relative"
@@ -123,25 +108,13 @@
   locale="ja"
 />
 
-<time
-  data-test="action-locale-es"
-  use:svelteTime={{ locale: "es" }}
-></time>
+<time data-test="action-locale-es" use:svelteTime={{ locale: "es" }}></time>
 
-<time
-  data-test="action-locale-fr"
-  use:svelteTime={{ locale: "fr" }}
-></time>
+<time data-test="action-locale-fr" use:svelteTime={{ locale: "fr" }}></time>
 
-<time
-  data-test="action-locale-ja"
-  use:svelteTime={{ locale: "ja" }}
-></time>
+<time data-test="action-locale-ja" use:svelteTime={{ locale: "ja" }}></time>
 
-<time
-  data-test="action-locale-de"
-  use:svelteTime={{ locale: "de" }}
-></time>
+<time data-test="action-locale-de" use:svelteTime={{ locale: "de" }}></time>
 
 <!-- Relative Time with withoutSuffix in Different Locales -->
 <Time

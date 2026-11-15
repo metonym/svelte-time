@@ -14,12 +14,7 @@
   }
 </script>
 
-<button
-  type="button"
-  onclick={mutateField}
->
-  Mutate
-</button>
+<button type="button" onclick={mutateField}> Mutate </button>
 
 <div>
   <time use:svelteTime={data}></time>

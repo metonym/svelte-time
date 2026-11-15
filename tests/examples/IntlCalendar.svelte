@@ -5,21 +5,9 @@
 </script>
 
 <!-- Alternate calendar systems, no plugins required -->
-<Time
-  {timestamp}
-  options={{ dateStyle: "long", calendar: "japanese" }}
-/>
-<Time
-  {timestamp}
-  options={{ dateStyle: "long", calendar: "islamic" }}
-/>
-<Time
-  {timestamp}
-  options={{ dateStyle: "long", calendar: "buddhist" }}
-/>
+<Time {timestamp} options={{ dateStyle: "long", calendar: "japanese" }} />
+<Time {timestamp} options={{ dateStyle: "long", calendar: "islamic" }} />
+<Time {timestamp} options={{ dateStyle: "long", calendar: "buddhist" }} />
 
 <!-- Alternate numbering system -->
-<Time
-  {timestamp}
-  options={{ dateStyle: "long", numberingSystem: "arab" }}
-/>
+<Time {timestamp} options={{ dateStyle: "long", numberingSystem: "arab" }} />

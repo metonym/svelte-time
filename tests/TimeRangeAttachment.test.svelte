@@ -8,10 +8,7 @@
   let end = $state(END);
 </script>
 
-<span
-  data-test="basic"
-  {@attach timeRange({ start: START, end: END })}
-></span>
+<span data-test="basic" {@attach timeRange({ start: START, end: END })}></span>
 
 <span
   data-test="format"
@@ -28,10 +25,7 @@
   {@attach timeRange({ start: START, end: END, format: "MMMM", locale: "de" })}
 ></span>
 
-<span
-  data-test="reactive"
-  {@attach timeRange({ start, end })}
-></span>
+<span data-test="reactive" {@attach timeRange({ start, end })}></span>
 <button
   type="button"
   onclick={() => {

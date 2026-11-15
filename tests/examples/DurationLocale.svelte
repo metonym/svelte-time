@@ -4,10 +4,6 @@
 </script>
 
 <div>
-  <Duration
-    value={3600000}
-    humanize
-    locale="de"
-  />
+  <Duration value={3600000} humanize locale="de" />
   <!-- Output: "eine Stunde" -->
 </div>

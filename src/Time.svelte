@@ -166,19 +166,11 @@
 </script>
 
 {#if children}
-  <time
-    {title}
-    {...rest}
-    datetime={toDatetime(timestamp)}
-  >
+  <time {title} {...rest} datetime={toDatetime(timestamp)}>
     {@render children(formatted)}
   </time>
 {:else}
-  <time
-    {title}
-    {...rest}
-    datetime={toDatetime(timestamp)}
-  >
+  <time {title} {...rest} datetime={toDatetime(timestamp)}>
     {formatted}
   </time>
 {/if}

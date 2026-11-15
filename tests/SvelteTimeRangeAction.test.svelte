@@ -5,10 +5,7 @@
   let end = $state("2024-01-10T00:00:00.000Z");
 </script>
 
-<span
-  data-test="basic"
-  use:svelteTimeRange={{ start, end }}
-></span>
+<span data-test="basic" use:svelteTimeRange={{ start, end }}></span>
 
 <span
   data-test="format"

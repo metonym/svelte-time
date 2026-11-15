@@ -2,14 +2,8 @@
   import { svelteDuration } from "svelte-time";
 </script>
 
-<time
-  data-test="basic"
-  use:svelteDuration={{ value: 3661000 }}
-></time>
-<span
-  data-test="basic-span"
-  use:svelteDuration={{ value: 3661000 }}
-></span>
+<time data-test="basic" use:svelteDuration={{ value: 3661000 }}></time>
+<span data-test="basic-span" use:svelteDuration={{ value: 3661000 }}></span>
 
 <time
   data-test="rollup"

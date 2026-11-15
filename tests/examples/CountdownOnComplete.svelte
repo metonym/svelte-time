@@ -11,19 +11,11 @@
   }
 </script>
 
-<Countdown
-  {to}
-  oncomplete={() => completedCount++}
->
+<Countdown {to} oncomplete={() => completedCount++}>
   {#snippet children(formatted, done)}
     {done ? "Done!" : formatted}
   {/snippet}
 </Countdown>
 
 <p>oncomplete fired: {completedCount} time(s)</p>
-<button
-  type="button"
-  onclick={reset}
->
-  Reset
-</button>
+<button type="button" onclick={reset}> Reset </button>

@@ -5,8 +5,4 @@
 </script>
 
 <!-- Elapsed time since `since`, ticking live -->
-<Duration
-  {since}
-  live
-  format="HH:mm:ss"
-/>
+<Duration {since} live format="HH:mm:ss" />

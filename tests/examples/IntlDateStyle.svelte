@@ -4,15 +4,6 @@
   const timestamp = new Date();
 </script>
 
-<Time
-  {timestamp}
-  options={{ dateStyle: "short" }}
-/>
-<Time
-  {timestamp}
-  options={{ dateStyle: "full" }}
-/>
-<Time
-  {timestamp}
-  options={{ dateStyle: "medium", timeStyle: "short" }}
-/>
+<Time {timestamp} options={{ dateStyle: "short" }} />
+<Time {timestamp} options={{ dateStyle: "full" }} />
+<Time {timestamp} options={{ dateStyle: "medium", timeStyle: "short" }} />

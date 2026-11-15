@@ -16,12 +16,7 @@
   timestamp={fresh}
 />
 
-<Time
-  data-test="component-default"
-  relative
-  live
-  timestamp={fresh}
-/>
+<Time data-test="component-default" relative live timestamp={fresh} />
 
 <Time
   data-test="component-already-past"
