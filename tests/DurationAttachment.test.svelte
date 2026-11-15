@@ -2,14 +2,9 @@
   import { duration } from "svelte-time";
 </script>
 
-<time
-  data-test="basic"
-  {@attach duration({ value: 3661000 })}
-></time>
+<time data-test="basic" {@attach duration({ value: 3661000 })}></time>
 
-<time
-  data-test="rollup"
-  {@attach duration({ value: 5400000, format: "mm:ss" })}
+<time data-test="rollup" {@attach duration({ value: 5400000, format: "mm:ss" })}
 ></time>
 
 <time

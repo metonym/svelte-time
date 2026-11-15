@@ -46,10 +46,7 @@
   }}
 ></time>
 
-<time
-  data-test="live"
-  use:svelteCountdown={{ to: twoSecondsFromNow }}
-></time>
+<time data-test="live" use:svelteCountdown={{ to: twoSecondsFromNow }}></time>
 
 <time
   data-test="on-complete"

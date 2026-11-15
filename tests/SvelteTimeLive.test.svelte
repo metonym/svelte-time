@@ -4,11 +4,7 @@
   const CUSTOM_INTERVAL = 30 * 1_000;
 </script>
 
-<Time
-  data-test="relative-live"
-  relative
-  live={CUSTOM_INTERVAL}
-/>
+<Time data-test="relative-live" relative live={CUSTOM_INTERVAL} />
 
 <time
   data-test="action-relative-live"
@@ -16,4 +12,5 @@
     relative: true,
     live: CUSTOM_INTERVAL,
   }}
-> </time>
+>
+</time>

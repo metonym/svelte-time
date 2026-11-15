@@ -8,24 +8,10 @@
 </script>
 
 <!-- Edge Cases -->
-<Time
-  data-test="invalid-date"
-  timestamp={invalidDate}
-/>
-<Time
-  data-test="future-date"
-  timestamp={futureDate}
-  relative
-/>
-<Time
-  data-test="far-past-date"
-  timestamp={pastDate}
-  relative
-/>
-<Time
-  data-test="empty-timestamp"
-  timestamp=""
-/>
+<Time data-test="invalid-date" timestamp={invalidDate} />
+<Time data-test="future-date" timestamp={futureDate} relative />
+<Time data-test="far-past-date" timestamp={pastDate} relative />
+<Time data-test="empty-timestamp" timestamp="" />
 
 <!-- Custom Formatting -->
 <Time

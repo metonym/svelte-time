@@ -1,0 +1,67 @@
+# `bun lint` and `bun fmt` (Bun canary).
+
+[lint]
+maxWarnings = 0
+# The examples are apps with their own dependencies.
+ignorePatterns = ["examples/**"]
+
+# ESLint and typescript-eslint recommended are on by default; these add the
+# stricter checks the project enforces on top.
+[lint.rules]
+"@typescript-eslint/default-param-last" = "error"
+"@typescript-eslint/no-explicit-any" = "error"
+"@typescript-eslint/no-unnecessary-type-constraint" = "error"
+"@typescript-eslint/no-useless-empty-export" = "error"
+"dot-notation" = "error"
+"import/no-commonjs" = "error"
+"import/no-cycle" = "error"
+"no-await-in-loop" = "error"
+"no-extra-label" = "error"
+"no-lone-blocks" = "error"
+"no-negated-condition" = "error"
+"no-param-reassign" = "error"
+"no-restricted-globals" = ["error", "event", "error"]
+"no-restricted-syntax" = [
+  "error",
+  { selector = "UnaryExpression[operator='delete'] > MemberExpression[computed=false]", message = "Avoid the delete operator; assign undefined or rebuild the object." },
+  { selector = "ExportAllDeclaration", message = "Export names explicitly instead of re-exporting everything." },
+  { selector = "ImportDeclaration[importKind!='type'] > ImportNamespaceSpecifier", message = "Import names explicitly instead of a namespace." },
+  { selector = ":function Literal[regex]:not([regex.flags=/[gy]/])", message = "Hoist the regular expression to the top level so it compiles once." },
+  { selector = ":not(TaggedTemplateExpression) > TemplateLiteral[expressions.length=0]:not([quasis.0.value.raw=/['\"\\n]/])", message = "Use a string literal for a template without interpolation." },
+]
+"no-sequences" = ["error", { allowInParentheses = false }]
+"no-useless-constructor" = "error"
+"no-useless-rename" = "error"
+"one-var" = ["error", "never"]
+"oxc/no-accumulating-spread" = "error"
+"prefer-arrow-callback" = "error"
+"prefer-const" = "error"
+"prefer-exponentiation-operator" = "error"
+"unicorn/no-array-for-each" = "error"
+"unicorn/no-useless-switch-case" = "error"
+"unicorn/prefer-node-protocol" = "error"
+"unicorn/prefer-number-properties" = "error"
+
+# The tests await steps in order, import the API as a namespace, and build
+# regexes inline.
+[[lint.overrides]]
+files = ["tests/**"]
+
+[lint.overrides.rules]
+"@typescript-eslint/no-explicit-any" = "off"
+"no-await-in-loop" = "off"
+# The `no-restricted-syntax` list above without the namespace import and
+# regex selectors.
+"no-restricted-syntax" = [
+  "error",
+  { selector = "UnaryExpression[operator='delete'] > MemberExpression[computed=false]", message = "Avoid the delete operator; assign undefined or rebuild the object." },
+  { selector = "ExportAllDeclaration", message = "Export names explicitly instead of re-exporting everything." },
+  { selector = ":not(TaggedTemplateExpression) > TemplateLiteral[expressions.length=0]:not([quasis.0.value.raw=/['\"\\n]/])", message = "Use a string literal for a template without interpolation." },
+]
+
+[fmt]
+# Markdown and YAML stay hand-formatted.
+ignorePatterns = ["**/*.md", "**/*.yml", "**/*.yaml"]
+
+[fmt.svelte]
+sortOrder = "none"

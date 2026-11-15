@@ -5,14 +5,7 @@
 </script>
 
 <!-- numeric="auto" (default): "yesterday" -->
-<Time
-  relative
-  {timestamp}
-/>
+<Time relative {timestamp} />
 
 <!-- numeric="always": "1 day ago" -->
-<Time
-  relative
-  {timestamp}
-  numeric="always"
-/>
+<Time relative {timestamp} numeric="always" />

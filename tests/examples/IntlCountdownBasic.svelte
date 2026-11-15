@@ -8,15 +8,9 @@
 <Countdown {to} />
 
 <!-- style="long" gives a humanized readout -->
-<Countdown
-  {to}
-  style="long"
-/>
+<Countdown {to} style="long" />
 
 <!-- Changing `to` restarts the countdown -->
-<button
-  type="button"
-  onclick={() => (to = new Date(Date.now() + 20_000))}
->
+<button type="button" onclick={() => (to = new Date(Date.now() + 20_000))}>
   Reset
 </button>

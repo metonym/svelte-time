@@ -19,11 +19,7 @@
 </script>
 
 <!-- Basic: counts up from `since` -->
-<Stopwatch
-  data-test="basic"
-  since={fiveMinutesAgo}
-  live={false}
-/>
+<Stopwatch data-test="basic" since={fiveMinutesAgo} live={false} />
 
 <!-- Fixed format -->
 <Stopwatch
@@ -58,46 +54,22 @@
 />
 
 <!-- Live ticking (default: every second) -->
-<Stopwatch
-  data-test="live"
-  since={new Date()}
-/>
+<Stopwatch data-test="live" since={new Date()} />
 
 <!-- Live with a custom fixed interval -->
-<Stopwatch
-  data-test="live-custom-interval"
-  since={new Date()}
-  live={5000}
-/>
+<Stopwatch data-test="live-custom-interval" since={new Date()} live={5000} />
 
 <!-- Pause/resume excludes paused interval from elapsed time -->
-<Stopwatch
-  data-test="pause"
-  since={pauseSince}
-  {running}
->
+<Stopwatch data-test="pause" since={pauseSince} {running}>
   {#snippet children(formatted, isRunning)}
     <span data-test="pause-value">{formatted}</span>
     <span data-test="pause-running">{isRunning}</span>
   {/snippet}
 </Stopwatch>
-<button
-  type="button"
-  data-test="btn-toggle-pause"
-  onclick={togglePause}
->
+<button type="button" data-test="btn-toggle-pause" onclick={togglePause}>
   Toggle
 </button>
 
 <!-- Changing `since` resets the stopwatch to zero -->
-<Stopwatch
-  data-test="reset"
-  since={resetSince}
-/>
-<button
-  type="button"
-  data-test="btn-restart"
-  onclick={reset}
->
-  Restart
-</button>
+<Stopwatch data-test="reset" since={resetSince} />
+<button type="button" data-test="btn-restart" onclick={reset}> Restart </button>

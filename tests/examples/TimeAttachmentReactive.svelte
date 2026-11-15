@@ -5,9 +5,6 @@
 </script>
 
 <time {@attach time({ timestamp, format: "YYYY-MM-DD" })}></time>
-<button
-  type="button"
-  onclick={() => (timestamp = "2021-02-03")}
->
+<button type="button" onclick={() => (timestamp = "2021-02-03")}>
   Update
 </button>

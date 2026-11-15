@@ -1,7 +1,7 @@
 import type { Locales } from "./locales";
 
 /** A dayjs `Duration` instance (from the `duration` plugin). */
-export type DayjsDuration = ReturnType<typeof import("dayjs")["duration"]>;
+export type DayjsDuration = ReturnType<(typeof import("dayjs"))["duration"]>;
 
 export type DurationUnit =
   | "milliseconds"

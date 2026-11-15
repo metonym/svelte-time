@@ -8,13 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      # `bun lint` is only in canary builds.
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version: canary
 
       - name: Install dependencies
         run: bun ci
 
-      - name: Run Biome
-        run: bunx biome ci --error-on-warnings
+      - name: Format
+        run: bun fmt --check
+
+      - name: Lint
+        run: bun lint
 
   check:
     runs-on: ubuntu-latest

@@ -3,8 +3,10 @@ import type { Component, Snippet } from "svelte";
 import type { SvelteHTMLElements } from "svelte/elements";
 import type { Locales } from "./locales";
 
-export interface TimeRangeProps
-  extends Omit<SvelteHTMLElements["time"], "children"> {
+export interface TimeRangeProps extends Omit<
+  SvelteHTMLElements["time"],
+  "children"
+> {
   /**
    * Start instant of the range.
    */

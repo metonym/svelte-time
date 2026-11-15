@@ -4,8 +4,4 @@
   const timestamp = new Date();
 </script>
 
-<Time
-  relative
-  live
-  {timestamp}
-/>
+<Time relative live {timestamp} />

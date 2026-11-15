@@ -13,8 +13,8 @@
     "test": "vitest",
     "check": "svelte-check --tsconfig ./tsconfig.json --config ./vite.config.ts",
     "package": "bun --run dlz",
-    "lint": "biome check --write .",
-    "lint:changed": "biome check --write --changed --since=master --no-errors-on-unmatched .",
+    "lint:all": "bun fmt && bun lint --fix",
+    "lint:changed": "bun fmt --changed=master && bun lint --changed=master --fix",
     "upgrade-examples": "bun scripts/upgrade-examples.ts",
     "generate-locales": "bun scripts/generate-locales.ts"
   },
@@ -22,7 +22,6 @@
     "dayjs": "^1.11.23"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.12",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@types/node": "^26.4.1",
     "dlz": "^0.1.3",

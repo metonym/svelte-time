@@ -21,27 +21,13 @@
   }
 </script>
 
-<time
-  data-test="time"
-  {@attach time({ timestamp })}
-></time>
-<button
-  type="button"
-  data-test="btn-time"
-  onclick={bumpTimestamp}
->
+<time data-test="time" {@attach time({ timestamp })}></time>
+<button type="button" data-test="btn-time" onclick={bumpTimestamp}>
   Update timestamp
 </button>
 
-<time
-  data-test="duration"
-  {@attach duration({ since, live: false })}
-></time>
-<button
-  type="button"
-  data-test="btn-duration"
-  onclick={bumpSince}
->
+<time data-test="duration" {@attach duration({ since, live: false })}></time>
+<button type="button" data-test="btn-duration" onclick={bumpSince}>
   Update since
 </button>
 
@@ -54,10 +40,6 @@
   })}
 ></time>
 <span data-test="countdown-oncomplete-calls">{completedCalls}</span>
-<button
-  type="button"
-  data-test="btn-countdown"
-  onclick={completeCountdown}
->
+<button type="button" data-test="btn-countdown" onclick={completeCountdown}>
   Complete countdown
 </button>

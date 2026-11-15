@@ -97,5 +97,7 @@
   })}
 {:else}
   <time {...startAttrs}>{formattedStart}</time>{separator}<!--
-  --><time {...endAttrs}>{formattedEnd}</time>
+  --><time
+    {...endAttrs}>{formattedEnd}</time
+  >
 {/if}

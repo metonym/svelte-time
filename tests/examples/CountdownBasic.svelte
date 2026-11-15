@@ -20,10 +20,7 @@
 
 <div>
   <!-- format hides hours until they're needed -->
-  <Countdown
-    to={toFormatted}
-    format="mm:ss"
-  />
+  <Countdown to={toFormatted} format="mm:ss" />
   <button
     type="button"
     onclick={() => (toFormatted = new Date(Date.now() + SECONDS * 1000))}

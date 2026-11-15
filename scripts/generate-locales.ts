@@ -14,4 +14,4 @@ for (const { key, name } of localeDayjs) {
 const localesType = `/** @default "en" */\nexport type Locales = ${locales.join(" | ")};\n`;
 
 await Bun.write("src/locales.d.ts", localesType);
-await $`bunx biome format --write src/locales.d.ts`;
+await $`bun fmt src/locales.d.ts`;

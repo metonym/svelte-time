@@ -21,28 +21,13 @@
   }
 </script>
 
-<Time
-  data-test="time"
-  {timestamp}
-/>
-<button
-  type="button"
-  data-test="btn-time"
-  onclick={bumpTimestamp}
->
+<Time data-test="time" {timestamp} />
+<button type="button" data-test="btn-time" onclick={bumpTimestamp}>
   Update timestamp
 </button>
 
-<Duration
-  data-test="duration"
-  {since}
-  live={false}
-/>
-<button
-  type="button"
-  data-test="btn-duration"
-  onclick={bumpSince}
->
+<Duration data-test="duration" {since} live={false} />
+<button type="button" data-test="btn-duration" onclick={bumpSince}>
   Update since
 </button>
 
@@ -53,20 +38,10 @@
   oncomplete={() => completedCalls++}
 />
 <span data-test="countdown-oncomplete-calls">{completedCalls}</span>
-<button
-  type="button"
-  data-test="btn-countdown"
-  onclick={completeCountdown}
->
+<button type="button" data-test="btn-countdown" onclick={completeCountdown}>
   Complete countdown
 </button>
 
 <!-- Multiple instances mounted together stay independently reactive -->
-<Time
-  data-test="time-a"
-  timestamp="2020-01-01"
-/>
-<Time
-  data-test="time-b"
-  timestamp="2021-01-01"
-/>
+<Time data-test="time-a" timestamp="2020-01-01" />
+<Time data-test="time-b" timestamp="2021-01-01" />
