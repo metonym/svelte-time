@@ -1,8 +1,8 @@
 <script lang="ts">
   import Time, { dayjs, svelteTime } from "svelte-time";
 
-  let time = dayjs().format("MMM DD, YYYY");
-  let relativeTime = dayjs().from(dayjs());
+  const time = dayjs().format("MMM DD, YYYY");
+  const relativeTime = dayjs().from(dayjs());
 </script>
 
 <!-- Basic -->

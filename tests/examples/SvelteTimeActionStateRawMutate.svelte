@@ -1,7 +1,7 @@
 <script lang="ts">
   import { svelteTime } from "svelte-time";
 
-  let data = $state.raw({
+  const data = $state.raw({
     timestamp: "2021-02-02",
     format: "dddd @ h:mm A · MMMM D, YYYY",
   });

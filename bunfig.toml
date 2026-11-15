@@ -59,6 +59,15 @@ files = ["tests/**"]
   { selector = ":not(TaggedTemplateExpression) > TemplateLiteral[expressions.length=0]:not([quasis.0.value.raw=/['\"\\n]/])", message = "Use a string literal for a template without interpolation." },
 ]
 
+# Rules for the markup of `.svelte` files, which `bun lint` can't read:
+# svelte-lint (`bun run lint:svelte`) lints their scripts and markup
+# expressions with the rules above, and their markup with these.
+[svelte-lint]
+ignorePatterns = ["examples/**"]
+# `svelte/compiler`: the compiler's own warnings, such as a scoped selector
+# that matches nothing, which Svelte drops from the CSS without a word.
+rules = { "svelte/compiler" = "error" }
+
 [fmt]
 # Markdown and YAML stay hand-formatted.
 ignorePatterns = ["**/*.md", "**/*.yml", "**/*.yaml"]

@@ -20,7 +20,9 @@ jobs:
         run: bun fmt --check
 
       - name: Lint
-        run: bun lint
+        run: |
+          bun lint
+          bun run lint:svelte
 
   check:
     runs-on: ubuntu-latest
