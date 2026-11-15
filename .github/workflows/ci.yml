@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: bun ci
 
-      - name: Run svelte-check
+      - name: Typecheck
         run: bun run check
 
   test:
