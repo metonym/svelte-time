@@ -1,0 +1,21 @@
+import type { Attachment } from "svelte/attachments";
+import type { SvelteCountdownOptions } from "./svelte-countdown.svelte";
+import type { SvelteStopwatchOptions } from "./svelte-stopwatch.svelte";
+import type { SvelteTimeOptions } from "./svelte-time.svelte";
+import type { SvelteTimeRangeOptions } from "./svelte-time-range.svelte";
+
+export function time(
+  options?: Partial<SvelteTimeOptions>,
+): Attachment<HTMLElement>;
+
+export function timeRange(
+  options?: Partial<SvelteTimeRangeOptions>,
+): Attachment<HTMLElement>;
+
+export function countdown(
+  options?: Partial<SvelteCountdownOptions>,
+): Attachment<HTMLElement>;
+
+export function stopwatch(
+  options?: Partial<SvelteStopwatchOptions>,
+): Attachment<HTMLElement>;
