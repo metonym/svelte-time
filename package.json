@@ -11,7 +11,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "check": "svelte-typecheck --tsconfig ./tsconfig.json --config ./vite.config.ts --checker bun",
+    "check": "svelte-typecheck --tsconfig ./tsconfig.json --config ./vite.config.ts --checker bun --diagnostic-sources js",
     "package": "bun --run dlz",
     "lint:all": "bun fmt && bun lint --fix && svelte-lint --fix",
     "lint:changed": "bun fmt --changed=master && bun lint --changed=master --fix && svelte-lint --changed=master --fix",
@@ -34,7 +34,7 @@
     "shiki": "^4.4.3",
     "svelte": "^5.57.0",
     "svelte-lint": "^0.2.0",
-    "svelte-typecheck": "^0.1.20",
+    "svelte-typecheck": "^0.1.21",
     "typescript": "^6.0.3",
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
