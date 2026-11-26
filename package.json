@@ -33,8 +33,8 @@
     "marked-highlight": "^2.2.4",
     "shiki": "^4.4.3",
     "svelte": "^5.57.0",
-    "svelte-lint": "^0.2.0",
-    "svelte-typecheck": "^0.1.21",
+    "svelte-lint": "^0.4.0",
+    "svelte-typecheck": "^0.4.0",
     "typescript": "^6.0.3",
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
